@@ -30,7 +30,7 @@ export const DashboardSidebar = () => {
       <SidebarHeader className="border-b border-border/50 p-4">
         <div className="flex items-center gap-2">
           <span className="text-xl font-bold gradient-text">ExploreHub</span>
-          <SidebarTrigger asChild>
+          <SidebarTrigger>
             <Button variant="ghost" size="icon" className="ml-auto">
               <Menu className="h-4 w-4" />
             </Button>
