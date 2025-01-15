@@ -4,6 +4,9 @@ import {
   Users,
   Settings,
   Menu,
+  Share2,
+  Palette,
+  FileEdit,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +23,11 @@ export const DashboardSidebar = () => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: Share2, label: "Social Media", path: "/dashboard/social-media" },
+    { icon: FileEdit, label: "Media Kit", path: "/dashboard/media-kit" },
     { icon: BarChart3, label: "Analytics", path: "/dashboard/analytics" },
     { icon: Users, label: "Audience", path: "/dashboard/audience" },
+    { icon: Palette, label: "Appearance", path: "/dashboard/appearance" },
     { icon: Settings, label: "Settings", path: "/dashboard/settings" },
   ];
 

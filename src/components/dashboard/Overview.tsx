@@ -22,6 +22,8 @@ const colorSchemes = {
 
 export const Overview = () => {
   const [selectedScheme, setSelectedScheme] = useState<keyof typeof colorSchemes>("blue");
+  const [contentFilter, setContentFilter] = useState<"popular" | "recent">("popular");
+  const influencerType = "Lifestyle & Fashion"; // This would come from user data
 
   const handleColorSchemeChange = (scheme: keyof typeof colorSchemes) => {
     setSelectedScheme(scheme);
@@ -33,7 +35,22 @@ export const Overview = () => {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <img
+              src="/placeholder.svg"
+              alt="Profile"
+              className="w-16 h-16 rounded-full object-cover"
+            />
+            <span className="absolute -bottom-2 -right-2 px-2 py-1 bg-primary text-white text-xs rounded-full">
+              {influencerType}
+            </span>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+            <p className="text-gray-500 dark:text-gray-400">Welcome back!</p>
+          </div>
+        </div>
         <div className="flex gap-2">
           {Object.keys(colorSchemes).map((scheme) => (
             <Button
@@ -51,6 +68,7 @@ export const Overview = () => {
           </Button>
         </div>
       </div>
+
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="p-6 glass-card">
           <h3 className="text-sm font-medium text-gray-600">Total Followers</h3>
@@ -68,8 +86,23 @@ export const Overview = () => {
           <span className="text-green-600 text-sm">+2 new this month</span>
         </Card>
       </div>
+
+      <div className="flex gap-4 mb-6">
+        <Button
+          variant={contentFilter === "popular" ? "default" : "outline"}
+          onClick={() => setContentFilter("popular")}
+        >
+          Most Popular
+        </Button>
+        <Button
+          variant={contentFilter === "recent" ? "default" : "outline"}
+          onClick={() => setContentFilter("recent")}
+        >
+          Most Recent
+        </Button>
+      </div>
+
       <Card className="p-6 glass-card">
-        <h3 className="text-lg font-medium mb-4 text-gray-800">Engagement Overview</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
