@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export const Settings = () => {
   const handleUnsubscribe = () => {
@@ -45,6 +46,20 @@ export const Settings = () => {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="push-notifications">Push Notifications</Label>
                   <Button variant="outline">Configure</Button>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Legal</h2>
+              <div className="space-y-4">
+                <div className="flex flex-col gap-2">
+                  <Link to="/privacy-policy" className="text-primary hover:underline">
+                    Privacy Policy
+                  </Link>
+                  <Link to="/terms-of-service" className="text-primary hover:underline">
+                    Terms of Service
+                  </Link>
                 </div>
               </div>
             </Card>

@@ -14,6 +14,8 @@ import { Analytics } from "./components/dashboard/Analytics";
 import { Audience } from "./components/dashboard/Audience";
 import { Appearance } from "./components/dashboard/Appearance";
 import { Settings } from "./components/dashboard/Settings";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,8 @@ function App() {
             <Route path="/dashboard/appearance" element={<Appearance />} />
             <Route path="/dashboard/settings" element={<Settings />} />
             <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Upload, ArrowLeft } from "lucide-react";
@@ -155,6 +155,18 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
               {mode === "login" ? "Sign up" : "Sign in"}
             </Button>
           </div>
+          {mode === "signup" && (
+            <div className="text-center text-xs text-gray-500 mt-4">
+              By signing up, you agree to our{" "}
+              <Link to="/terms-of-service" className="text-primary hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy-policy" className="text-primary hover:underline">
+                Privacy Policy
+              </Link>
+            </div>
+          )}
         </form>
       </div>
     </div>
