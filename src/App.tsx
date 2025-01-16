@@ -35,7 +35,7 @@ function App() {
             <Route path="/dashboard/audience" element={<Audience />} />
             <Route path="/dashboard/appearance" element={<Appearance />} />
             <Route path="/dashboard/settings" element={<Settings />} />
-            <Route path="/brand-dashboard" element={<BrandDashboard />} />
+            <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
