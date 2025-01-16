@@ -2,16 +2,18 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Upload, ArrowLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -24,14 +26,35 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For demo purposes, we'll just navigate to dashboard
-    toast({
-      title: "Success!",
-      description: mode === "login" ? "Welcome back!" : "Account created successfully!",
-    });
-    navigate("/dashboard");
+    setError(null);
+
+    try {
+      if (mode === "login") {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
+      } else {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              avatar_url: profileImage,
+            },
+          },
+        });
+        if (signUpError) throw signUpError;
+        
+        toast.success("Account created successfully! Please check your email to verify your account.");
+      }
+    } catch (error: any) {
+      setError(error.message);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -55,6 +78,11 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
               : "Start your journey with ExploreHub"}
           </p>
         </div>
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {mode === "signup" && (
             <div className="flex flex-col items-center space-y-4">
