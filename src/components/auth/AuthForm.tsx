@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Upload } from "lucide-react";
+import { Upload, ArrowLeft } from "lucide-react";
 
 export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [email, setEmail] = useState("");
@@ -36,6 +36,14 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 left-4"
+        onClick={() => navigate("/")}
+      >
+        <ArrowLeft className="h-4 w-4" />
+      </Button>
       <div className="glass-card w-full max-w-md space-y-8 p-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">
