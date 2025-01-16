@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
-import { Settings, Instagram, TikTok } from "lucide-react";
+import { Settings, Instagram, BrandTiktok } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -166,7 +166,7 @@ export const Overview = () => {
               onClick={() => setSelectedPlatform("tiktok")}
               className="flex items-center gap-2"
             >
-              <TikTok className="h-4 w-4" />
+              <BrandTiktok className="h-4 w-4" />
               TikTok
             </Button>
           </div>
