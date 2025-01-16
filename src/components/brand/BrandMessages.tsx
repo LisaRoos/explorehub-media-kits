@@ -26,11 +26,13 @@ export const BrandMessages = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Messages</h2>
         <div className="flex gap-2">
-          <Input
-            placeholder="Search messages..."
-            className="w-64"
-            icon={<Search className="h-4 w-4" />}
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search messages..."
+              className="w-64 pl-9"
+            />
+          </div>
         </div>
       </div>
 
