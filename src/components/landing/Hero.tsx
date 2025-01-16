@@ -8,12 +8,12 @@ export const Hero = () => {
     <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="text-center space-y-8 max-w-4xl">
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
-          Transform Your <span className="gradient-text">Social Presence</span> Into
-          <br /> Professional Success
+          Where <span className="gradient-text">Brands & Creators</span>
+          <br /> Connect & Thrive
         </h1>
         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-          Create stunning media kits, showcase your analytics, and connect with brands
-          all in one powerful platform.
+          A powerful platform connecting brands with influencers. Create stunning media kits, 
+          showcase analytics, and build meaningful partnerships.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
