@@ -7,7 +7,7 @@ import { useState } from "react";
 export const Pricing = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
-  
+
   const influencerPlans = [
     {
       name: "Starter",
@@ -17,7 +17,8 @@ export const Pricing = () => {
         "Basic media kit template",
         "Social media integration",
         "Basic analytics",
-        "Share with 3 brands"
+        "Share with 3 brands",
+        "Limited messaging (5/month)"
       ]
     },
     {
@@ -30,7 +31,8 @@ export const Pricing = () => {
         "Unlimited sharing",
         "Custom branding",
         "Priority support",
-        "Real-time updates"
+        "Real-time updates",
+        "Unlimited messaging"
       ]
     },
     {
@@ -44,7 +46,8 @@ export const Pricing = () => {
         "Team collaboration",
         "Custom domain",
         "Dedicated support",
-        "Analytics API"
+        "Analytics API",
+        "Priority messaging"
       ]
     }
   ];
@@ -58,7 +61,8 @@ export const Pricing = () => {
         "Access to influencer directory",
         "Basic filtering options",
         "Contact up to 10 influencers/month",
-        "View basic analytics"
+        "View basic analytics",
+        "Basic messaging"
       ]
     },
     {
@@ -71,7 +75,8 @@ export const Pricing = () => {
         "Detailed analytics",
         "Campaign tracking",
         "Priority support",
-        "Team collaboration"
+        "Team collaboration",
+        "Unlimited messaging"
       ]
     },
     {
@@ -85,7 +90,8 @@ export const Pricing = () => {
         "Dedicated account manager",
         "White-label solution",
         "Advanced campaign analytics",
-        "Multi-team access"
+        "Multi-team access",
+        "Priority messaging"
       ]
     }
   ];

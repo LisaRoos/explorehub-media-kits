@@ -7,6 +7,7 @@ import {
   Share2,
   Palette,
   FileEdit,
+  MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +24,7 @@ export const DashboardSidebar = () => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: MessageSquare, label: "Messages", path: "/dashboard/messages" },
     { icon: Share2, label: "Social Media", path: "/dashboard/social-media" },
     { icon: FileEdit, label: "Media Kit", path: "/dashboard/media-kit" },
     { icon: BarChart3, label: "Analytics", path: "/dashboard/analytics" },

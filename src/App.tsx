@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import BrandDashboard from "./pages/BrandDashboard";
+import { Messages } from "./components/dashboard/Messages";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/messages" element={<Messages />} />
             <Route path="/brand-dashboard" element={<BrandDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
