@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const Pricing = () => {
   const navigate = useNavigate();
+  const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
   
-  const plans = [
+  const influencerPlans = [
     {
       name: "Starter",
       price: "Free",
@@ -47,6 +49,49 @@ export const Pricing = () => {
     }
   ];
 
+  const brandPlans = [
+    {
+      name: "Basic",
+      price: "$99",
+      description: "For small brands",
+      features: [
+        "Access to influencer directory",
+        "Basic filtering options",
+        "Contact up to 10 influencers/month",
+        "View basic analytics"
+      ]
+    },
+    {
+      name: "Business",
+      price: "$199",
+      description: "For growing brands",
+      features: [
+        "Advanced search filters",
+        "Unlimited influencer contacts",
+        "Detailed analytics",
+        "Campaign tracking",
+        "Priority support",
+        "Team collaboration"
+      ]
+    },
+    {
+      name: "Enterprise",
+      price: "$499",
+      description: "For large brands",
+      features: [
+        "All Business features",
+        "API access",
+        "Custom reporting",
+        "Dedicated account manager",
+        "White-label solution",
+        "Advanced campaign analytics",
+        "Multi-team access"
+      ]
+    }
+  ];
+
+  const plans = userType === "influencer" ? influencerPlans : brandPlans;
+
   return (
     <section className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -54,15 +99,30 @@ export const Pricing = () => {
           <h2 className="text-4xl font-bold mb-4">
             Choose Your <span className="gradient-text">Plan</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
             Select the perfect plan for your journey to success
           </p>
+          <div className="flex justify-center gap-4 mb-8">
+            <Button
+              variant={userType === "influencer" ? "default" : "outline"}
+              onClick={() => setUserType("influencer")}
+            >
+              For Influencers
+            </Button>
+            <Button
+              variant={userType === "brand" ? "default" : "outline"}
+              onClick={() => setUserType("brand")}
+            >
+              For Brands
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <Card key={index} className="glass-card relative overflow-hidden">
-              {plan.name === "Pro" && (
+              {((userType === "influencer" && plan.name === "Pro") ||
+                (userType === "brand" && plan.name === "Business")) && (
                 <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 rounded-bl-lg text-sm">
                   Popular
                 </div>
@@ -86,7 +146,12 @@ export const Pricing = () => {
                 </ul>
                 <Button 
                   className="w-full mt-6"
-                  variant={plan.name === "Pro" ? "default" : "outline"}
+                  variant={
+                    (userType === "influencer" && plan.name === "Pro") ||
+                    (userType === "brand" && plan.name === "Business")
+                      ? "default"
+                      : "outline"
+                  }
                   onClick={() => navigate("/signup")}
                 >
                   Get Started
