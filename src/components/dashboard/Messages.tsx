@@ -1,85 +1,90 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { DashboardSidebar } from "@/components/dashboard/Sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { ContactList } from "./messages/ContactList";
 import { ChatWindow } from "./messages/ChatWindow";
+import { useState } from "react";
 import { Contact, Message } from "./messages/types";
 
 const mockContacts: Contact[] = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-    lastMessage: "Looking forward to our collaboration!",
+    name: "John Doe",
+    avatar: "/placeholder.svg",
+    lastMessage: "Hey, how are you?",
     unread: true,
   },
   {
     id: 2,
-    name: "Tech Brands Co",
-    avatar: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9",
-    lastMessage: "We'd love to work with you on our next campaign",
+    name: "Jane Smith",
+    avatar: "/placeholder.svg",
+    lastMessage: "Looking forward to our meeting!",
     unread: false,
+  },
+  {
+    id: 3,
+    name: "Alice Johnson",
+    avatar: "/placeholder.svg",
+    lastMessage: "Let's catch up soon!",
+    unread: true,
   },
 ];
 
 const mockMessages: Message[] = [
   {
     id: 1,
-    sender: "Sarah Johnson",
-    content: "Hi! I saw your profile and I'm really impressed with your content.",
-    timestamp: "10:30 AM",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+    content: "Hey there!",
+    sender: "John Doe",
+    timestamp: "10:00 AM",
+    avatar: "/placeholder.svg",
   },
   {
     id: 2,
-    sender: "You",
-    content: "Thank you! I'd love to hear more about potential collaborations.",
-    timestamp: "10:32 AM",
+    content: "Looking forward to our meeting!",
+    sender: "Jane Smith",
+    timestamp: "10:05 AM",
+    avatar: "/placeholder.svg",
+  },
+  {
+    id: 3,
+    content: "Let's catch up soon!",
+    sender: "Alice Johnson",
+    timestamp: "10:10 AM",
     avatar: "/placeholder.svg",
   },
 ];
 
 export const Messages = () => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-  const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
   const [searchQuery, setSearchQuery] = useState("");
+  const [newMessage, setNewMessage] = useState("");
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
-
-    const newMsg: Message = {
-      id: messages.length + 1,
-      sender: "You",
-      content: newMessage,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      avatar: "/placeholder.svg",
-    };
-
-    setMessages([...messages, newMsg]);
+    // Logic to send the message
     setNewMessage("");
   };
 
   return (
-    <div className="h-[calc(100vh-2rem)] flex gap-4">
-      <Card className="w-80">
-        <ContactList
-          contacts={mockContacts}
-          selectedContact={selectedContact}
-          setSelectedContact={setSelectedContact}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-      </Card>
-
-      <Card className="flex-1">
-        <ChatWindow
-          selectedContact={selectedContact}
-          messages={messages}
-          newMessage={newMessage}
-          setNewMessage={setNewMessage}
-          handleSendMessage={handleSendMessage}
-        />
-      </Card>
-    </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <DashboardSidebar />
+        <div className="flex-1 flex">
+          <ContactList
+            contacts={mockContacts}
+            selectedContact={selectedContact}
+            setSelectedContact={setSelectedContact}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <ChatWindow
+            selectedContact={selectedContact}
+            messages={mockMessages}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            handleSendMessage={handleSendMessage}
+          />
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
