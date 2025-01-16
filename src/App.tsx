@@ -11,6 +11,9 @@ import { Messages } from "./components/dashboard/Messages";
 import { SocialMedia } from "./components/dashboard/SocialMedia";
 import { MediaKit } from "./components/dashboard/MediaKit";
 import { Analytics } from "./components/dashboard/Analytics";
+import { Audience } from "./components/dashboard/Audience";
+import { Appearance } from "./components/dashboard/Appearance";
+import { Settings } from "./components/dashboard/Settings";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,9 @@ function App() {
             <Route path="/dashboard/social-media" element={<SocialMedia />} />
             <Route path="/dashboard/media-kit" element={<MediaKit />} />
             <Route path="/dashboard/analytics" element={<Analytics />} />
+            <Route path="/dashboard/audience" element={<Audience />} />
+            <Route path="/dashboard/appearance" element={<Appearance />} />
+            <Route path="/dashboard/settings" element={<Settings />} />
             <Route path="/brand-dashboard" element={<BrandDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
