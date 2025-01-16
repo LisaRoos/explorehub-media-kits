@@ -1,8 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
-import { Settings } from "lucide-react";
+import { Settings, Instagram, TikTok } from "lucide-react";
 import { useState } from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const data = [
   { name: "Jan", value: 2400 },
@@ -20,10 +21,38 @@ const colorSchemes = {
   orange: { primary: "#F97316", secondary: "#FB923C", accent: "#FDBA74" },
 };
 
+const mockFeedData = [
+  {
+    id: 1,
+    platform: "instagram",
+    thumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113",
+    likes: "12.5K",
+    comments: "1.2K",
+    engagement: "5.2%",
+  },
+  {
+    id: 2,
+    platform: "tiktok",
+    thumbnail: "https://images.unsplash.com/photo-1611162616305-c69b3037c7bb",
+    likes: "45.2K",
+    comments: "3.4K",
+    engagement: "8.7%",
+  },
+  {
+    id: 3,
+    platform: "instagram",
+    thumbnail: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb",
+    likes: "8.9K",
+    comments: "892",
+    engagement: "4.1%",
+  },
+];
+
 export const Overview = () => {
   const [selectedScheme, setSelectedScheme] = useState<keyof typeof colorSchemes>("blue");
   const [contentFilter, setContentFilter] = useState<"popular" | "recent">("popular");
-  const influencerType = "Lifestyle & Fashion"; // This would come from user data
+  const [selectedPlatform, setSelectedPlatform] = useState<"instagram" | "tiktok">("instagram");
+  const influencerType = "Lifestyle & Fashion";
 
   const handleColorSchemeChange = (scheme: keyof typeof colorSchemes) => {
     setSelectedScheme(scheme);
@@ -37,11 +66,10 @@ export const Overview = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div className="relative">
-            <img
-              src="/placeholder.svg"
-              alt="Profile"
-              className="w-16 h-16 rounded-full object-cover"
-            />
+            <Avatar className="w-16 h-16">
+              <AvatarImage src="/placeholder.svg" alt="Profile" />
+              <AvatarFallback>IN</AvatarFallback>
+            </Avatar>
             <span className="absolute -bottom-2 -right-2 px-2 py-1 bg-primary text-white text-xs rounded-full">
               {influencerType}
             </span>
@@ -120,6 +148,56 @@ export const Overview = () => {
           </ResponsiveContainer>
         </div>
       </Card>
+
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold">Content Feed</h3>
+          <div className="flex gap-2">
+            <Button
+              variant={selectedPlatform === "instagram" ? "default" : "outline"}
+              onClick={() => setSelectedPlatform("instagram")}
+              className="flex items-center gap-2"
+            >
+              <Instagram className="h-4 w-4" />
+              Instagram
+            </Button>
+            <Button
+              variant={selectedPlatform === "tiktok" ? "default" : "outline"}
+              onClick={() => setSelectedPlatform("tiktok")}
+              className="flex items-center gap-2"
+            >
+              <TikTok className="h-4 w-4" />
+              TikTok
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {mockFeedData.map((post) => (
+            <Card key={post.id} className="glass-card overflow-hidden">
+              <div className="relative aspect-square">
+                <img
+                  src={post.thumbnail}
+                  alt={`Post ${post.id}`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <div className="flex items-center justify-between text-sm">
+                    <span>{post.likes} likes</span>
+                    <span>{post.comments} comments</span>
+                  </div>
+                  <div className="mt-2">
+                    <span className="text-sm font-semibold">
+                      Engagement: {post.engagement}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
