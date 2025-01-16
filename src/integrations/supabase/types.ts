@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      influencer_stats_history: {
+        Row: {
+          average_comments: number | null
+          average_likes: number | null
+          engagement_rate: number | null
+          followers_count: number | null
+          id: string
+          platform: string
+          profile_id: string | null
+          recorded_at: string | null
+          total_posts: number | null
+        }
+        Insert: {
+          average_comments?: number | null
+          average_likes?: number | null
+          engagement_rate?: number | null
+          followers_count?: number | null
+          id?: string
+          platform: string
+          profile_id?: string | null
+          recorded_at?: string | null
+          total_posts?: number | null
+        }
+        Update: {
+          average_comments?: number | null
+          average_likes?: number | null
+          engagement_rate?: number | null
+          followers_count?: number | null
+          id?: string
+          platform?: string
+          profile_id?: string | null
+          recorded_at?: string | null
+          total_posts?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "influencer_stats_history_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media_kits: {
         Row: {
           created_at: string | null
@@ -54,9 +98,12 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
+          categories: string[] | null
           created_at: string | null
           full_name: string | null
           id: string
+          location: string | null
+          primary_platform: string | null
           role: Database["public"]["Enums"]["user_role"]
           updated_at: string | null
           username: string
@@ -64,9 +111,12 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           bio?: string | null
+          categories?: string[] | null
           created_at?: string | null
           full_name?: string | null
           id: string
+          location?: string | null
+          primary_platform?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
           username: string
@@ -74,14 +124,64 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           bio?: string | null
+          categories?: string[] | null
           created_at?: string | null
           full_name?: string | null
           id?: string
+          location?: string | null
+          primary_platform?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
           username?: string
         }
         Relationships: []
+      }
+      social_media_accounts: {
+        Row: {
+          access_token: string | null
+          created_at: string | null
+          id: string
+          platform: string
+          platform_user_id: string | null
+          profile_id: string | null
+          refresh_token: string | null
+          token_expires_at: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string | null
+          id?: string
+          platform: string
+          platform_user_id?: string | null
+          profile_id?: string | null
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string | null
+          id?: string
+          platform?: string
+          platform_user_id?: string | null
+          profile_id?: string | null
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_media_accounts_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       verification_requests: {
         Row: {
