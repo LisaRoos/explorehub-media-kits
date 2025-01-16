@@ -4,6 +4,8 @@ import { Pricing } from "@/components/landing/Pricing";
 import { Footer } from "@/components/landing/Footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { BrandFeatures } from "@/components/landing/BrandFeatures";
+import { InfluencerShowcase } from "@/components/landing/InfluencerShowcase";
 
 const Index = () => {
   return (
@@ -14,6 +16,8 @@ const Index = () => {
         </div>
         <Hero />
         <Benefits />
+        <BrandFeatures />
+        <InfluencerShowcase />
         <Pricing />
         <Footer />
       </div>
