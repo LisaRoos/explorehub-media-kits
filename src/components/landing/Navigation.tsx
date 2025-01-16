@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,6 +13,24 @@ import {
 
 export const Navigation = () => {
   const navigate = useNavigate();
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-4 bg-background/80 backdrop-blur-sm border-b">
@@ -50,10 +70,23 @@ export const Navigation = () => {
         </NavigationMenu>
       </div>
       <div className="flex items-center gap-4">
-        <Button variant="ghost" onClick={() => navigate("/login")}>
-          Sign In
-        </Button>
-        <Button onClick={() => navigate("/signup")}>Get Started</Button>
+        {session ? (
+          <>
+            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </Button>
+            <Button variant="ghost" onClick={handleSignOut}>
+              Sign Out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="ghost" onClick={() => navigate("/login")}>
+              Sign In
+            </Button>
+            <Button onClick={() => navigate("/signup")}>Get Started</Button>
+          </>
+        )}
       </div>
     </div>
   );
