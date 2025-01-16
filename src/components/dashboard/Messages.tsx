@@ -84,14 +84,14 @@ export const Messages = () => {
   return (
     <div className="h-[calc(100vh-2rem)] flex gap-4">
       <Card className="w-80 p-4 flex flex-col">
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <Input
             placeholder="Search contacts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full"
-            icon={<Search className="h-4 w-4" />}
+            className="w-full pl-8"
           />
+          <Search className="h-4 w-4 absolute left-2 top-3 text-muted-foreground" />
         </div>
         <ScrollArea className="flex-1">
           <div className="space-y-2">
