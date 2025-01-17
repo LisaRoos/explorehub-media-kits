@@ -1,3 +1,10 @@
+/**
+ * @component Appearance
+ * @description A component that handles theme and appearance customization for the dashboard.
+ * It provides controls for changing the theme (light/dark/system) and font size settings.
+ * All preferences are persisted in localStorage for a consistent user experience.
+ */
+
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -6,23 +13,36 @@ import { useTheme } from "@/components/theme/theme-provider";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 
+/**
+ * @typedef {'small' | 'medium' | 'large'} FontSize
+ * Represents the available font size options for the application
+ */
+
 const Appearance = () => {
   const { theme, setTheme } = useTheme();
-  const [fontSize, setFontSize] = useState("medium");
+  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
 
+  // Load saved font size preference on component mount
   useEffect(() => {
-    // Load saved font size preference
     const savedFontSize = localStorage.getItem("font-size") || "medium";
-    setFontSize(savedFontSize);
+    setFontSize(savedFontSize as "small" | "medium" | "large");
     document.documentElement.setAttribute("data-font-size", savedFontSize);
   }, []);
 
+  /**
+   * Updates the theme setting and shows a confirmation toast
+   * @param {('light' | 'dark' | 'system')} newTheme - The new theme to apply
+   */
   const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
     setTheme(newTheme);
     toast.success(`Theme changed to ${newTheme} mode`);
   };
 
-  const handleFontSizeChange = (size: string) => {
+  /**
+   * Updates the font size setting and shows a confirmation toast
+   * @param {FontSize} size - The new font size to apply
+   */
+  const handleFontSizeChange = (size: "small" | "medium" | "large") => {
     setFontSize(size);
     localStorage.setItem("font-size", size);
     document.documentElement.setAttribute("data-font-size", size);

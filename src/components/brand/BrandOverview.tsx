@@ -1,9 +1,35 @@
+/**
+ * @component BrandOverview
+ * @description Main dashboard component for brands to discover and filter influencers.
+ * Provides filtering capabilities by type, location, and follower count.
+ */
+
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { InfluencerCard } from "./InfluencerCard";
 
+/**
+ * @typedef {Object} Influencer
+ * @property {number} id - Unique identifier for the influencer
+ * @property {string} name - Influencer's full name
+ * @property {string} type - Category or niche of the influencer
+ * @property {string} location - Geographic location
+ * @property {string} followers - Number of followers (formatted)
+ * @property {string} engagement - Engagement rate percentage
+ * @property {string} demographics - Primary audience demographics
+ * @property {string} profileImage - URL to profile image
+ */
+
+/**
+ * @typedef {Object} Filters
+ * @property {string} type - Selected influencer type filter
+ * @property {string} location - Selected location filter
+ * @property {string} minFollowers - Minimum followers filter
+ */
+
+// Mock data for demonstration
 const mockInfluencers = [
   {
     id: 1,
@@ -27,8 +53,13 @@ const mockInfluencers = [
   },
 ];
 
-export const BrandOverview = () => {
-  const [filters, setFilters] = useState({
+const BrandOverview = () => {
+  // Initialize filters state with TypeScript interface
+  const [filters, setFilters] = useState<{
+    type: string;
+    location: string;
+    minFollowers: string;
+  }>({
     type: "",
     location: "",
     minFollowers: "",
@@ -82,3 +113,5 @@ export const BrandOverview = () => {
     </div>
   );
 };
+
+export default BrandOverview;

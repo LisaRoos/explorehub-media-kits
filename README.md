@@ -1,69 +1,104 @@
-# Welcome to your Lovable project
+# ExploreHub - Influencer Marketing Platform
 
-## Project info
+## Overview
 
-**URL**: https://lovable.dev/projects/fd686650-039f-474f-98bb-120275b660f8
+ExploreHub is a comprehensive platform connecting brands with influencers. It provides tools for both influencers to showcase their work and brands to find the perfect partnerships.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+### For Influencers
+- **Media Kit Creation**: Build professional media kits to showcase your work
+- **Analytics Dashboard**: Track your performance and engagement metrics
+- **Social Media Integration**: Connect and manage multiple social media accounts
+- **Appearance Customization**: Personalize your profile's look and feel
+- **Messaging System**: Communicate directly with brands
 
-**Use Lovable**
+### For Brands
+- **Influencer Discovery**: Find the perfect influencers for your campaigns
+- **Advanced Filtering**: Filter by demographics, niche, and engagement rates
+- **Campaign Management**: Track and manage your influencer campaigns
+- **Analytics**: Measure campaign performance and ROI
+- **Direct Communication**: Message influencers through the platform
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fd686650-039f-474f-98bb-120275b660f8) and start prompting.
+## Technical Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+This project is built with modern technologies:
 
-**Use your preferred IDE**
+- **Frontend**: React + TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Build Tool**: Vite
+- **State Management**: React Query
+- **Backend**: Supabase
+- **Authentication**: Supabase Auth
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository
+```bash
+git clone <repository-url>
+```
 
-Follow these steps:
+2. Install dependencies
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Project Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+src/
+├── components/         # Reusable UI components
+│   ├── brand/         # Brand-specific components
+│   ├── dashboard/     # Dashboard components
+│   ├── landing/       # Landing page components
+│   ├── theme/         # Theme-related components
+│   └── ui/            # Base UI components
+├── hooks/             # Custom React hooks
+├── integrations/      # Third-party integrations
+├── lib/              # Utility functions
+└── pages/            # Main page components
+```
 
-**Use GitHub Codespaces**
+## Component Documentation
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Dashboard Components
 
-## What technologies are used for this project?
+- **Messages**: Real-time messaging system between brands and influencers
+- **Analytics**: Performance tracking and data visualization
+- **MediaKit**: Media kit creation and management
+- **Appearance**: Theme and styling customization
+- **Settings**: User preferences and account management
 
-This project is built with .
+### Brand Components
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **BrandOverview**: Main dashboard for brands
+- **BrandMessages**: Communication center
+- **InfluencerCard**: Displays influencer information
 
-## How can I deploy this project?
+### Landing Components
 
-Simply open [Lovable](https://lovable.dev/projects/fd686650-039f-474f-98bb-120275b660f8) and click on Share -> Publish.
+- **Hero**: Main landing page section
+- **Benefits**: Platform benefits showcase
+- **Services**: Available services
+- **Pricing**: Subscription plans
 
-## I want to use a custom domain - is that possible?
+## Contributing
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support, please visit our [documentation](https://docs.lovable.dev/) or join our [Discord community](https://discord.gg/lovable).

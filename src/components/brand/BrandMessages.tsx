@@ -1,8 +1,24 @@
+/**
+ * @component BrandMessages
+ * @description Messaging interface for brands to communicate with influencers.
+ * Provides real-time messaging capabilities and conversation management.
+ */
+
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Send } from "lucide-react";
 
+/**
+ * @typedef {Object} Message
+ * @property {number} id - Unique identifier for the message
+ * @property {string} sender - Name of the message sender
+ * @property {string} message - Content of the message
+ * @property {string} time - Timestamp of the message
+ * @property {string} avatar - URL to sender's avatar
+ */
+
+// Mock messages for demonstration
 const messages = [
   {
     id: 1,
@@ -21,6 +37,11 @@ const messages = [
 ];
 
 export const BrandMessages = () => {
+  /**
+   * Renders the messaging interface with a search bar, message list,
+   * and message input field. Messages are displayed in chronological order
+   * with sender information and timestamps.
+   */
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
