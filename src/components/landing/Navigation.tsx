@@ -59,13 +59,13 @@ export const Navigation = () => {
               </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Button variant="link" asChild>
-                <NavigationMenuLink href="#services">Services</NavigationMenuLink>
+              <Button variant="link" onClick={() => scrollToSection('services')}>
+                Services
               </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Button variant="link" asChild>
-                <NavigationMenuLink href="#pricing">Pricing</NavigationMenuLink>
+              <Button variant="link" onClick={() => scrollToSection('pricing')}>
+                Pricing
               </Button>
             </NavigationMenuItem>
           </NavigationMenuList>
