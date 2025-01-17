@@ -6,10 +6,12 @@ export const CustomCursor = () => {
 
   useEffect(() => {
     const updateCursorPosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX - 16, y: e.clientY - 16 });
+      requestAnimationFrame(() => {
+        setPosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
-    window.addEventListener("mousemove", updateCursorPosition);
+    window.addEventListener("mousemove", updateCursorPosition, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", updateCursorPosition);
@@ -20,7 +22,7 @@ export const CustomCursor = () => {
     <div
       className="custom-cursor"
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
+        transform: `translate3d(${position.x - 16}px, ${position.y - 16}px, 0)`,
       }}
     >
       <MousePointer2 />

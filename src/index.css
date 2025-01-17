@@ -66,7 +66,10 @@
 /* Custom cursor styles */
 .custom-cursor {
   @apply fixed w-8 h-8 pointer-events-none z-50 mix-blend-difference;
-  transition: transform 0.2s ease-out;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .custom-cursor svg {
