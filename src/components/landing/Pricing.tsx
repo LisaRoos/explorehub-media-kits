@@ -147,6 +147,14 @@ const faqItems = {
   ],
   brand: [
     {
+      question: "Why should my business invest in influencer marketing?",
+      answer: "Influencer marketing builds authentic connections with your target audience, increases brand awareness, and drives higher engagement rates compared to traditional advertising. It's particularly effective for reaching younger demographics and building social proof."
+    },
+    {
+      question: "What ROI can I expect from influencer marketing?",
+      answer: "On average, businesses earn $5.78 for every $1 spent on influencer marketing. However, ROI varies based on your industry, campaign goals, and influencer selection. Our platform helps you track and optimize these metrics."
+    },
+    {
       question: "How do I find the right influencers?",
       answer: "Use our advanced filtering system to search by niche, location, follower count, and engagement rates."
     },
@@ -157,6 +165,14 @@ const faqItems = {
     {
       question: "How do I initiate a collaboration?",
       answer: "Once you find a suitable influencer, you can message them directly through our platform to discuss collaboration details."
+    },
+    {
+      question: "What makes a successful influencer campaign?",
+      answer: "Successful campaigns typically involve clear objectives, authentic partnerships, creative freedom for influencers, and consistent tracking of key metrics. Our platform guides you through each step of this process."
+    },
+    {
+      question: "How long does it take to see results?",
+      answer: "While some metrics like engagement and reach are immediate, building brand awareness and driving conversions typically takes 3-6 months of consistent influencer partnerships. Our analytics help you track progress throughout."
     }
   ]
 };
