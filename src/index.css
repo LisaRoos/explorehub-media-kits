@@ -53,11 +53,25 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border cursor-none;
   }
   body {
-    @apply bg-background text-foreground font-['Inter'];
+    @apply bg-background text-foreground font-['Inter'] relative;
   }
+  a, button, [role="button"] {
+    @apply cursor-none hover:opacity-80 transition-opacity;
+  }
+}
+
+/* Custom cursor styles */
+.custom-cursor {
+  @apply fixed w-8 h-8 pointer-events-none z-50 mix-blend-difference;
+  transition: transform 0.2s ease-out;
+}
+
+.custom-cursor svg {
+  @apply w-full h-full text-white dark:text-primary;
+  transition: color 0.3s ease;
 }
 
 .gradient-text {
@@ -70,4 +84,19 @@
 
 .bg-300% {
   background-size: 300%;
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  @apply transition-all duration-300 ease-in-out;
 }

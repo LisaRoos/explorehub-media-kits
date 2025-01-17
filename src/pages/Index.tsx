@@ -8,11 +8,13 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { BrandFeatures } from "@/components/landing/BrandFeatures";
 import { InfluencerShowcase } from "@/components/landing/InfluencerShowcase";
 import { Navigation } from "@/components/landing/Navigation";
+import { CustomCursor } from "@/components/ui/custom-cursor";
 
 const Index = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <div className="min-h-screen bg-background transition-colors duration-300 ease-in-out">
+        <CustomCursor />
         <Navigation />
         <ThemeToggle />
         <div className="space-y-20 opacity-0 animate-fade-in">
