@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Globe, Users, Code, Server, Smartphone, Network, Star, Megaphone, Camera } from "lucide-react";
 
 export const Services = () => {
@@ -105,6 +106,12 @@ export const Services = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Button size="lg" className="bg-primary hover:bg-primary/90">
+            Contact Us
+          </Button>
         </div>
       </div>
     </section>
