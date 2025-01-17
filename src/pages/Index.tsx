@@ -1,5 +1,6 @@
 import { Hero } from "@/components/landing/Hero";
 import { Benefits } from "@/components/landing/Benefits";
+import { Services } from "@/components/landing/Services";
 import { Pricing } from "@/components/landing/Pricing";
 import { Footer } from "@/components/landing/Footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -17,6 +18,7 @@ const Index = () => {
           <ThemeToggle />
         </div>
         <Hero />
+        <Services />
         <Benefits />
         <BrandFeatures />
         <InfluencerShowcase />
