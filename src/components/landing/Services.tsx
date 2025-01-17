@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Globe, Users, Code, Server, Smartphone, Network } from "lucide-react";
+import { Globe, Users, Code, Server, Smartphone, Network, Star, Megaphone, Camera } from "lucide-react";
 
 export const Services = () => {
   const services = [
@@ -44,6 +44,27 @@ export const Services = () => {
           description: "Ongoing support to keep your website running smoothly"
         }
       ]
+    },
+    {
+      category: "Influencer Services",
+      description: "Connect with top influencers to amplify your brand",
+      features: [
+        {
+          icon: <Star className="h-6 w-6 text-accent" />,
+          title: "Influencer Matching",
+          description: "Find the perfect influencers that align with your brand values"
+        },
+        {
+          icon: <Megaphone className="h-6 w-6 text-accent" />,
+          title: "Campaign Management",
+          description: "End-to-end management of influencer marketing campaigns"
+        },
+        {
+          icon: <Camera className="h-6 w-6 text-accent" />,
+          title: "Content Creation",
+          description: "Professional content creation and storytelling strategies"
+        }
+      ]
     }
   ];
 
@@ -59,7 +80,7 @@ export const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div key={index} className="space-y-6">
               <div className="text-center">
