@@ -7,12 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Upload, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +32,19 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
     e.preventDefault();
     setError(null);
 
+    if (!captchaToken) {
+      setError("Please complete the CAPTCHA verification");
+      return;
+    }
+
     try {
       if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
+          options: {
+            captchaToken,
+          },
         });
         if (error) throw error;
       } else {
@@ -45,6 +55,7 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
             data: {
               avatar_url: profileImage,
             },
+            captchaToken,
           },
         });
         if (signUpError) throw signUpError;
@@ -55,6 +66,10 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
       setError(error.message);
       toast.error(error.message);
     }
+  };
+
+  const handleCaptchaVerify = (token: string) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -139,6 +154,12 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
                 placeholder="••••••••"
               />
             </div>
+          </div>
+          <div className="flex justify-center">
+            <HCaptcha
+              sitekey={process.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+              onVerify={handleCaptchaVerify}
+            />
           </div>
           <Button type="submit" className="w-full">
             {mode === "login" ? "Sign In" : "Create Account"}
