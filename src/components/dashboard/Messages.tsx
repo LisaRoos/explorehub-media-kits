@@ -53,7 +53,7 @@ const mockMessages: Message[] = [
   },
 ];
 
-export const Messages = () => {
+const Messages = () => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -88,3 +88,5 @@ export const Messages = () => {
     </SidebarProvider>
   );
 };
+
+export default Messages;

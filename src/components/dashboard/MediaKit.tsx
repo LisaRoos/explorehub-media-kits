@@ -1,7 +1,7 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-export const MediaKit = () => {
+const MediaKit = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -82,3 +82,5 @@ export const MediaKit = () => {
     </SidebarProvider>
   );
 };
+
+export default MediaKit;

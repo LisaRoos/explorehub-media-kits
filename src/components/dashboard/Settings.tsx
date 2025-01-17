@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
-export const Settings = () => {
+const Settings = () => {
   const handleUnsubscribe = () => {
     // Here you would typically make an API call to handle the unsubscribe action
     toast.success("You have been unsubscribed successfully");
@@ -88,3 +88,5 @@ export const Settings = () => {
     </SidebarProvider>
   );
 };
+
+export default Settings;

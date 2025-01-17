@@ -6,7 +6,7 @@ import { useTheme } from "@/components/theme/theme-provider";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 
-export const Appearance = () => {
+const Appearance = () => {
   const { theme, setTheme } = useTheme();
   const [fontSize, setFontSize] = useState("medium");
 
@@ -116,3 +116,5 @@ export const Appearance = () => {
     </SidebarProvider>
   );
 };
+
+export default Appearance;

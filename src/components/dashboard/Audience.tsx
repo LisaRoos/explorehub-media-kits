@@ -1,7 +1,7 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-export const Audience = () => {
+const Audience = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -35,3 +35,5 @@ export const Audience = () => {
     </SidebarProvider>
   );
 };
+
+export default Audience;
