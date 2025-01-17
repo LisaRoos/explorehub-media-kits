@@ -157,7 +157,7 @@ export const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
           </div>
           <div className="flex justify-center">
             <HCaptcha
-              sitekey={process.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+              sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
               onVerify={handleCaptchaVerify}
             />
           </div>
