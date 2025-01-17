@@ -33,6 +33,13 @@ export const Navigation = () => {
     navigate("/");
   };
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-4 bg-background/80 backdrop-blur-sm border-b">
       <div className="flex items-center">
@@ -42,30 +49,14 @@ export const Navigation = () => {
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>For Brands</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <div className="grid gap-3 p-4 w-[400px]">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Brand Solutions</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Find and collaborate with creators
-                    </p>
-                  </div>
-                </div>
-              </NavigationMenuContent>
+              <Button variant="link" onClick={() => scrollToSection('brands')}>
+                For Brands
+              </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>For Influencers</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <div className="grid gap-3 p-4 w-[400px]">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Creator Tools</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Build your brand and connect with audiences
-                    </p>
-                  </div>
-                </div>
-              </NavigationMenuContent>
+              <Button variant="link" onClick={() => scrollToSection('influencers')}>
+                For Influencers
+              </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Button variant="link" asChild>

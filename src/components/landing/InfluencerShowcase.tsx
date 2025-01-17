@@ -3,7 +3,7 @@ import { Instagram, TrendingUp, Share2, BarChart2 } from "lucide-react";
 
 export const InfluencerShowcase = () => {
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-gray-50 dark:from-gray-950 dark:to-gray-900">
+    <section id="influencers" className="py-20 px-4 bg-gradient-to-b from-background to-gray-50 dark:from-gray-950 dark:to-gray-900">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
