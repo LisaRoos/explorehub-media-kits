@@ -11,19 +11,19 @@ import { Navigation } from "@/components/landing/Navigation";
 
 const Index = () => {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <div className="min-h-screen dark:bg-gray-950">
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <div className="min-h-screen bg-background transition-colors duration-300 ease-in-out">
         <Navigation />
-        <div className="fixed top-4 right-4 z-50">
-          <ThemeToggle />
+        <ThemeToggle />
+        <div className="space-y-20 opacity-0 animate-fade-in">
+          <Hero />
+          <Services />
+          <BrandFeatures />
+          <Benefits />
+          <InfluencerShowcase />
+          <Pricing />
+          <Footer />
         </div>
-        <Hero />
-        <Services />
-        <BrandFeatures />
-        <Benefits />
-        <InfluencerShowcase />
-        <Pricing />
-        <Footer />
       </div>
     </ThemeProvider>
   );
