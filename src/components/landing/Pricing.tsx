@@ -3,10 +3,41 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// Currency conversion rates (fixed for simplicity)
+const CONVERSION_RATES = {
+  USD: 1,
+  EUR: 0.91,
+  GBP: 0.79,
+  AUD: 1.52,
+} as const;
+
+type Currency = keyof typeof CONVERSION_RATES;
+
+const formatPrice = (price: string | number, currency: Currency) => {
+  if (price === "Free") return "Free";
+  const numericPrice = typeof price === "string" ? parseInt(price.replace("$", "")) : price;
+  const convertedPrice = Math.round(numericPrice * CONVERSION_RATES[currency]);
+  const currencySymbols: Record<Currency, string> = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    AUD: "A$",
+  };
+  return `${currencySymbols[currency]}${convertedPrice}`;
+};
 
 export const Pricing = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
+  const [currency, setCurrency] = useState<Currency>("USD");
 
   const influencerPlans = [
     {
@@ -108,19 +139,32 @@ export const Pricing = () => {
           <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
             Select the perfect plan for your journey to success
           </p>
-          <div className="flex justify-center gap-4 mb-8">
-            <Button
-              variant={userType === "influencer" ? "default" : "outline"}
-              onClick={() => setUserType("influencer")}
-            >
-              For Influencers
-            </Button>
-            <Button
-              variant={userType === "brand" ? "default" : "outline"}
-              onClick={() => setUserType("brand")}
-            >
-              For Brands
-            </Button>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+            <div className="flex justify-center gap-4">
+              <Button
+                variant={userType === "influencer" ? "default" : "outline"}
+                onClick={() => setUserType("influencer")}
+              >
+                For Influencers
+              </Button>
+              <Button
+                variant={userType === "brand" ? "default" : "outline"}
+                onClick={() => setUserType("brand")}
+              >
+                For Brands
+              </Button>
+            </div>
+            <Select value={currency} onValueChange={(value: Currency) => setCurrency(value)}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Currency" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USD">USD ($)</SelectItem>
+                <SelectItem value="EUR">EUR (€)</SelectItem>
+                <SelectItem value="GBP">GBP (£)</SelectItem>
+                <SelectItem value="AUD">AUD (A$)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -136,7 +180,7 @@ export const Pricing = () => {
               <CardHeader className="text-center p-6">
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="text-4xl font-bold mb-2">
-                  {plan.price}
+                  {formatPrice(plan.price, currency)}
                   {plan.price !== "Free" && <span className="text-sm text-gray-400">/month</span>}
                 </div>
                 <p className="text-gray-400">{plan.description}</p>
