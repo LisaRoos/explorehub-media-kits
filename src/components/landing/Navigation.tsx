@@ -64,6 +64,11 @@ export const Navigation = () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Button variant="link" asChild>
+                <NavigationMenuLink href="#services">Services</NavigationMenuLink>
+              </Button>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Button variant="link" asChild>
                 <NavigationMenuLink href="#pricing">Pricing</NavigationMenuLink>
               </Button>
             </NavigationMenuItem>
