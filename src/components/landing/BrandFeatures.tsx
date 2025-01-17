@@ -1,40 +1,60 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Filter, Users, Map, TrendingUp, Search, PlayCircle } from "lucide-react";
+import { memo } from "react";
 
-export const BrandFeatures = () => {
-  const features = [
-    {
-      icon: <Filter className="h-12 w-12 text-primary" />,
-      title: "Advanced Filtering",
-      description: "Filter influencers by demographics, niche, and engagement rates"
-    },
-    {
-      icon: <Users className="h-12 w-12 text-secondary" />,
-      title: "Audience Insights",
-      description: "Access detailed audience demographics and behavior patterns"
-    },
-    {
-      icon: <Map className="h-12 w-12 text-accent" />,
-      title: "Location Targeting",
-      description: "Find influencers in specific geographic regions"
-    },
-    {
-      icon: <TrendingUp className="h-12 w-12 text-primary" />,
-      title: "Performance Metrics",
-      description: "View comprehensive performance analytics and ROI predictions"
-    },
-    {
-      icon: <Search className="h-12 w-12 text-secondary" />,
-      title: "Smart Search",
-      description: "Use AI-powered search to find the perfect influencer match"
-    },
-    {
-      icon: <PlayCircle className="h-12 w-12 text-accent" />,
-      title: "Content Preview",
-      description: "Browse influencers' best performing content directly in their media kits"
-    }
-  ];
+const features = [
+  {
+    icon: <Filter className="h-12 w-12 text-primary" />,
+    title: "Advanced Filtering",
+    description: "Filter influencers by demographics, niche, and engagement rates"
+  },
+  {
+    icon: <Users className="h-12 w-12 text-secondary" />,
+    title: "Audience Insights",
+    description: "Access detailed audience demographics and behavior patterns"
+  },
+  {
+    icon: <Map className="h-12 w-12 text-accent" />,
+    title: "Location Targeting",
+    description: "Find influencers in specific geographic regions"
+  },
+  {
+    icon: <TrendingUp className="h-12 w-12 text-primary" />,
+    title: "Performance Metrics",
+    description: "View comprehensive performance analytics and ROI predictions"
+  },
+  {
+    icon: <Search className="h-12 w-12 text-secondary" />,
+    title: "Smart Search",
+    description: "Use AI-powered search to find the perfect influencer match"
+  },
+  {
+    icon: <PlayCircle className="h-12 w-12 text-accent" />,
+    title: "Content Preview",
+    description: "Browse influencers' best performing content directly in their media kits"
+  }
+] as const;
 
+const FeatureCard = memo(({ feature, index }: { feature: typeof features[number], index: number }) => (
+  <Card 
+    className="glass-card hover:scale-105 transition-transform duration-300"
+    style={{ 
+      animationDelay: `${index * 100}ms`,
+      opacity: 0,
+      animation: 'fade-in 0.5s ease-out forwards'
+    }}
+  >
+    <CardContent className="p-6 text-center">
+      <div className="mb-4 flex justify-center">{feature.icon}</div>
+      <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+      <p className="text-gray-400">{feature.description}</p>
+    </CardContent>
+  </Card>
+));
+
+FeatureCard.displayName = "FeatureCard";
+
+export const BrandFeatures = memo(() => {
   return (
     <section id="brands" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -49,16 +69,12 @@ export const BrandFeatures = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="glass-card hover:scale-105 transition-transform duration-300">
-              <CardContent className="p-6 text-center">
-                <div className="mb-4 flex justify-center">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </CardContent>
-            </Card>
+            <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
       </div>
     </section>
   );
-};
+});
+
+BrandFeatures.displayName = "BrandFeatures";

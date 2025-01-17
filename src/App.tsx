@@ -2,49 +2,96 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import BrandDashboard from "./pages/BrandDashboard";
-import { Messages } from "./components/dashboard/Messages";
-import { SocialMedia } from "./components/dashboard/SocialMedia";
-import { MediaKit } from "./components/dashboard/MediaKit";
-import { Analytics } from "./components/dashboard/Analytics";
-import { Audience } from "./components/dashboard/Audience";
-import { Appearance } from "./components/dashboard/Appearance";
-import { Settings } from "./components/dashboard/Settings";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
+import { ErrorBoundary } from "react-error-boundary";
+import { Suspense, lazy } from "react";
+import { toast } from "sonner";
 
-const queryClient = new QueryClient();
+// Lazy load components
+const Index = lazy(() => import("./pages/Index"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const BrandDashboard = lazy(() => import("./pages/BrandDashboard"));
+const Messages = lazy(() => import("./components/dashboard/Messages"));
+const SocialMedia = lazy(() => import("./components/dashboard/SocialMedia"));
+const MediaKit = lazy(() => import("./components/dashboard/MediaKit"));
+const Analytics = lazy(() => import("./components/dashboard/Analytics"));
+const Audience = lazy(() => import("./components/dashboard/Audience"));
+const Appearance = lazy(() => import("./components/dashboard/Appearance"));
+const Settings = lazy(() => import("./components/dashboard/Settings"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 30000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+const ErrorFallback = ({ error }: { error: Error }) => {
+  console.error('Application error:', error);
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="text-center space-y-4">
+        <h2 className="text-2xl font-bold">Something went wrong</h2>
+        <p className="text-muted-foreground">Please try refreshing the page</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+        >
+          Refresh Page
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
 
 function App() {
   return (
-    <TooltipProvider>
-      <QueryClientProvider client={queryClient}>
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/messages" element={<Messages />} />
-            <Route path="/dashboard/social-media" element={<SocialMedia />} />
-            <Route path="/dashboard/media-kit" element={<MediaKit />} />
-            <Route path="/dashboard/analytics" element={<Analytics />} />
-            <Route path="/dashboard/audience" element={<Audience />} />
-            <Route path="/dashboard/appearance" element={<Appearance />} />
-            <Route path="/dashboard/settings" element={<Settings />} />
-            <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </TooltipProvider>
+    <ErrorBoundary 
+      FallbackComponent={ErrorFallback}
+      onError={(error) => {
+        console.error('Caught error:', error);
+        toast.error('An unexpected error occurred');
+      }}
+    >
+      <TooltipProvider>
+        <QueryClientProvider client={queryClient}>
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard/messages" element={<Messages />} />
+                <Route path="/dashboard/social-media" element={<SocialMedia />} />
+                <Route path="/dashboard/media-kit" element={<MediaKit />} />
+                <Route path="/dashboard/analytics" element={<Analytics />} />
+                <Route path="/dashboard/audience" element={<Audience />} />
+                <Route path="/dashboard/appearance" element={<Appearance />} />
+                <Route path="/dashboard/settings" element={<Settings />} />
+                <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </TooltipProvider>
+    </ErrorBoundary>
   );
 }
 

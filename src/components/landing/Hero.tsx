@@ -1,7 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import { memo } from "react";
 
-export const Hero = () => {
+const ErrorFallback = () => (
+  <div className="text-center p-4">
+    <p>Something went wrong. Please try again.</p>
+  </div>
+);
+
+const HeroContent = memo(() => {
   const navigate = useNavigate();
 
   return (
@@ -37,5 +45,15 @@ export const Hero = () => {
         </div>
       </div>
     </div>
+  );
+});
+
+HeroContent.displayName = "HeroContent";
+
+export const Hero = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <HeroContent />
+    </ErrorBoundary>
   );
 };
