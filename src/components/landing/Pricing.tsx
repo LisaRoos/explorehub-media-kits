@@ -10,6 +10,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Currency conversion rates (fixed for simplicity)
 const CONVERSION_RATES = {
@@ -124,6 +130,37 @@ const formatPrice = (price: string | number, currency: Currency) => {
     }
   ];
 
+const faqItems = {
+  influencer: [
+    {
+      question: "How do I create a media kit?",
+      answer: "Navigate to the Media Kit section in your dashboard. You can customize your media kit with your brand assets, statistics, and portfolio."
+    },
+    {
+      question: "How is my engagement rate calculated?",
+      answer: "Engagement rate is calculated by dividing total engagements (likes + comments) by your follower count, then multiplying by 100."
+    },
+    {
+      question: "Can I connect multiple social media accounts?",
+      answer: "Yes! You can connect accounts from different platforms to showcase your cross-platform presence."
+    }
+  ],
+  brand: [
+    {
+      question: "How do I find the right influencers?",
+      answer: "Use our advanced filtering system to search by niche, location, follower count, and engagement rates."
+    },
+    {
+      question: "What metrics are available for campaign tracking?",
+      answer: "Track impressions, engagement rates, click-through rates, and ROI through our analytics dashboard."
+    },
+    {
+      question: "How do I initiate a collaboration?",
+      answer: "Once you find a suitable influencer, you can message them directly through our platform to discuss collaboration details."
+    }
+  ]
+};
+
 export const Pricing = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
@@ -212,6 +249,26 @@ export const Pricing = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="mt-20">
+          <h3 className="text-3xl font-bold text-center mb-8">
+            Frequently Asked Questions
+          </h3>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems[userType].map((item, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </div>
     </section>
