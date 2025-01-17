@@ -47,12 +47,25 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
-}
 
-@layer base {
+  /* Font size variations */
+  :root[data-font-size="small"] {
+    font-size: 14px;
+  }
+
+  :root[data-font-size="medium"] {
+    font-size: 16px;
+  }
+
+  :root[data-font-size="large"] {
+    font-size: 18px;
+  }
+
+  /* Base styles */
   * {
     @apply border-border;
   }
+  
   body {
     @apply bg-background text-foreground;
   }
