@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { BrandOverview } from "@/components/brand/BrandOverview";
+import BrandOverview from "@/components/brand/BrandOverview";
 import { BrandAnalytics } from "@/components/brand/BrandAnalytics";
 import { BrandTeam } from "@/components/brand/BrandTeam";
 import { BrandSettings } from "@/components/brand/BrandSettings";
