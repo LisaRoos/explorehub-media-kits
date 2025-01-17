@@ -42,22 +42,27 @@ export const Navigation = () => {
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+              <NavigationMenuTrigger>For Brands</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid gap-3 p-4 w-[400px]">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">For Creators</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Build your brand and connect with audiences
-                      </p>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">For Brands</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Find and collaborate with creators
-                      </p>
-                    </div>
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Brand Solutions</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Find and collaborate with creators
+                    </p>
+                  </div>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>For Influencers</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="grid gap-3 p-4 w-[400px]">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Creator Tools</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Build your brand and connect with audiences
+                    </p>
                   </div>
                 </div>
               </NavigationMenuContent>
