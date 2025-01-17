@@ -17,6 +17,7 @@ const CONVERSION_RATES = {
   EUR: 0.91,
   GBP: 0.79,
   AUD: 1.52,
+  ZAR: 18.95,
 } as const;
 
 type Currency = keyof typeof CONVERSION_RATES;
@@ -30,14 +31,10 @@ const formatPrice = (price: string | number, currency: Currency) => {
     EUR: "€",
     GBP: "£",
     AUD: "A$",
+    ZAR: "R",
   };
   return `${currencySymbols[currency]}${convertedPrice}`;
 };
-
-export const Pricing = () => {
-  const navigate = useNavigate();
-  const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
-  const [currency, setCurrency] = useState<Currency>("USD");
 
   const influencerPlans = [
     {
@@ -127,6 +124,11 @@ export const Pricing = () => {
     }
   ];
 
+export const Pricing = () => {
+  const navigate = useNavigate();
+  const [userType, setUserType] = useState<"influencer" | "brand">("influencer");
+  const [currency, setCurrency] = useState<Currency>("USD");
+
   const plans = userType === "influencer" ? influencerPlans : brandPlans;
 
   return (
@@ -163,6 +165,7 @@ export const Pricing = () => {
                 <SelectItem value="EUR">EUR (€)</SelectItem>
                 <SelectItem value="GBP">GBP (£)</SelectItem>
                 <SelectItem value="AUD">AUD (A$)</SelectItem>
+                <SelectItem value="ZAR">ZAR (R)</SelectItem>
               </SelectContent>
             </Select>
           </div>
