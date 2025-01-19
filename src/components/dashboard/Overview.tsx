@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ProfileHeader } from "./profile/ProfileHeader";
 import { ProfileToggle } from "./profile/ProfileToggle";
+import { ShareableLink } from "./profile/ShareableLink";
 import { SocialLinks } from "./social/SocialLinks";
 import { ChatButton } from "./profile/ChatButton";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
@@ -17,6 +18,7 @@ export const Overview = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
       <ProfileToggle view={view} onViewChange={handleViewChange} />
+      <ShareableLink view={view} />
       <ProfileHeader />
       <SocialLinks />
 
