@@ -1,81 +1,17 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { MessageCircle, UserPlus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { ProfileHeader } from "./profile/ProfileHeader";
 import { ProfileToggle } from "./profile/ProfileToggle";
 import { SocialLinks } from "./social/SocialLinks";
-import { ContentCarousel } from "./content/ContentCarousel";
+import { ChatButton } from "./profile/ChatButton";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
-
-const featuredContent = {
-  instagram: [
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Latest Instagram Post",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Featured Reel",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Popular Post",
-      url: "#"
-    }
-  ],
-  tiktok: [
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Viral TikTok",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Latest Dance",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Tutorial Video",
-      url: "#"
-    }
-  ],
-  youtube: [
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Latest Video",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Popular Tutorial",
-      url: "#"
-    },
-    {
-      thumbnail: "/placeholder.svg",
-      title: "Channel Highlight",
-      url: "#"
-    }
-  ]
-};
+import { FeaturedContent } from "./content/FeaturedContent";
+import { SignUpCTA } from "./profile/SignUpCTA";
 
 export const Overview = () => {
-  const navigate = useNavigate();
   const [view, setView] = useState<"analytics" | "public">("analytics");
-
-  const handleChatClick = () => {
-    navigate("/dashboard/messages");
-  };
 
   const handleViewChange = (newView: "analytics" | "public") => {
     setView(newView);
-  };
-
-  const handleSignupClick = () => {
-    navigate("/signup");
   };
 
   return (
@@ -85,18 +21,7 @@ export const Overview = () => {
       <SocialLinks />
 
       {/* Chat Button - Only show in analytics view */}
-      {view === "analytics" && (
-        <div className="px-4">
-          <Button 
-            onClick={handleChatClick}
-            className="w-full glass-card group hover:scale-105 transition-transform"
-            variant="outline"
-          >
-            <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-            Chat Now
-          </Button>
-        </div>
-      )}
+      {view === "analytics" && <ChatButton />}
 
       {/* Analytics Section - Only show in analytics view */}
       {view === "analytics" && (
@@ -106,30 +31,11 @@ export const Overview = () => {
         </div>
       )}
 
-      {/* Featured Content Carousels */}
-      <div className="space-y-8 px-4">
-        <h2 className="text-xl font-semibold text-center">Featured Content</h2>
-        <ContentCarousel platform="Instagram" content={featuredContent.instagram} />
-        <ContentCarousel platform="TikTok" content={featuredContent.tiktok} />
-        <ContentCarousel platform="YouTube" content={featuredContent.youtube} />
-      </div>
+      {/* Featured Content */}
+      <FeaturedContent />
 
       {/* Sign Up CTA - Only show in public view */}
-      {view === "public" && (
-        <div className="px-4 pb-8 flex flex-col items-center">
-          <Button 
-            onClick={handleSignupClick}
-            className="w-48 bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
-            size="sm"
-          >
-            <UserPlus className="w-3 h-3 mr-2 group-hover:scale-110 transition-transform" />
-            Create Your Own Profile
-          </Button>
-          <p className="text-center text-sm text-muted-foreground mt-2">
-            Join our community of creators and start showcasing your content
-          </p>
-        </div>
-      )}
+      {view === "public" && <SignUpCTA />}
     </div>
   );
 };
