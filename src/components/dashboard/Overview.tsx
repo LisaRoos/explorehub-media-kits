@@ -10,6 +10,7 @@ import { SignUpCTA } from "./profile/SignUpCTA";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export const Overview = () => {
   const [searchParams] = useSearchParams();
