@@ -9,9 +9,15 @@ import {
   Twitch, 
   Play,  // Using Play icon instead of TiktokIcon
   MessageCircle,
-  Link2 
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const socialLinks = [
   {
@@ -54,17 +60,24 @@ const socialLinks = [
 
 const highlightedContent = [
   {
+    type: "post",
+    platform: "Instagram",
+    thumbnail: "/placeholder.svg",
+    title: "Latest Instagram Post",
+    url: "#"
+  },
+  {
+    type: "video",
+    platform: "TikTok",
+    thumbnail: "/placeholder.svg",
+    title: "Featured TikTok",
+    url: "#"
+  },
+  {
     type: "video",
     platform: "YouTube",
     thumbnail: "/placeholder.svg",
     title: "Latest Video",
-    url: "#"
-  },
-  {
-    type: "post",
-    platform: "Instagram",
-    thumbnail: "/placeholder.svg",
-    title: "Featured Post",
     url: "#"
   }
 ];
@@ -99,20 +112,18 @@ export const Overview = () => {
       </div>
 
       {/* Social Links */}
-      <div className="grid grid-cols-3 gap-4 px-4">
+      <div className="grid grid-cols-6 gap-4 px-4">
         {socialLinks.map((link) => (
           <a
             key={link.platform}
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group"
+            className="group flex items-center justify-center"
           >
-            <Card className="p-4 hover:scale-105 transition-transform glass-card flex items-center justify-center">
-              <div className={`p-2 rounded-full ${link.color} group-hover:scale-110 transition-transform`}>
-                <link.icon className="w-6 h-6 text-white" />
-              </div>
-            </Card>
+            <div className={`p-2 rounded-full ${link.color} group-hover:scale-110 transition-transform`}>
+              <link.icon className="w-4 h-4 text-white" />
+            </div>
           </a>
         ))}
       </div>
@@ -129,34 +140,39 @@ export const Overview = () => {
         </Button>
       </div>
 
-      {/* Highlighted Content */}
+      {/* Featured Content Carousel */}
       <div className="space-y-4 px-4">
         <h2 className="text-xl font-semibold text-center">Featured Content</h2>
-        <div className="grid gap-4">
-          {highlightedContent.map((content, index) => (
-            <a
-              key={index}
-              href={content.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <Card className="overflow-hidden hover:scale-105 transition-transform glass-card">
-                <img 
-                  src={content.thumbnail} 
-                  alt={content.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-medium">{content.title}</h3>
-                    <span className="text-sm text-muted-foreground">{content.platform}</span>
-                  </div>
-                </div>
-              </Card>
-            </a>
-          ))}
-        </div>
+        <Carousel className="w-full">
+          <CarouselContent>
+            {highlightedContent.map((content, index) => (
+              <CarouselItem key={index}>
+                <a
+                  href={content.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Card className="overflow-hidden hover:scale-105 transition-transform glass-card">
+                    <img 
+                      src={content.thumbnail} 
+                      alt={content.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-medium">{content.title}</h3>
+                        <span className="text-sm text-muted-foreground">{content.platform}</span>
+                      </div>
+                    </div>
+                  </Card>
+                </a>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
 
       {/* Stats Cards */}
