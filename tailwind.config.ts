@@ -25,15 +25,15 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0EA5E9",
+          DEFAULT: "#8B5CF6", // Changed to Vivid Purple
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#33C3F0",
+          DEFAULT: "#D946EF", // Changed to Magenta Pink
           foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#D3E4FD",
+          DEFAULT: "#FEF7CD", // Changed to Soft Yellow
           foreground: "#1E293B",
         },
         destructive: {
@@ -54,9 +54,9 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(to right, #0EA5E9, #33C3F0, #60A5FA)',
-        'gradient-secondary': 'linear-gradient(135deg, #0EA5E9 0%, #2563EB 50%, #1E40AF 100%)',
-        'gradient-accent': 'linear-gradient(to right, #E0F2FE, #BFDBFE, #93C5FD)',
+        'gradient-primary': 'linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)',
+        'gradient-secondary': 'linear-gradient(225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)',
+        'gradient-accent': 'linear-gradient(to right, #E5DEFF, #FFDEE2, #FEF7CD)',
       },
       borderRadius: {
         lg: "var(--radius)",
