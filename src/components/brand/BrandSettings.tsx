@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 export const BrandSettings = () => {
@@ -29,6 +30,28 @@ export const BrandSettings = () => {
             <Input type="email" id="email" placeholder="contact@brand.com" />
           </div>
           <Button onClick={handleSave}>Save Changes</Button>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <h3 className="text-lg font-medium mb-4">Legal Documents</h3>
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <Link 
+              to="/terms-of-service" 
+              target="_blank"
+              className="text-primary hover:underline flex items-center gap-2"
+            >
+              Terms of Service
+            </Link>
+            <Link 
+              to="/privacy-policy" 
+              target="_blank"
+              className="text-primary hover:underline flex items-center gap-2"
+            >
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </Card>
 

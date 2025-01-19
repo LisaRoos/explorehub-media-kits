@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 
 const Settings = () => {
   const handleUnsubscribe = () => {
-    // Here you would typically make an API call to handle the unsubscribe action
     toast.success("You have been unsubscribed successfully");
   };
 
@@ -37,28 +36,22 @@ const Settings = () => {
             </Card>
 
             <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Notifications</h2>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="email-notifications">Email Notifications</Label>
-                  <Button variant="outline">Configure</Button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="push-notifications">Push Notifications</Label>
-                  <Button variant="outline">Configure</Button>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Legal</h2>
+              <h2 className="text-xl font-semibold mb-4">Legal Documents</h2>
               <div className="space-y-4">
                 <div className="flex flex-col gap-2">
-                  <Link to="/privacy-policy" className="text-primary hover:underline">
-                    Privacy Policy
-                  </Link>
-                  <Link to="/terms-of-service" className="text-primary hover:underline">
+                  <Link 
+                    to="/terms-of-service" 
+                    target="_blank"
+                    className="text-primary hover:underline flex items-center gap-2"
+                  >
                     Terms of Service
+                  </Link>
+                  <Link 
+                    to="/privacy-policy" 
+                    target="_blank"
+                    className="text-primary hover:underline flex items-center gap-2"
+                  >
+                    Privacy Policy
                   </Link>
                 </div>
               </div>
