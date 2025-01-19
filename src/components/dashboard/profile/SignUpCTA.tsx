@@ -13,8 +13,7 @@ export const SignUpCTA = () => {
     <div className="px-4 pb-8 flex flex-col items-center">
       <Button 
         onClick={handleSignupClick}
-        className="w-48 bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
-        size="sm"
+        className="w-56 bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
       >
         <UserPlus className="w-3 h-3 mr-2 group-hover:scale-110 transition-transform" />
         Create Your Own Profile
