@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ProfileHeader } from "./profile/ProfileHeader";
 import { ProfileToggle } from "./profile/ProfileToggle";
@@ -74,6 +74,10 @@ export const Overview = () => {
     setView(newView);
   };
 
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
       <ProfileToggle view={view} onViewChange={handleViewChange} />
@@ -109,6 +113,23 @@ export const Overview = () => {
         <ContentCarousel platform="TikTok" content={featuredContent.tiktok} />
         <ContentCarousel platform="YouTube" content={featuredContent.youtube} />
       </div>
+
+      {/* Sign Up CTA - Only show in public view */}
+      {view === "public" && (
+        <div className="px-4 pb-8">
+          <Button 
+            onClick={handleSignupClick}
+            className="w-full glass-card group hover:scale-105 transition-transform"
+            size="lg"
+          >
+            <UserPlus className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            Create Your Own Profile
+          </Button>
+          <p className="text-center text-sm text-muted-foreground mt-2">
+            Join our community of creators and start showcasing your content
+          </p>
+        </div>
+      )}
     </div>
   );
 };
