@@ -20,7 +20,7 @@ export const ShareableLink = ({ view }: ShareableLinkProps) => {
   };
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-center">
       <Button
         variant="outline"
         size="sm"
