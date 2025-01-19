@@ -58,29 +58,59 @@ const socialLinks = [
   },
 ];
 
-const highlightedContent = [
-  {
-    type: "post",
-    platform: "Instagram",
-    thumbnail: "/placeholder.svg",
-    title: "Latest Instagram Post",
-    url: "#"
-  },
-  {
-    type: "video",
-    platform: "TikTok",
-    thumbnail: "/placeholder.svg",
-    title: "Featured TikTok",
-    url: "#"
-  },
-  {
-    type: "video",
-    platform: "YouTube",
-    thumbnail: "/placeholder.svg",
-    title: "Latest Video",
-    url: "#"
-  }
-];
+const featuredContent = {
+  instagram: [
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Latest Instagram Post",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Featured Reel",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Popular Post",
+      url: "#"
+    }
+  ],
+  tiktok: [
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Viral TikTok",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Latest Dance",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Tutorial Video",
+      url: "#"
+    }
+  ],
+  youtube: [
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Latest Video",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Popular Tutorial",
+      url: "#"
+    },
+    {
+      thumbnail: "/placeholder.svg",
+      title: "Channel Highlight",
+      url: "#"
+    }
+  ]
+};
 
 export const Overview = () => {
   const navigate = useNavigate();
@@ -88,6 +118,39 @@ export const Overview = () => {
   const handleChatClick = () => {
     navigate("/dashboard/messages");
   };
+
+  const ContentCarousel = ({ platform, content }: { platform: string, content: typeof featuredContent.instagram }) => (
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium">{platform}</h3>
+      <Carousel className="w-full">
+        <CarouselContent>
+          {content.map((item, index) => (
+            <CarouselItem key={index}>
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Card className="overflow-hidden hover:scale-105 transition-transform glass-card">
+                  <img 
+                    src={item.thumbnail} 
+                    alt={item.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="font-medium">{item.title}</h3>
+                  </div>
+                </Card>
+              </a>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </div>
+  );
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
@@ -140,39 +203,12 @@ export const Overview = () => {
         </Button>
       </div>
 
-      {/* Featured Content Carousel */}
-      <div className="space-y-4 px-4">
+      {/* Featured Content Carousels */}
+      <div className="space-y-8 px-4">
         <h2 className="text-xl font-semibold text-center">Featured Content</h2>
-        <Carousel className="w-full">
-          <CarouselContent>
-            {highlightedContent.map((content, index) => (
-              <CarouselItem key={index}>
-                <a
-                  href={content.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <Card className="overflow-hidden hover:scale-105 transition-transform glass-card">
-                    <img 
-                      src={content.thumbnail} 
-                      alt={content.title}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium">{content.title}</h3>
-                        <span className="text-sm text-muted-foreground">{content.platform}</span>
-                      </div>
-                    </div>
-                  </Card>
-                </a>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <ContentCarousel platform="Instagram" content={featuredContent.instagram} />
+        <ContentCarousel platform="TikTok" content={featuredContent.tiktok} />
+        <ContentCarousel platform="YouTube" content={featuredContent.youtube} />
       </div>
 
       {/* Stats Cards */}
