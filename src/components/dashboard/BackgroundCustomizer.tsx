@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const gradients = [
   "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)",
@@ -33,6 +34,7 @@ export const BackgroundCustomizer = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customUrl, setCustomUrl] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCustomBackground = () => {
     if (!customUrl) {
@@ -51,6 +53,52 @@ export const BackgroundCustomizer = ({
       toast.error("Invalid image URL. Please try another.");
     };
     img.src = customUrl;
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size must be less than 5MB');
+      return;
+    }
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError, data } = await supabase.storage
+        .from('backgrounds')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('backgrounds')
+        .getPublicUrl(filePath);
+
+      onBackgroundChange(`url(${publicUrl})`);
+      toast.success('Background image uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('Failed to upload image. Please try again.');
+    }
+
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -109,8 +157,26 @@ export const BackgroundCustomizer = ({
               className="w-full"
               variant="outline"
             >
-              Apply Custom Background
+              Apply Custom URL
             </Button>
+
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                className="hidden"
+                id="background-upload"
+              />
+              <Button 
+                onClick={() => document.getElementById('background-upload')?.click()}
+                className="w-full"
+                variant="outline"
+              >
+                Upload Image
+              </Button>
+            </div>
           </div>
         </Card>
       )}
