@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Link, Share2 } from "lucide-react";
+import { Link } from "lucide-react";
 import { toast } from "sonner";
 
 interface ShareableLinkProps {
@@ -21,15 +20,9 @@ export const ShareableLink = ({ view }: ShareableLinkProps) => {
   };
 
   return (
-    <div className="flex items-center gap-2 p-4 bg-background/50 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm">
-      <Share2 className="h-4 w-4 text-muted-foreground" />
-      <Input
-        value={shareUrl}
-        readOnly
-        className="flex-1 bg-background/50"
-      />
+    <div className="flex justify-end">
       <Button
-        variant="secondary"
+        variant="outline"
         size="sm"
         onClick={copyToClipboard}
         className="gap-2"
