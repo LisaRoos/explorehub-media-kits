@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface InfluencerCardProps {
   influencer: {
@@ -16,6 +17,12 @@ interface InfluencerCardProps {
 }
 
 export const InfluencerCard = ({ influencer }: InfluencerCardProps) => {
+  const navigate = useNavigate();
+
+  const handleViewMediaKit = () => {
+    navigate(`/dashboard/media-kit/${influencer.id}`);
+  };
+
   return (
     <Card className="p-6 glass-card">
       <div className="flex items-center gap-4 mb-4">
@@ -49,7 +56,11 @@ export const InfluencerCard = ({ influencer }: InfluencerCardProps) => {
         </div>
       </div>
 
-      <Button className="w-full" variant="outline">
+      <Button 
+        className="w-full" 
+        variant="outline"
+        onClick={handleViewMediaKit}
+      >
         <Eye className="mr-2 h-4 w-4" />
         View Media Kit
       </Button>
