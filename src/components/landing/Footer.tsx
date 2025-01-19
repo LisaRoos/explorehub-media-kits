@@ -16,15 +16,15 @@ export const Footer = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <Mail className="h-5 w-5" />
-              <span>contact@explorehub.com</span>
+              <span>info@explore-hub.com</span>
             </div>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <Phone className="h-5 w-5" />
-              <span>+1 (555) 123-4567</span>
+              <span>+27 79 216 0601</span>
             </div>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <MapPin className="h-5 w-5" />
-              <span>123 Creator Street, Digital City</span>
+              <span>Worldwide</span>
             </div>
           </div>
         </div>
