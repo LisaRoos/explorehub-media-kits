@@ -7,13 +7,33 @@ import { ChatButton } from "./profile/ChatButton";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
 import { FeaturedContent } from "./content/FeaturedContent";
 import { SignUpCTA } from "./profile/SignUpCTA";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useSearchParams } from "react-router-dom";
 
 export const Overview = () => {
-  const [view, setView] = useState<"analytics" | "public">("analytics");
+  const [searchParams] = useSearchParams();
+  const [view, setView] = useState<"analytics" | "public">(
+    searchParams.get("view") as "analytics" | "public" || "analytics"
+  );
+
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: async () => {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .maybeSingle();
+      return subscription;
+    },
+  });
 
   const handleViewChange = (newView: "analytics" | "public") => {
     setView(newView);
   };
+
+  const isAnalyticsBlurred = view === "analytics" && 
+    (!subscription || subscription.status !== "brand");
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
@@ -22,21 +42,34 @@ export const Overview = () => {
       <ProfileHeader />
       <SocialLinks />
 
-      {/* Chat Button - Only show in analytics view */}
-      {view === "analytics" && <ChatButton />}
-
-      {/* Analytics Section - Only show in analytics view */}
       {view === "analytics" && (
-        <div className="px-4">
-          <h2 className="text-xl font-semibold mb-4">Analytics Overview</h2>
-          <AnalyticsCards />
-        </div>
+        <>
+          <ChatButton />
+          <div className={`px-4 relative ${isAnalyticsBlurred ? "select-none" : ""}`}>
+            {isAnalyticsBlurred && (
+              <div className="absolute inset-0 backdrop-blur-md z-10 flex items-center justify-center">
+                <div className="bg-background/80 p-6 rounded-lg text-center">
+                  <h3 className="text-lg font-semibold mb-2">Subscribe to View Analytics</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Get access to detailed analytics by upgrading to a brand subscription
+                  </p>
+                  <Button
+                    onClick={() => window.location.href = "/pricing"}
+                    variant="default"
+                  >
+                    Upgrade Now
+                  </Button>
+                </div>
+              </div>
+            )}
+            <h2 className="text-xl font-semibold mb-4">Analytics Overview</h2>
+            <AnalyticsCards />
+          </div>
+        </>
       )}
 
-      {/* Featured Content */}
       <FeaturedContent />
 
-      {/* Sign Up CTA - Only show in public view */}
       {view === "public" && <SignUpCTA />}
     </div>
   );

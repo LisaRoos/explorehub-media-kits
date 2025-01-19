@@ -1,33 +1,53 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ShareableLinkProps {
   view: "analytics" | "public";
 }
 
 export const ShareableLink = ({ view }: ShareableLinkProps) => {
-  const baseUrl = window.location.origin;
-  const shareUrl = `${baseUrl}/dashboard?view=${view}`;
+  const [copying, setCopying] = useState(false);
 
-  const copyToClipboard = async () => {
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: async () => {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .maybeSingle();
+      return subscription;
+    },
+  });
+
+  const handleCopyLink = async () => {
+    if (view === "analytics" && subscription?.status !== "brand") {
+      toast.error("You need a brand subscription to share analytics view");
+      return;
+    }
+
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      setCopying(true);
+      const shareableLink = `${window.location.origin}/dashboard?view=${view}`;
+      await navigator.clipboard.writeText(shareableLink);
       toast.success("Link copied to clipboard!");
-    } catch (err) {
+    } catch (error) {
       toast.error("Failed to copy link");
+    } finally {
+      setCopying(false);
     }
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full p-4">
       <Button
         variant="outline"
-        size="sm"
-        onClick={copyToClipboard}
-        className="gap-2"
+        onClick={handleCopyLink}
+        disabled={copying}
+        className="w-40"
       >
-        <Link className="h-4 w-4" />
         Copy Link
       </Button>
     </div>
