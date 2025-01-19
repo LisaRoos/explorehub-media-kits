@@ -122,7 +122,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
               </div>
 
               <HCaptcha
-                sitekey={process.env.REACT_APP_HCAPTCHA_SITE_KEY || ""}
+                sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
                 onVerify={(token) => setCaptchaToken(token)}
               />
             </>
