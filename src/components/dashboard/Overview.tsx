@@ -7,7 +7,7 @@ import {
   Youtube, 
   Facebook, 
   Twitch, 
-  TiktokIcon, 
+  Play,  // Using Play icon instead of TiktokIcon
   MessageCircle,
   Link2 
 } from "lucide-react";
@@ -46,7 +46,7 @@ const socialLinks = [
   },
   {
     platform: "TikTok",
-    icon: TiktokIcon,
+    icon: Play,  // Using Play icon instead of TiktokIcon
     color: "bg-black",
     url: "#",
   },
