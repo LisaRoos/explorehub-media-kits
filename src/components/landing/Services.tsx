@@ -69,6 +69,12 @@ export const Services = () => {
     }
   ];
 
+  const handleContactClick = () => {
+    // WhatsApp URL with your phone number
+    const whatsappUrl = "https://wa.me/27792160601";
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <section id="services" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -109,7 +115,11 @@ export const Services = () => {
         </div>
 
         <div className="mt-16 text-center">
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
+          <Button 
+            size="lg" 
+            className="bg-primary hover:bg-primary/90"
+            onClick={handleContactClick}
+          >
             Contact Us
           </Button>
         </div>
