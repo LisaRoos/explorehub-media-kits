@@ -25,16 +25,16 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#8B5CF6",
+          DEFAULT: "#0EA5E9", // Changed to Ocean Blue
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#D946EF",
+          DEFAULT: "#33C3F0", // Changed to Sky Blue
           foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#F97316",
-          foreground: "#ffffff",
+          DEFAULT: "#D3E4FD", // Changed to Soft Blue
+          foreground: "#1E293B",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -54,9 +54,9 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(102.3deg, rgba(147,39,143,1) 5.9%, rgba(234,172,232,1) 64%, rgba(246,219,245,1) 89%)',
-        'gradient-secondary': 'linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)',
-        'gradient-accent': 'linear-gradient(90deg, hsla(24, 100%, 83%, 1) 0%, hsla(341, 91%, 68%, 1) 100%)',
+        'gradient-primary': 'linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%)',
+        'gradient-secondary': 'linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)',
+        'gradient-accent': 'linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%)',
       },
       borderRadius: {
         lg: "var(--radius)",
