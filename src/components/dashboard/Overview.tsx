@@ -116,13 +116,13 @@ export const Overview = () => {
 
       {/* Sign Up CTA - Only show in public view */}
       {view === "public" && (
-        <div className="px-4 pb-8">
+        <div className="px-4 pb-8 flex flex-col items-center">
           <Button 
             onClick={handleSignupClick}
-            className="w-full max-w-md mx-auto bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
-            size="default"
+            className="w-48 bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
+            size="sm"
           >
-            <UserPlus className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+            <UserPlus className="w-3 h-3 mr-2 group-hover:scale-110 transition-transform" />
             Create Your Own Profile
           </Button>
           <p className="text-center text-sm text-muted-foreground mt-2">
