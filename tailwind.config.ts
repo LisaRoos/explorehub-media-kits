@@ -25,15 +25,15 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0EA5E9", // Changed to Ocean Blue
+          DEFAULT: "#0EA5E9",
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#33C3F0", // Changed to Sky Blue
+          DEFAULT: "#33C3F0",
           foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#D3E4FD", // Changed to Soft Blue
+          DEFAULT: "#D3E4FD",
           foreground: "#1E293B",
         },
         destructive: {
@@ -54,9 +54,9 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%)',
-        'gradient-secondary': 'linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)',
-        'gradient-accent': 'linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%)',
+        'gradient-primary': 'linear-gradient(to right, #0EA5E9, #33C3F0, #60A5FA)',
+        'gradient-secondary': 'linear-gradient(135deg, #0EA5E9 0%, #2563EB 50%, #1E40AF 100%)',
+        'gradient-accent': 'linear-gradient(to right, #E0F2FE, #BFDBFE, #93C5FD)',
       },
       borderRadius: {
         lg: "var(--radius)",
