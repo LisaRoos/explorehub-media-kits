@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const gradients = [
@@ -9,14 +10,20 @@ const gradients = [
   "linear-gradient(to top, #accbee 0%, #e7f0fd 100%)",
   "linear-gradient(to top, #d299c2 0%, #fef9d7 100%)",
   "linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)",
+  "linear-gradient(to right, #8B5CF6, #D946EF)",
+  "linear-gradient(to right, #0EA5E9, #33C3F0)",
+  "linear-gradient(to right, #F97316, #FEC6A1)",
 ];
 
 const solidColors = [
-  "#F2FCE2",
-  "#FEF7CD",
-  "#FEC6A1",
-  "#E5DEFF",
-  "#FFDEE2",
+  "#F2FCE2", // Soft Green
+  "#FEF7CD", // Soft Yellow
+  "#FEC6A1", // Soft Orange
+  "#E5DEFF", // Soft Purple
+  "#FFDEE2", // Soft Pink
+  "#D3E4FD", // Soft Blue
+  "#9b87f5", // Primary Purple
+  "#8B5CF6", // Vivid Purple
 ];
 
 export const BackgroundCustomizer = ({
@@ -25,6 +32,26 @@ export const BackgroundCustomizer = ({
   onBackgroundChange: (background: string) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [customUrl, setCustomUrl] = useState("");
+
+  const handleCustomBackground = () => {
+    if (!customUrl) {
+      toast.error("Please enter a valid URL");
+      return;
+    }
+
+    // Test if the URL is valid
+    const img = new Image();
+    img.onload = () => {
+      onBackgroundChange(`url(${customUrl})`);
+      toast.success("Custom background applied!");
+      setCustomUrl("");
+    };
+    img.onerror = () => {
+      toast.error("Invalid image URL. Please try another.");
+    };
+    img.src = customUrl;
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -37,9 +64,9 @@ export const BackgroundCustomizer = ({
       </Button>
       
       {isOpen && (
-        <Card className="p-4 w-64 animate-fade-in">
+        <Card className="p-4 w-80 animate-fade-in">
           <h3 className="font-medium mb-2">Gradients</h3>
-          <div className="grid grid-cols-3 gap-2 mb-4">
+          <div className="grid grid-cols-4 gap-2 mb-4">
             {gradients.map((gradient, index) => (
               <button
                 key={index}
@@ -54,7 +81,7 @@ export const BackgroundCustomizer = ({
           </div>
           
           <h3 className="font-medium mb-2">Solid Colors</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-2 mb-4">
             {solidColors.map((color, index) => (
               <button
                 key={index}
@@ -66,6 +93,24 @@ export const BackgroundCustomizer = ({
                 }}
               />
             ))}
+          </div>
+
+          <h3 className="font-medium mb-2">Custom Background</h3>
+          <div className="space-y-2">
+            <Input
+              type="url"
+              placeholder="Enter image URL"
+              value={customUrl}
+              onChange={(e) => setCustomUrl(e.target.value)}
+              className="w-full"
+            />
+            <Button 
+              onClick={handleCustomBackground}
+              className="w-full"
+              variant="outline"
+            >
+              Apply Custom Background
+            </Button>
           </div>
         </Card>
       )}
