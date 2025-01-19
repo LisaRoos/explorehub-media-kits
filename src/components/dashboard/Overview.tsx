@@ -119,10 +119,10 @@ export const Overview = () => {
         <div className="px-4 pb-8">
           <Button 
             onClick={handleSignupClick}
-            className="w-full glass-card group hover:scale-105 transition-transform"
-            size="lg"
+            className="w-full max-w-md mx-auto bg-[#9b87f5] hover:bg-[#8B5CF6] text-white group hover:scale-105 transition-transform"
+            size="default"
           >
-            <UserPlus className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            <UserPlus className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
             Create Your Own Profile
           </Button>
           <p className="text-center text-sm text-muted-foreground mt-2">
