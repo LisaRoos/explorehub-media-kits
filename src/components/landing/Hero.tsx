@@ -13,23 +13,20 @@ const HeroContent = memo(() => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 transition-all duration-300">
-      <div className="text-center space-y-8 max-w-4xl animate-scale-in">
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight transition-colors duration-300">
-          Where{" "}
-          <span className="gradient-text bg-300% animate-gradient">
-            Brands & Creators
-          </span>
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-background/50">
+      <div className="text-center space-y-8 max-w-4xl animate-fade-in">
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-primary text-transparent bg-clip-text animate-gradient">
+          Where Brands & Creators
           <br /> Connect & Thrive
         </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto transition-colors duration-300">
+        <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mx-auto">
           A powerful platform connecting brands with influencers. Create stunning media kits, 
           showcase analytics, and build meaningful partnerships.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-white px-8 transition-all duration-300 hover:scale-105"
+            className="bg-gradient-secondary hover:opacity-90 text-white px-8 py-6 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
             onClick={() => navigate("/signup")}
           >
             Get Started
@@ -37,7 +34,7 @@ const HeroContent = memo(() => {
           <Button
             size="lg"
             variant="outline"
-            className="border-primary text-primary hover:bg-primary/10 transition-all duration-300 hover:scale-105"
+            className="border-2 border-primary/20 hover:border-primary/40 text-primary px-8 py-6 text-lg rounded-full transition-all duration-300 hover:scale-105"
             onClick={() => navigate("/login")}
           >
             Sign In

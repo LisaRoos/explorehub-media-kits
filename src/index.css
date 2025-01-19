@@ -23,7 +23,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
+    --radius: 1rem;
   }
 
   .dark {
@@ -47,106 +47,36 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
-
-  /* Font size variations */
-  :root[data-font-size="small"] {
-    font-size: 14px;
-  }
-
-  :root[data-font-size="medium"] {
-    font-size: 16px;
-  }
-
-  :root[data-font-size="large"] {
-    font-size: 18px;
-  }
-
-  /* Base styles */
-  * {
-    @apply border-border;
-  }
-  
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
-/* Animations */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Base styles */
+* {
+  @apply border-border;
 }
 
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+body {
+  @apply bg-background text-foreground antialiased;
 }
 
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
+/* Gradient text animation */
+.animate-gradient {
+  background-size: 300%;
+  -webkit-animation: animateGradient 6s ease infinite;
+  animation: animateGradient 6s ease infinite;
 }
 
-.animate-scale-in {
-  animation: scale-in 0.3s ease-out forwards;
+@keyframes animateGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Custom cursor styles */
-.custom-cursor {
-  @apply fixed w-8 h-8 pointer-events-none z-50 mix-blend-difference;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-  backface-visibility: hidden;
-  transition: all 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+/* Glass card effect */
+.glass-card {
+  @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
 }
 
-.custom-cursor.hovering {
-  @apply scale-150;
-}
-
-.custom-cursor svg {
-  @apply w-full h-full text-white stroke-[1.5];
-}
-
-/* Interactive elements */
+/* Hover animations */
 .hover-scale {
   @apply transition-transform duration-200 hover:scale-105;
-}
-
-.glass-card {
-  @apply bg-background/80 backdrop-blur-sm border shadow-lg;
-}
-
-/* Page transitions */
-.page-transition-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-.page-transition-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.page-transition-exit-active {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
 }

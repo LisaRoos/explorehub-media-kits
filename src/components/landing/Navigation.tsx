@@ -41,54 +41,93 @@ export const Navigation = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-4 bg-background/80 backdrop-blur-sm border-b">
-      <div className="flex items-center">
-        <Button variant="link" className="text-xl font-bold" onClick={() => navigate("/")}>
-          ExploreHub
-        </Button>
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Button variant="link" onClick={() => scrollToSection('brands')}>
-                For Brands
+    <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b border-border/50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+        <div className="flex items-center gap-8">
+          <Button 
+            variant="link" 
+            className="text-xl font-bold bg-gradient-primary text-transparent bg-clip-text" 
+            onClick={() => navigate("/")}
+          >
+            ExploreHub
+          </Button>
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList className="gap-1">
+              <NavigationMenuItem>
+                <Button 
+                  variant="ghost" 
+                  className="rounded-full"
+                  onClick={() => scrollToSection('brands')}
+                >
+                  For Brands
+                </Button>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Button 
+                  variant="ghost" 
+                  className="rounded-full"
+                  onClick={() => scrollToSection('influencers')}
+                >
+                  For Influencers
+                </Button>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Button 
+                  variant="ghost" 
+                  className="rounded-full"
+                  onClick={() => scrollToSection('services')}
+                >
+                  Services
+                </Button>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Button 
+                  variant="ghost" 
+                  className="rounded-full"
+                  onClick={() => scrollToSection('pricing')}
+                >
+                  Pricing
+                </Button>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+        <div className="flex items-center gap-4">
+          {session ? (
+            <>
+              <Button 
+                variant="ghost" 
+                className="rounded-full"
+                onClick={() => navigate("/dashboard")}
+              >
+                Dashboard
               </Button>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Button variant="link" onClick={() => scrollToSection('influencers')}>
-                For Influencers
+              <Button 
+                variant="ghost" 
+                className="rounded-full"
+                onClick={handleSignOut}
+              >
+                Sign Out
               </Button>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Button variant="link" onClick={() => scrollToSection('services')}>
-                Services
+            </>
+          ) : (
+            <>
+              <Button 
+                variant="ghost" 
+                className="rounded-full"
+                onClick={() => navigate("/login")}
+              >
+                Sign In
               </Button>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Button variant="link" onClick={() => scrollToSection('pricing')}>
-                Pricing
+              <Button 
+                className="bg-gradient-secondary text-white rounded-full hover:opacity-90"
+                onClick={() => navigate("/signup")}
+              >
+                Get Started
               </Button>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-      <div className="flex items-center gap-4">
-        {session ? (
-          <>
-            <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-              Dashboard
-            </Button>
-            <Button variant="ghost" onClick={handleSignOut}>
-              Sign Out
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button variant="ghost" onClick={() => navigate("/login")}>
-              Sign In
-            </Button>
-            <Button onClick={() => navigate("/signup")}>Get Started</Button>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
