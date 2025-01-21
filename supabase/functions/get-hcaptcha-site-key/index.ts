@@ -11,15 +11,11 @@ serve(async (req) => {
   }
 
   try {
-    const siteKey = Deno.env.get('HCAPTCHA_SITE_KEY')
+    const siteKey = Deno.env.get('RECAPTCHA_SITE_KEY')
     
-    if (!siteKey) {
-      throw new Error('HCAPTCHA_SITE_KEY not configured')
-    }
-
     return new Response(
-      JSON.stringify({ siteKey }),
-      { 
+      JSON.stringify({ RECAPTCHA_SITE_KEY: siteKey }),
+      {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
       },
@@ -27,9 +23,9 @@ serve(async (req) => {
   } catch (error) {
     return new Response(
       JSON.stringify({ error: error.message }),
-      { 
+      {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
+        status: 400,
       },
     )
   }
