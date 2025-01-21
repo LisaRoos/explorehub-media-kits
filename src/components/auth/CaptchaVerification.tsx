@@ -16,13 +16,16 @@ export const CaptchaVerification = ({
   const siteKey = import.meta.env.VITE_HCAPTCHA_SITE_KEY;
 
   useEffect(() => {
+    // Clear any existing errors on mount
+    setCaptchaError(null);
+    
     // Verify that we have a site key
     if (!siteKey) {
       console.error("HCaptcha site key is missing");
-      setCaptchaError("Captcha configuration error. Please contact support.");
+      setCaptchaError("Captcha configuration error. Please try again later.");
       toast.error("Captcha configuration error");
     }
-  }, [siteKey, setCaptchaError]);
+  }, [setCaptchaError, siteKey]);
 
   const resetCaptcha = () => {
     if (captchaRef.current) {
@@ -32,17 +35,32 @@ export const CaptchaVerification = ({
     }
   };
 
-  const handleCaptchaError = (err: string) => {
+  const handleVerify = (token: string) => {
+    console.log("Verification successful");
+    setCaptchaToken(token);
+    setCaptchaError(null);
+    toast.success("Verification successful");
+  };
+
+  const handleError = (err: string) => {
     console.error("HCaptcha Error:", err);
-    setCaptchaError("Captcha verification failed. Please try again.");
-    toast.error("Captcha verification failed. Please try again.");
+    setCaptchaError("Verification failed. Please try again.");
+    toast.error("Verification failed. Please try again.");
+    resetCaptcha();
+  };
+
+  const handleExpire = () => {
+    console.log("Captcha expired");
+    setCaptchaToken(null);
+    setCaptchaError("Verification expired. Please verify again.");
+    toast.error("Verification expired. Please verify again.");
     resetCaptcha();
   };
 
   if (!siteKey) {
     return (
       <div className="text-center text-red-500">
-        Captcha configuration error. Please contact support.
+        Captcha configuration error. Please try again later.
       </div>
     );
   }
@@ -57,20 +75,9 @@ export const CaptchaVerification = ({
             console.log("HCaptcha loaded successfully");
             setIsCaptchaLoading(false);
           }}
-          onVerify={(token) => {
-            console.log("Verification successful");
-            setCaptchaToken(token);
-            setCaptchaError(null);
-            toast.success("Captcha verification successful");
-          }}
-          onError={(err) => handleCaptchaError(err)}
-          onExpire={() => {
-            console.log("Captcha expired");
-            setCaptchaToken(null);
-            setCaptchaError("Captcha expired. Please verify again.");
-            toast.error("Captcha expired. Please verify again.");
-            resetCaptcha();
-          }}
+          onVerify={handleVerify}
+          onError={handleError}
+          onExpire={handleExpire}
           onOpen={() => {
             console.log("Captcha opened");
             setIsCaptchaLoading(true);
