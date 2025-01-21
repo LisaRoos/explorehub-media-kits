@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -16,6 +16,8 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
   const [role, setRole] = useState<"influencer" | "brand">("influencer");
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleError = (error: Error) => {
     console.error("Authentication error:", error);
@@ -35,6 +37,14 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
     }
   };
 
+  const resetCaptcha = () => {
+    if (captchaRef.current) {
+      captchaRef.current.resetCaptcha();
+      setCaptchaToken(null);
+      setCaptchaError(null);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
@@ -44,12 +54,16 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
       return;
     }
 
-    if (mode === "signup" && !captchaToken) {
-      toast.error("Please complete the captcha");
-      return;
+    if (mode === "signup") {
+      if (!captchaToken) {
+        setCaptchaError("Please complete the captcha verification");
+        toast.error("Please complete the captcha verification");
+        return;
+      }
     }
 
     setLoading(true);
+    setCaptchaError(null);
 
     try {
       if (mode === "login") {
@@ -73,6 +87,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
       }
     } catch (error) {
       handleError(error as Error);
+      resetCaptcha();
     } finally {
       setLoading(false);
     }
@@ -95,11 +110,28 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
             <>
               <RoleSelector role={role} setRole={setRole} />
               <TermsAndPrivacy />
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-2">
                 <HCaptcha
+                  ref={captchaRef}
                   sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
-                  onVerify={(token) => setCaptchaToken(token)}
+                  onVerify={(token) => {
+                    setCaptchaToken(token);
+                    setCaptchaError(null);
+                  }}
+                  onError={(err) => {
+                    console.error("HCaptcha Error:", err);
+                    setCaptchaError("Captcha verification failed. Please try again.");
+                    toast.error("Captcha verification failed. Please try again.");
+                  }}
+                  onExpire={() => {
+                    setCaptchaToken(null);
+                    setCaptchaError("Captcha expired. Please verify again.");
+                    toast.error("Captcha expired. Please verify again.");
+                  }}
                 />
+                {captchaError && (
+                  <p className="text-sm text-red-500">{captchaError}</p>
+                )}
               </div>
             </>
           )}
