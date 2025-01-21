@@ -25,7 +25,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
   return (
     <AuthFormContainer>
       <AuthHeader mode={mode} />
-
+      
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <AuthInputs
           email={email}
@@ -37,8 +37,8 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
         {mode === "signup" && (
           <>
             <RoleSelector role={role} setRole={setRole} />
-            <TermsAndPrivacy />
             <SimpleVerification setIsVerified={setIsVerified} />
+            <TermsAndPrivacy />
           </>
         )}
 

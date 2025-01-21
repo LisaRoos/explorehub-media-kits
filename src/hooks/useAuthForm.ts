@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthApiError } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 type AuthMode = "login" | "signup";
 
@@ -11,22 +12,45 @@ export const useAuthForm = (mode: AuthMode) => {
   const [role, setRole] = useState<"influencer" | "brand">("influencer");
   const [loading, setLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const navigate = useNavigate();
 
   const handleError = (error: Error) => {
     console.error("Authentication error:", error);
     if (error instanceof AuthApiError) {
       switch (error.status) {
         case 400:
-          toast.error("Invalid email or password");
+          toast.error("Invalid email or password format");
           break;
         case 422:
           toast.error("Email or password is missing");
+          break;
+        case 429:
+          toast.error("Too many attempts. Please try again later");
           break;
         default:
           toast.error(error.message);
       }
     } else {
-      toast.error("An unexpected error occurred");
+      toast.error("An unexpected error occurred. Please try again");
+    }
+  };
+
+  const createProfile = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: userId,
+            role: role,
+            username: email.split('@')[0], // Create a temporary username from email
+          }
+        ]);
+
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      toast.error("Failed to create profile. Please contact support.");
     }
   };
 
@@ -44,6 +68,11 @@ export const useAuthForm = (mode: AuthMode) => {
       return;
     }
 
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -54,8 +83,9 @@ export const useAuthForm = (mode: AuthMode) => {
         });
         if (error) throw error;
         toast.success("Successfully logged in!");
+        navigate("/dashboard");
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -64,8 +94,14 @@ export const useAuthForm = (mode: AuthMode) => {
             },
           },
         });
+        
         if (error) throw error;
-        toast.success("Check your email to confirm your account");
+        
+        if (data.user) {
+          await createProfile(data.user.id);
+          toast.success("Account created! Please check your email to confirm your account.");
+          // Don't navigate yet - wait for email confirmation
+        }
       }
     } catch (error) {
       handleError(error as Error);
