@@ -12,6 +12,16 @@ const ErrorFallback = () => (
 const HeroContent = memo(() => {
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    console.log("Navigating to signup page...");
+    navigate("/signup");
+  };
+
+  const handleSignIn = () => {
+    console.log("Navigating to login page...");
+    navigate("/login");
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-background/50">
       <div className="text-center space-y-8 max-w-4xl animate-fade-in">
@@ -27,7 +37,7 @@ const HeroContent = memo(() => {
           <Button
             size="lg"
             className="bg-gradient-secondary hover:opacity-90 text-white px-8 py-6 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
-            onClick={() => navigate("/signup")}
+            onClick={handleGetStarted}
           >
             Get Started
           </Button>
@@ -35,7 +45,7 @@ const HeroContent = memo(() => {
             size="lg"
             variant="outline"
             className="border-2 border-primary/20 hover:border-primary/40 text-primary px-8 py-6 text-lg rounded-full transition-all duration-300 hover:scale-105"
-            onClick={() => navigate("/login")}
+            onClick={handleSignIn}
           >
             Sign In
           </Button>
