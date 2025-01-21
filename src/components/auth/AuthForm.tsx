@@ -7,7 +7,7 @@ import { RoleSelector } from "./RoleSelector";
 import { TermsAndPrivacy } from "./TermsAndPrivacy";
 import { AuthSubmitButton } from "./AuthSubmitButton";
 import { AuthToggleLink } from "./AuthToggleLink";
-import { CaptchaVerification } from "./CaptchaVerification";
+import { SimpleVerification } from "./SimpleVerification";
 import { AuthFormContainer } from "./AuthFormContainer";
 import { AuthApiError } from "@supabase/supabase-js";
 
@@ -16,8 +16,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"influencer" | "brand">("influencer");
   const [loading, setLoading] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   const handleError = (error: Error) => {
     console.error("Authentication error:", error);
@@ -46,14 +45,12 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
       return;
     }
 
-    if (mode === "signup" && !captchaToken) {
-      setCaptchaError("Please complete the captcha verification");
-      toast.error("Please complete the captcha verification");
+    if (mode === "signup" && !isVerified) {
+      toast.error("Please complete the verification");
       return;
     }
 
     setLoading(true);
-    setCaptchaError(null);
 
     try {
       if (mode === "login") {
@@ -99,13 +96,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
           <>
             <RoleSelector role={role} setRole={setRole} />
             <TermsAndPrivacy />
-            <CaptchaVerification
-              setCaptchaToken={setCaptchaToken}
-              setCaptchaError={setCaptchaError}
-            />
-            {captchaError && (
-              <p className="text-sm text-red-500 text-center">{captchaError}</p>
-            )}
+            <SimpleVerification setIsVerified={setIsVerified} />
           </>
         )}
 
