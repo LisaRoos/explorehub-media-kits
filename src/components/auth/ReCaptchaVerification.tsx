@@ -20,6 +20,9 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
       try {
         const { data, error } = await supabase.functions.invoke('get-recaptcha-site-key');
         if (error) throw error;
+        if (!data?.RECAPTCHA_SITE_KEY) {
+          throw new Error('No site key returned from server');
+        }
         setSiteKey(data.RECAPTCHA_SITE_KEY);
       } catch (err) {
         console.error("Failed to fetch reCAPTCHA site key:", err);
