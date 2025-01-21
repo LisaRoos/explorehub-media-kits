@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRecaptchaVerification } from "@/hooks/useRecaptchaVerification";
 import { toast } from "sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -17,9 +18,14 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
   }, [setIsVerified]);
 
   if (!siteKey) {
-    console.error("No reCAPTCHA site key found");
-    toast.error("Verification system is not properly configured");
-    return null;
+    console.error("No reCAPTCHA site key found in environment variables");
+    return (
+      <Alert variant="destructive" className="my-4">
+        <AlertDescription>
+          Verification system is not properly configured. Please try again later or contact support.
+        </AlertDescription>
+      </Alert>
+    );
   }
 
   const handleChange = async (token: string | null) => {
