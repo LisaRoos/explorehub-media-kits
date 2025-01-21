@@ -141,7 +141,9 @@ export type Database = {
           access_token: string | null
           created_at: string | null
           id: string
+          last_sync_at: string | null
           platform: string
+          platform_stats: Json | null
           platform_user_id: string | null
           profile_id: string | null
           refresh_token: string | null
@@ -153,7 +155,9 @@ export type Database = {
           access_token?: string | null
           created_at?: string | null
           id?: string
+          last_sync_at?: string | null
           platform: string
+          platform_stats?: Json | null
           platform_user_id?: string | null
           profile_id?: string | null
           refresh_token?: string | null
@@ -165,7 +169,9 @@ export type Database = {
           access_token?: string | null
           created_at?: string | null
           id?: string
+          last_sync_at?: string | null
           platform?: string
+          platform_stats?: Json | null
           platform_user_id?: string | null
           profile_id?: string | null
           refresh_token?: string | null
@@ -258,7 +264,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_platform_stats: {
+        Args: {
+          account_id: string
+          new_stats: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       subscription_status: "free" | "brand" | "influencer"
