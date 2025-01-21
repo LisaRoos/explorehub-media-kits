@@ -17,25 +17,36 @@ export const SimpleVerification = ({ setIsVerified }: SimpleVerificationProps) =
       a: Math.floor(Math.random() * 10) + 1,
       b: Math.floor(Math.random() * 10) + 1
     });
-  }, []);
+    // Reset verification state when numbers change
+    setIsVerified(false);
+    setAnswer("");
+    setError(null);
+  }, [setIsVerified]);
 
   const handleVerification = (inputValue: string) => {
     console.log("Verifying answer:", inputValue);
     const correctAnswer = numbers.a + numbers.b;
     const userAnswer = parseInt(inputValue);
 
-    if (!isNaN(userAnswer) && userAnswer === correctAnswer) {
+    if (isNaN(userAnswer)) {
+      console.log("Invalid input - not a number");
+      setIsVerified(false);
+      if (inputValue !== "") {
+        setError("Please enter a valid number");
+      } else {
+        setError(null);
+      }
+      return;
+    }
+
+    if (userAnswer === correctAnswer) {
       console.log("Verification successful");
       setIsVerified(true);
       setError(null);
     } else {
       console.log("Verification failed:", { userAnswer, correctAnswer });
       setIsVerified(false);
-      if (inputValue !== "") {
-        setError("That's not quite right. Try again!");
-      } else {
-        setError(null);
-      }
+      setError("That's not quite right. Try again!");
     }
   };
 
