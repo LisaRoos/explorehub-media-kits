@@ -1,12 +1,9 @@
-import dynamic from 'next/dynamic'
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 
-// Dynamically import ReCAPTCHA with no SSR
-const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
-  ssr: false,
-});
+// Lazy load ReCAPTCHA component
+const ReCAPTCHA = lazy(() => import('react-google-recaptcha'));
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -81,10 +78,14 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   return (
     <div className="flex justify-center my-4">
-      <ReCAPTCHA
-        sitekey={siteKey}
-        onChange={handleVerification}
-      />
+      <Suspense fallback={
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      }>
+        <ReCAPTCHA
+          sitekey={siteKey}
+          onChange={handleVerification}
+        />
+      </Suspense>
     </div>
   );
 };
