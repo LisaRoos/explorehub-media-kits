@@ -20,4 +20,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Ensure we're using a Node.js-compatible build
+    target: 'esnext',
+    outDir: 'dist',
+  }
 }));
