@@ -40,11 +40,24 @@ export const CaptchaVerification = ({
     }
   };
 
-  const handleVerify = (token: string) => {
-    console.log("Verification successful");
-    setCaptchaToken(token);
-    setCaptchaError(null);
-    toast.success("Verification successful");
+  const handleVerify = async (token: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('verify-hcaptcha', {
+        body: { token }
+      });
+      
+      if (error) throw error;
+      
+      console.log("Verification successful");
+      setCaptchaToken(token);
+      setCaptchaError(null);
+      toast.success("Verification successful");
+    } catch (error) {
+      console.error("Verification failed:", error);
+      setCaptchaError("Verification failed. Please try again.");
+      toast.error("Verification failed. Please try again.");
+      resetCaptcha();
+    }
   };
 
   const handleError = (err: string) => {
