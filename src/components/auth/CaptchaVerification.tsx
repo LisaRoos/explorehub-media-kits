@@ -105,7 +105,6 @@ export const CaptchaVerification = ({
             setIsCaptchaLoading(false);
           }}
           reCaptchaCompat={false}
-          samesite="None"
           theme="light"
         />
         {isCaptchaLoading && (
