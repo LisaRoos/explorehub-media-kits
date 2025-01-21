@@ -104,6 +104,9 @@ export const CaptchaVerification = ({
             console.log("Captcha closed");
             setIsCaptchaLoading(false);
           }}
+          reCaptchaCompat={false}
+          samesite="None"
+          theme="light"
         />
         {isCaptchaLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/10 rounded">
