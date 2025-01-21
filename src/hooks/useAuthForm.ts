@@ -36,7 +36,7 @@ export const useAuthForm = (mode: AuthMode) => {
   };
 
   const createProfile = async (userId: string) => {
-    console.log("Creating profile for user:", userId);
+    console.log("Creating profile for user:", userId, "with role:", role);
     try {
       const { error } = await supabase
         .from('profiles')
@@ -62,6 +62,7 @@ export const useAuthForm = (mode: AuthMode) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted. Mode:", mode);
+    console.log("Form state:", { email, password, role, isVerified });
     
     if (loading) {
       console.log("Already processing, skipping submission");
@@ -75,7 +76,7 @@ export const useAuthForm = (mode: AuthMode) => {
     }
 
     if (mode === "signup" && !isVerified) {
-      console.log("Captcha verification required");
+      console.log("Verification required");
       toast.error("Please complete the verification");
       return;
     }

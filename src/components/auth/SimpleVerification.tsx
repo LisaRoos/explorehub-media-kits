@@ -20,13 +20,16 @@ export const SimpleVerification = ({ setIsVerified }: SimpleVerificationProps) =
   }, []);
 
   const handleVerification = (inputValue: string) => {
+    console.log("Verifying answer:", inputValue);
     const correctAnswer = numbers.a + numbers.b;
     const userAnswer = parseInt(inputValue);
 
     if (!isNaN(userAnswer) && userAnswer === correctAnswer) {
+      console.log("Verification successful");
       setIsVerified(true);
       setError(null);
     } else {
+      console.log("Verification failed:", { userAnswer, correctAnswer });
       setIsVerified(false);
       if (inputValue !== "") {
         setError("That's not quite right. Try again!");
