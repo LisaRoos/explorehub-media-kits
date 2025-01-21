@@ -13,15 +13,22 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   useEffect(() => {
     const fetchSiteKey = async () => {
+      console.log('Fetching reCAPTCHA site key...');
       try {
         const { data: { RECAPTCHA_SITE_KEY }, error } = await supabase.functions.invoke('get-recaptcha-site-key');
-        if (error) throw error;
+        if (error) {
+          console.error('Error fetching site key:', error);
+          throw error;
+        }
         if (RECAPTCHA_SITE_KEY) {
-          console.log('Site key fetched successfully');
+          console.log('Site key fetched successfully:', RECAPTCHA_SITE_KEY.slice(0, 8) + '...');
           setSiteKey(RECAPTCHA_SITE_KEY);
+        } else {
+          console.error('No site key returned from function');
+          throw new Error('No site key returned');
         }
       } catch (error) {
-        console.error('Error fetching site key:', error);
+        console.error('Error in fetchSiteKey:', error);
         toast({
           title: "Error",
           description: "Could not load verification component",
@@ -34,7 +41,9 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
   }, [toast]);
 
   const handleVerification = async (token: string | null) => {
+    console.log('Starting verification process...');
     if (!token) {
+      console.error('No token provided');
       setIsVerified(false);
       toast({
         title: "Verification failed",
@@ -45,21 +54,24 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
     }
 
     try {
-      console.log('Verifying token...');
+      console.log('Sending token to verification endpoint...');
       const { error } = await supabase.functions.invoke('verify-recaptcha', {
         body: { token }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Verification error from function:', error);
+        throw error;
+      }
 
-      console.log('Verification successful');
+      console.log('Verification successful!');
       setIsVerified(true);
       toast({
         title: "Success",
         description: "Verification successful!",
       });
     } catch (error) {
-      console.error('Verification error:', error);
+      console.error('Error in handleVerification:', error);
       setIsVerified(false);
       toast({
         title: "Verification failed",
