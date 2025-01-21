@@ -1,7 +1,12 @@
-import ReCAPTCHA from "react-google-recaptcha";
+import dynamic from 'next/dynamic'
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+
+// Dynamically import ReCAPTCHA with no SSR
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
+  ssr: false,
+});
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -13,14 +18,24 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   useEffect(() => {
     const fetchSiteKey = async () => {
-      const { data: { RECAPTCHA_SITE_KEY } } = await supabase.functions.invoke('get-recaptcha-site-key');
-      if (RECAPTCHA_SITE_KEY) {
-        setSiteKey(RECAPTCHA_SITE_KEY);
+      try {
+        const { data: { RECAPTCHA_SITE_KEY }, error } = await supabase.functions.invoke('get-recaptcha-site-key');
+        if (error) throw error;
+        if (RECAPTCHA_SITE_KEY) {
+          setSiteKey(RECAPTCHA_SITE_KEY);
+        }
+      } catch (error) {
+        console.error('Error fetching site key:', error);
+        toast({
+          title: "Error",
+          description: "Could not load verification component",
+          variant: "destructive",
+        });
       }
     };
     
     fetchSiteKey();
-  }, []);
+  }, [toast]);
 
   const handleVerification = async (token: string | null) => {
     if (!token) {
@@ -42,8 +57,8 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
       setIsVerified(true);
       toast({
-        title: "Verification successful",
-        description: "You've been verified successfully!",
+        title: "Success",
+        description: "Verification successful!",
       });
     } catch (error) {
       console.error('Verification error:', error);
@@ -57,7 +72,11 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
   };
 
   if (!siteKey) {
-    return <div className="flex justify-center my-4">Loading verification...</div>;
+    return (
+      <div className="flex justify-center my-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   return (
