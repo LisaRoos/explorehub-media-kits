@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRecaptchaVerification } from "@/hooks/useRecaptchaVerification";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -11,18 +12,30 @@ interface ReCaptchaVerificationProps {
 export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationProps) => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const { isLoading, verifyToken } = useRecaptchaVerification(setIsVerified);
-  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  const [siteKey, setSiteKey] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchSiteKey = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-recaptcha-site-key');
+        if (error) throw error;
+        setSiteKey(data.RECAPTCHA_SITE_KEY);
+      } catch (err) {
+        console.error("Failed to fetch reCAPTCHA site key:", err);
+        setError("Failed to load verification system. Please try again later.");
+      }
+    };
+
+    fetchSiteKey();
     setIsVerified(false);
   }, [setIsVerified]);
 
-  if (!siteKey) {
-    console.error("No reCAPTCHA site key found in environment variables");
+  if (error || !siteKey) {
     return (
       <Alert variant="destructive" className="my-4">
         <AlertDescription>
-          Verification system is not properly configured. Please try again later or contact support.
+          {error || "Verification system is not properly configured. Please try again later or contact support."}
         </AlertDescription>
       </Alert>
     );
