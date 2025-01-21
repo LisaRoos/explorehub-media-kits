@@ -25,5 +25,6 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: ['react-google-recaptcha'],
-  }
+  },
+  envPrefix: 'VITE_'
 }));
