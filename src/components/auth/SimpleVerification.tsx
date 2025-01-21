@@ -19,15 +19,20 @@ export const SimpleVerification = ({ setIsVerified }: SimpleVerificationProps) =
     });
   }, []);
 
-  const correctAnswer = (numbers.a + numbers.b).toString();
-  
-  const handleVerification = () => {
-    if (answer.trim() === correctAnswer) {
+  const handleVerification = (inputValue: string) => {
+    const correctAnswer = numbers.a + numbers.b;
+    const userAnswer = parseInt(inputValue);
+
+    if (!isNaN(userAnswer) && userAnswer === correctAnswer) {
       setIsVerified(true);
       setError(null);
     } else {
       setIsVerified(false);
-      setError("That's not quite right. Try again!");
+      if (inputValue !== "") {
+        setError("That's not quite right. Try again!");
+      } else {
+        setError(null);
+      }
     }
   };
 
@@ -43,8 +48,9 @@ export const SimpleVerification = ({ setIsVerified }: SimpleVerificationProps) =
           type="text"
           value={answer}
           onChange={(e) => {
-            setAnswer(e.target.value);
-            handleVerification();
+            const value = e.target.value;
+            setAnswer(value);
+            handleVerification(value);
           }}
           placeholder="Enter your answer"
           className="w-full"
