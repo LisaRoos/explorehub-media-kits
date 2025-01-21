@@ -13,7 +13,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   useEffect(() => {
     const fetchSiteKey = async () => {
-      const { data: { RECAPTCHA_SITE_KEY } } = await supabase.functions.invoke('get-hcaptcha-site-key');
+      const { data: { RECAPTCHA_SITE_KEY } } = await supabase.functions.invoke('get-recaptcha-site-key');
       if (RECAPTCHA_SITE_KEY) {
         setSiteKey(RECAPTCHA_SITE_KEY);
       }
@@ -22,14 +22,31 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
     fetchSiteKey();
   }, []);
 
-  const handleVerification = (token: string | null) => {
-    if (token) {
+  const handleVerification = async (token: string | null) => {
+    if (!token) {
+      setIsVerified(false);
+      toast({
+        title: "Verification failed",
+        description: "Please try again",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase.functions.invoke('verify-recaptcha', {
+        body: { token }
+      });
+
+      if (error) throw error;
+
       setIsVerified(true);
       toast({
         title: "Verification successful",
         description: "You've been verified successfully!",
       });
-    } else {
+    } catch (error) {
+      console.error('Verification error:', error);
       setIsVerified(false);
       toast({
         title: "Verification failed",
