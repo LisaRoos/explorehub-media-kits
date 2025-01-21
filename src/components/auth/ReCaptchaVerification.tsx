@@ -28,7 +28,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
   return (
     <div className="flex justify-center my-4">
       <ReCAPTCHA
-        sitekey="6LeYYL4qAAAAAKRYtBMsMuo7-FfBRWjIknqJDpDp"
+        sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
         onChange={handleVerification}
       />
     </div>
