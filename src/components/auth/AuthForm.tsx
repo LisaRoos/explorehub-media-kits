@@ -114,7 +114,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
                 <div className={`relative ${isCaptchaLoading ? 'opacity-50' : ''}`}>
                   <HCaptcha
                     ref={captchaRef}
-                    sitekey="YOUR-PRODUCTION-SITE-KEY" // Replace this with your actual production site key from HCaptcha dashboard
+                    sitekey="f7a20b99-4c99-4ea7-9084-c5410f5b164c"
                     onLoad={() => {
                       console.log("HCaptcha loaded successfully");
                       setIsCaptchaLoading(false);
