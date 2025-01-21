@@ -4,7 +4,7 @@ import { RoleSelector } from "./RoleSelector";
 import { TermsAndPrivacy } from "./TermsAndPrivacy";
 import { AuthSubmitButton } from "./AuthSubmitButton";
 import { AuthToggleLink } from "./AuthToggleLink";
-import { ReCaptchaVerification } from "./ReCaptchaVerification";
+import { SimpleVerification } from "./SimpleVerification";
 import { AuthFormContainer } from "./AuthFormContainer";
 import { useAuthForm } from "@/hooks/useAuthForm";
 
@@ -37,7 +37,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
         {mode === "signup" && (
           <>
             <RoleSelector role={role} setRole={setRole} />
-            <ReCaptchaVerification setIsVerified={setIsVerified} />
+            <SimpleVerification setIsVerified={setIsVerified} />
             <TermsAndPrivacy />
           </>
         )}
