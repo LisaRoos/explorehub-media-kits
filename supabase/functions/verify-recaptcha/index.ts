@@ -15,21 +15,22 @@ serve(async (req) => {
 
   try {
     const { token } = await req.json()
-    console.log('Received verification request. Token length:', token?.length ?? 0)
+    console.log('Received token for verification, checking validity...')
     
     if (!token) {
-      console.error('Token is missing in request')
+      console.error('No token provided in request body')
       throw new Error('Token is required')
     }
 
     const secretKey = Deno.env.get('RECAPTCHA_SECRET_KEY')
     if (!secretKey) {
-      console.error('RECAPTCHA_SECRET_KEY not configured')
-      throw new Error('RECAPTCHA_SECRET_KEY not configured')
+      console.error('RECAPTCHA_SECRET_KEY not found in environment variables')
+      throw new Error('Server configuration error')
     }
 
-    console.log('Verifying token with Google reCAPTCHA API...')
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    console.log('Sending verification request to Google reCAPTCHA API...')
+    const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify'
+    const response = await fetch(verifyUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,25 +39,44 @@ serve(async (req) => {
     })
 
     const data = await response.json()
-    console.log('reCAPTCHA API response:', data)
+    console.log('Google reCAPTCHA API Response:', {
+      success: data.success,
+      errorCodes: data['error-codes'],
+      hostname: data.hostname,
+      score: data.score,
+      action: data.action,
+      timestamp: data.challenge_ts
+    })
 
     if (!data.success) {
-      console.error('Verification failed. Error codes:', data['error-codes'])
+      console.error('Verification failed:', {
+        errorCodes: data['error-codes'],
+        timestamp: new Date().toISOString()
+      })
       throw new Error(`Verification failed: ${data['error-codes']?.join(', ') || 'unknown error'}`)
     }
 
+    console.log('Verification successful!')
     return new Response(
-      JSON.stringify({ success: true, verification: data }),
+      JSON.stringify({ 
+        success: true,
+        verification: {
+          timestamp: data.challenge_ts,
+          hostname: data.hostname,
+          score: data.score,
+          action: data.action
+        }
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
       },
     )
   } catch (error) {
-    console.error('Verification error:', error)
+    console.error('Error during verification:', error)
     return new Response(
       JSON.stringify({ 
-        error: error.message, 
+        error: error.message,
         success: false,
         timestamp: new Date().toISOString()
       }),
