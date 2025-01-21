@@ -9,6 +9,7 @@ import { toast } from "sonner";
 const Index = lazy(() => import("./pages/Index"));
 const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
+const SignupSuccess = lazy(() => import("./pages/SignupSuccess"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const BrandDashboard = lazy(() => import("./pages/BrandDashboard"));
 const Messages = lazy(() => import("./components/dashboard/Messages"));
@@ -72,6 +73,7 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/signup-success" element={<SignupSuccess />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dashboard/messages" element={<Messages />} />
               <Route path="/dashboard/social-media" element={<SocialMedia />} />

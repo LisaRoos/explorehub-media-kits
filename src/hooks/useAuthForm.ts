@@ -100,7 +100,7 @@ export const useAuthForm = (mode: AuthMode) => {
         if (data.user) {
           await createProfile(data.user.id);
           toast.success("Account created! Please check your email to confirm your account.");
-          // Don't navigate yet - wait for email confirmation
+          navigate("/signup-success"); // Navigate to success page after signup
         }
       }
     } catch (error) {
