@@ -21,7 +21,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
           throw error;
         }
         if (RECAPTCHA_SITE_KEY) {
-          console.log('Site key fetched successfully:', RECAPTCHA_SITE_KEY.slice(0, 8) + '...');
+          console.log('Site key fetched successfully');
           setSiteKey(RECAPTCHA_SITE_KEY);
         } else {
           console.error('No site key returned from function');
@@ -42,9 +42,10 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   const handleVerification = async (token: string | null) => {
     console.log('Starting verification process...');
+    setIsVerified(false); // Reset verification state
+    
     if (!token) {
       console.error('No token provided');
-      setIsVerified(false);
       toast({
         title: "Verification failed",
         description: "Please try again",
@@ -55,21 +56,29 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
     try {
       console.log('Sending token to verification endpoint...');
-      const { error } = await supabase.functions.invoke('verify-recaptcha', {
+      const { data, error } = await supabase.functions.invoke('verify-recaptcha', {
         body: { token }
       });
 
+      console.log('Verification response:', { data, error });
+
       if (error) {
-        console.error('Verification error from function:', error);
+        console.error('Verification error:', error);
         throw error;
       }
 
-      console.log('Verification successful!');
-      setIsVerified(true);
-      toast({
-        title: "Success",
-        description: "Verification successful!",
-      });
+      if (data?.success) {
+        console.log('Verification successful!');
+        setIsVerified(true);
+        toast({
+          title: "Success",
+          description: "Verification successful!",
+        });
+      } else {
+        console.error('Verification failed:', data);
+        setIsVerified(false);
+        throw new Error('Verification failed');
+      }
     } catch (error) {
       console.error('Error in handleVerification:', error);
       setIsVerified(false);
