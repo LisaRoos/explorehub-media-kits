@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRecaptchaVerification } from "@/hooks/useRecaptchaVerification";
-import { SimpleVerification } from "./SimpleVerification";
+import { toast } from "sonner";
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -13,20 +13,30 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
   useEffect(() => {
-    // Reset verification state when component mounts
     setIsVerified(false);
   }, [setIsVerified]);
 
-  // If no site key is available, fall back to simple verification
   if (!siteKey) {
-    console.log("No reCAPTCHA site key found, falling back to simple verification");
-    return <SimpleVerification setIsVerified={setIsVerified} />;
+    console.error("No reCAPTCHA site key found");
+    toast.error("Verification system is not properly configured");
+    return null;
   }
 
   const handleChange = async (token: string | null) => {
-    await verifyToken(token);
-    // Reset reCAPTCHA after verification attempt
-    recaptchaRef.current?.reset();
+    if (!token) {
+      console.error("No token provided");
+      toast.error("Verification failed. Please try again.");
+      setIsVerified(false);
+      return;
+    }
+
+    try {
+      await verifyToken(token);
+    } catch (error) {
+      console.error("Verification error:", error);
+      toast.error("Verification failed. Please try again.");
+      setIsVerified(false);
+    }
   };
 
   return (
