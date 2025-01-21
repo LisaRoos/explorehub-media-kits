@@ -17,11 +17,7 @@ export const SimpleVerification = ({ setIsVerified }: SimpleVerificationProps) =
       a: Math.floor(Math.random() * 10) + 1,
       b: Math.floor(Math.random() * 10) + 1
     });
-    // Reset verification state when numbers change
-    setIsVerified(false);
-    setAnswer("");
-    setError(null);
-  }, [setIsVerified]);
+  }, []);
 
   const handleVerification = (inputValue: string) => {
     console.log("Verifying answer:", inputValue);
