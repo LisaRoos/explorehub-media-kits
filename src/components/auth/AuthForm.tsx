@@ -17,6 +17,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
   const captchaRef = useRef<HCaptcha>(null);
 
   const handleError = (error: Error) => {
@@ -35,6 +36,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
     } else {
       toast.error("An unexpected error occurred");
     }
+    resetCaptcha();
   };
 
   const resetCaptcha = () => {
@@ -54,12 +56,10 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
       return;
     }
 
-    if (mode === "signup") {
-      if (!captchaToken) {
-        setCaptchaError("Please complete the captcha verification");
-        toast.error("Please complete the captcha verification");
-        return;
-      }
+    if (mode === "signup" && !captchaToken) {
+      setCaptchaError("Please complete the captcha verification");
+      toast.error("Please complete the captcha verification");
+      return;
     }
 
     setLoading(true);
@@ -72,6 +72,7 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
           password,
         });
         if (error) throw error;
+        toast.success("Successfully logged in!");
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -87,7 +88,6 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
       }
     } catch (error) {
       handleError(error as Error);
-      resetCaptcha();
     } finally {
       setLoading(false);
     }
@@ -111,26 +111,50 @@ export const AuthForm = ({ mode = "signup" }: { mode?: "login" | "signup" }) => 
               <RoleSelector role={role} setRole={setRole} />
               <TermsAndPrivacy />
               <div className="flex flex-col items-center gap-2">
-                <HCaptcha
-                  ref={captchaRef}
-                  sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
-                  onVerify={(token) => {
-                    setCaptchaToken(token);
-                    setCaptchaError(null);
-                  }}
-                  onError={(err) => {
-                    console.error("HCaptcha Error:", err);
-                    setCaptchaError("Captcha verification failed. Please try again.");
-                    toast.error("Captcha verification failed. Please try again.");
-                  }}
-                  onExpire={() => {
-                    setCaptchaToken(null);
-                    setCaptchaError("Captcha expired. Please verify again.");
-                    toast.error("Captcha expired. Please verify again.");
-                  }}
-                />
+                <div className={`relative ${isCaptchaLoading ? 'opacity-50' : ''}`}>
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY || "10000000-ffff-ffff-ffff-000000000001"}
+                    onLoad={() => {
+                      console.log("HCaptcha loaded successfully");
+                      setIsCaptchaLoading(false);
+                    }}
+                    onVerify={(token) => {
+                      console.log("Verification successful");
+                      setCaptchaToken(token);
+                      setCaptchaError(null);
+                      toast.success("Captcha verification successful");
+                    }}
+                    onError={(err) => {
+                      console.error("HCaptcha Error:", err);
+                      setCaptchaError("Captcha verification failed. Please try again.");
+                      toast.error("Captcha verification failed. Please try again.");
+                      resetCaptcha();
+                    }}
+                    onExpire={() => {
+                      console.log("Captcha expired");
+                      setCaptchaToken(null);
+                      setCaptchaError("Captcha expired. Please verify again.");
+                      toast.error("Captcha expired. Please verify again.");
+                      resetCaptcha();
+                    }}
+                    onOpen={() => {
+                      console.log("Captcha opened");
+                      setIsCaptchaLoading(true);
+                    }}
+                    onClose={() => {
+                      console.log("Captcha closed");
+                      setIsCaptchaLoading(false);
+                    }}
+                  />
+                  {isCaptchaLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/10 rounded">
+                      <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary"></div>
+                    </div>
+                  )}
+                </div>
                 {captchaError && (
-                  <p className="text-sm text-red-500">{captchaError}</p>
+                  <p className="text-sm text-red-500 text-center">{captchaError}</p>
                 )}
               </div>
             </>
