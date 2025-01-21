@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { toast } from "sonner";
 
@@ -13,6 +13,16 @@ export const CaptchaVerification = ({
 }: CaptchaVerificationProps) => {
   const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
   const captchaRef = useRef<HCaptcha>(null);
+  const siteKey = import.meta.env.VITE_HCAPTCHA_SITE_KEY;
+
+  useEffect(() => {
+    // Verify that we have a site key
+    if (!siteKey) {
+      console.error("HCaptcha site key is missing");
+      setCaptchaError("Captcha configuration error. Please contact support.");
+      toast.error("Captcha configuration error");
+    }
+  }, [siteKey, setCaptchaError]);
 
   const resetCaptcha = () => {
     if (captchaRef.current) {
@@ -29,12 +39,20 @@ export const CaptchaVerification = ({
     resetCaptcha();
   };
 
+  if (!siteKey) {
+    return (
+      <div className="text-center text-red-500">
+        Captcha configuration error. Please contact support.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
       <div className={`relative ${isCaptchaLoading ? 'opacity-50' : ''}`}>
         <HCaptcha
           ref={captchaRef}
-          sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
+          sitekey={siteKey}
           onLoad={() => {
             console.log("HCaptcha loaded successfully");
             setIsCaptchaLoading(false);
