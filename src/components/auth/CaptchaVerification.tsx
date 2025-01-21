@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CaptchaVerificationProps {
   setCaptchaToken: (token: string | null) => void;
@@ -12,20 +13,24 @@ export const CaptchaVerification = ({
   setCaptchaError,
 }: CaptchaVerificationProps) => {
   const [isCaptchaLoading, setIsCaptchaLoading] = useState(false);
+  const [siteKey, setSiteKey] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
-  const siteKey = import.meta.env.VITE_HCAPTCHA_SITE_KEY;
 
   useEffect(() => {
-    // Clear any existing errors on mount
-    setCaptchaError(null);
-    
-    // Verify that we have a site key
-    if (!siteKey) {
-      console.error("HCaptcha site key is missing");
-      setCaptchaError("Captcha configuration error. Please try again later.");
-      toast.error("Captcha configuration error");
-    }
-  }, [setCaptchaError, siteKey]);
+    const fetchSiteKey = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-hcaptcha-site-key');
+        if (error) throw error;
+        setSiteKey(data.siteKey);
+      } catch (error) {
+        console.error("Failed to fetch hCaptcha site key:", error);
+        setCaptchaError("Unable to load captcha. Please try again later.");
+        toast.error("Unable to load captcha");
+      }
+    };
+
+    fetchSiteKey();
+  }, [setCaptchaError]);
 
   const resetCaptcha = () => {
     if (captchaRef.current) {
@@ -60,7 +65,7 @@ export const CaptchaVerification = ({
   if (!siteKey) {
     return (
       <div className="text-center text-red-500">
-        Captcha configuration error. Please try again later.
+        Loading captcha...
       </div>
     );
   }
