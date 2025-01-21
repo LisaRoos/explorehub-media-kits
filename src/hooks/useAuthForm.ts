@@ -44,7 +44,7 @@ export const useAuthForm = (mode: AuthMode) => {
           {
             id: userId,
             role: role,
-            username: email.split('@')[0], // Create a temporary username from email
+            username: email.split('@')[0],
           }
         ]);
 
@@ -75,10 +75,12 @@ export const useAuthForm = (mode: AuthMode) => {
       return;
     }
 
-    if (mode === "signup" && !isVerified) {
-      console.log("Verification required");
-      toast.error("Please complete the verification");
-      return;
+    if (mode === "signup") {
+      if (!isVerified) {
+        console.log("Verification required");
+        toast.error("Please complete the verification");
+        return;
+      }
     }
 
     if (password.length < 6) {

@@ -27,11 +27,11 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
       } catch (err) {
         console.error("Failed to fetch reCAPTCHA site key:", err);
         setError("Failed to load verification system. Please try again later.");
+        setIsVerified(false);
       }
     };
 
     fetchSiteKey();
-    setIsVerified(false);
   }, [setIsVerified]);
 
   if (error || !siteKey) {
@@ -53,7 +53,14 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
     }
 
     try {
-      await verifyToken(token);
+      const success = await verifyToken(token);
+      if (success) {
+        setIsVerified(true);
+        toast.success("Verification successful!");
+      } else {
+        setIsVerified(false);
+        toast.error("Verification failed. Please try again.");
+      }
     } catch (error) {
       console.error("Verification error:", error);
       toast.error("Verification failed. Please try again.");
