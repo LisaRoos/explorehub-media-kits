@@ -1,9 +1,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState, lazy, Suspense } from "react";
-
-// Lazy load ReCAPTCHA component
-const ReCAPTCHA = lazy(() => import('react-google-recaptcha'));
+import { useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface ReCaptchaVerificationProps {
   setIsVerified: (verified: boolean) => void;
@@ -19,6 +17,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
         const { data: { RECAPTCHA_SITE_KEY }, error } = await supabase.functions.invoke('get-recaptcha-site-key');
         if (error) throw error;
         if (RECAPTCHA_SITE_KEY) {
+          console.log('Site key fetched successfully');
           setSiteKey(RECAPTCHA_SITE_KEY);
         }
       } catch (error) {
@@ -46,12 +45,14 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
     }
 
     try {
+      console.log('Verifying token...');
       const { error } = await supabase.functions.invoke('verify-recaptcha', {
         body: { token }
       });
 
       if (error) throw error;
 
+      console.log('Verification successful');
       setIsVerified(true);
       toast({
         title: "Success",
@@ -78,14 +79,10 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   return (
     <div className="flex justify-center my-4">
-      <Suspense fallback={
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-      }>
-        <ReCAPTCHA
-          sitekey={siteKey}
-          onChange={handleVerification}
-        />
-      </Suspense>
+      <ReCAPTCHA
+        sitekey={siteKey}
+        onChange={handleVerification}
+      />
     </div>
   );
 };
