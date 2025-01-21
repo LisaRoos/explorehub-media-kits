@@ -1,5 +1,4 @@
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
@@ -65,32 +64,30 @@ function App() {
         toast.error('An unexpected error occurred');
       }}
     >
-      <TooltipProvider>
-        <QueryClientProvider client={queryClient}>
-          <Sonner />
-          <BrowserRouter>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/dashboard/messages" element={<Messages />} />
-                <Route path="/dashboard/social-media" element={<SocialMedia />} />
-                <Route path="/dashboard/media-kit" element={<MediaKit />} />
-                <Route path="/dashboard/analytics" element={<Analytics />} />
-                <Route path="/dashboard/audience" element={<Audience />} />
-                <Route path="/dashboard/appearance" element={<Appearance />} />
-                <Route path="/dashboard/settings" element={<Settings />} />
-                <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </QueryClientProvider>
-      </TooltipProvider>
+      <QueryClientProvider client={queryClient}>
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard/messages" element={<Messages />} />
+              <Route path="/dashboard/social-media" element={<SocialMedia />} />
+              <Route path="/dashboard/media-kit" element={<MediaKit />} />
+              <Route path="/dashboard/analytics" element={<Analytics />} />
+              <Route path="/dashboard/audience" element={<Audience />} />
+              <Route path="/dashboard/appearance" element={<Appearance />} />
+              <Route path="/dashboard/settings" element={<Settings />} />
+              <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }
