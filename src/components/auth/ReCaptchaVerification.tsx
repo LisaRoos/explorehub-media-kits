@@ -42,7 +42,6 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   const handleVerification = async (token: string | null) => {
     console.log('Starting verification process...');
-    console.log('Token received:', token ? `${token.slice(0, 10)}...` : 'null');
     setIsVerified(false); // Reset verification state
     
     if (!token) {
@@ -57,18 +56,19 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
     try {
       console.log('Sending token to verification endpoint...');
-      const response = await supabase.functions.invoke('verify-recaptcha', {
+      const { data, error } = await supabase.functions.invoke('verify-recaptcha', {
         body: { token }
       });
 
-      console.log('Full verification response:', response);
+      console.log('Verification response:', data);
 
-      if (response.error) {
-        console.error('Verification error:', response.error);
-        throw response.error;
+      if (error) {
+        console.error('Verification error:', error);
+        throw error;
       }
 
-      if (response.data?.success) {
+      // Check if data exists and has the success property
+      if (data && data.success === true) {
         console.log('Verification successful!');
         setIsVerified(true);
         toast({
@@ -76,9 +76,9 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
           description: "Verification successful!",
         });
       } else {
-        console.error('Verification failed. Response:', response.data);
+        console.error('Verification failed. Response:', data);
         setIsVerified(false);
-        throw new Error('Verification failed: ' + JSON.stringify(response.data));
+        throw new Error('Verification failed');
       }
     } catch (error) {
       console.error('Error in handleVerification:', error);
