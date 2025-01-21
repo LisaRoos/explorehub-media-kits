@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': 'https://www.explore-hub.com',
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Max-Age': '86400',
@@ -15,9 +15,10 @@ serve(async (req) => {
 
   try {
     const { token } = await req.json()
-    console.log('Received verification request with token:', token ? 'present' : 'missing')
+    console.log('Received verification request. Token length:', token?.length ?? 0)
     
     if (!token) {
+      console.error('Token is missing in request')
       throw new Error('Token is required')
     }
 
@@ -37,15 +38,15 @@ serve(async (req) => {
     })
 
     const data = await response.json()
-    console.log('reCAPTCHA verification response:', data)
+    console.log('reCAPTCHA API response:', data)
 
     if (!data.success) {
-      console.error('Verification failed:', data['error-codes'])
-      throw new Error('Verification failed')
+      console.error('Verification failed. Error codes:', data['error-codes'])
+      throw new Error(`Verification failed: ${data['error-codes']?.join(', ') || 'unknown error'}`)
     }
 
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({ success: true, verification: data }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
@@ -54,7 +55,11 @@ serve(async (req) => {
   } catch (error) {
     console.error('Verification error:', error)
     return new Response(
-      JSON.stringify({ error: error.message, success: false }),
+      JSON.stringify({ 
+        error: error.message, 
+        success: false,
+        timestamp: new Date().toISOString()
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 400,

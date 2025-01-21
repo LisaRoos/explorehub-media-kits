@@ -21,7 +21,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
           throw error;
         }
         if (RECAPTCHA_SITE_KEY) {
-          console.log('Site key fetched successfully');
+          console.log('Site key fetched successfully. Length:', RECAPTCHA_SITE_KEY.length);
           setSiteKey(RECAPTCHA_SITE_KEY);
         } else {
           console.error('No site key returned from function');
@@ -42,6 +42,7 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
   const handleVerification = async (token: string | null) => {
     console.log('Starting verification process...');
+    console.log('Token received:', token ? `${token.slice(0, 10)}...` : 'null');
     setIsVerified(false); // Reset verification state
     
     if (!token) {
@@ -56,18 +57,18 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
 
     try {
       console.log('Sending token to verification endpoint...');
-      const { data, error } = await supabase.functions.invoke('verify-recaptcha', {
+      const response = await supabase.functions.invoke('verify-recaptcha', {
         body: { token }
       });
 
-      console.log('Verification response:', { data, error });
+      console.log('Full verification response:', response);
 
-      if (error) {
-        console.error('Verification error:', error);
-        throw error;
+      if (response.error) {
+        console.error('Verification error:', response.error);
+        throw response.error;
       }
 
-      if (data?.success) {
+      if (response.data?.success) {
         console.log('Verification successful!');
         setIsVerified(true);
         toast({
@@ -75,9 +76,9 @@ export const ReCaptchaVerification = ({ setIsVerified }: ReCaptchaVerificationPr
           description: "Verification successful!",
         });
       } else {
-        console.error('Verification failed:', data);
+        console.error('Verification failed. Response:', response.data);
         setIsVerified(false);
-        throw new Error('Verification failed');
+        throw new Error('Verification failed: ' + JSON.stringify(response.data));
       }
     } catch (error) {
       console.error('Error in handleVerification:', error);
