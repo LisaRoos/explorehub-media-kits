@@ -25,15 +25,6 @@ const HeroContent = memo(() => {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-background/50">
       <div className="text-center space-y-8 max-w-4xl animate-fade-in">
-        <div className="relative w-32 h-32 mx-auto mb-8">
-          <img
-            src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
-            alt="ExploreHub Platform"
-            className="w-full h-full object-cover rounded-2xl shadow-2xl"
-          />
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-2xl" />
-        </div>
-        
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-primary text-transparent bg-clip-text animate-gradient">
           Where Brands & Creators
           <br /> Connect & Thrive
