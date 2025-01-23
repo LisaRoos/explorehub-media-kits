@@ -56,7 +56,7 @@ const influencerPlans = [
   },
   {
     name: "Pro",
-    price: "$19",
+    price: "$10",
     description: "Most popular choice",
     features: [
       "Premium media kit templates",
@@ -64,7 +64,11 @@ const influencerPlans = [
       "Advanced customization options",
       "Custom branding",
       "Priority support",
-      "Multiple media kits"
+      "Multiple media kits",
+      "Advanced analytics dashboard",
+      "Detailed engagement metrics",
+      "Performance tracking",
+      "Growth insights"
     ]
   }
 ];
