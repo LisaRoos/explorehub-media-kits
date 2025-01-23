@@ -14,9 +14,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const BrandDashboard = lazy(() => import("./pages/BrandDashboard"));
 const Messages = lazy(() => import("./components/dashboard/Messages"));
 const SocialMedia = lazy(() => import("./components/dashboard/SocialMedia"));
-const MediaKit = lazy(() => import("./components/dashboard/MediaKit"));
 const Analytics = lazy(() => import("./components/dashboard/Analytics"));
-const Audience = lazy(() => import("./components/dashboard/Audience"));
 const Appearance = lazy(() => import("./components/dashboard/Appearance"));
 const Settings = lazy(() => import("./components/dashboard/Settings"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -77,9 +75,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dashboard/messages" element={<Messages />} />
               <Route path="/dashboard/social-media" element={<SocialMedia />} />
-              <Route path="/dashboard/media-kit" element={<MediaKit />} />
               <Route path="/dashboard/analytics" element={<Analytics />} />
-              <Route path="/dashboard/audience" element={<Audience />} />
               <Route path="/dashboard/appearance" element={<Appearance />} />
               <Route path="/dashboard/settings" element={<Settings />} />
               <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
