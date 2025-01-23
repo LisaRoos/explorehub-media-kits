@@ -273,7 +273,13 @@ export type Database = {
       }
     }
     Enums: {
-      subscription_status: "free" | "brand" | "influencer"
+      subscription_status:
+        | "free"
+        | "brand"
+        | "influencer"
+        | "pro"
+        | "basic_brand"
+        | "professional_brand"
       user_role: "influencer" | "brand" | "admin"
     }
     CompositeTypes: {
