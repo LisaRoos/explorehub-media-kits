@@ -42,93 +42,82 @@ const formatPrice = (price: string | number, currency: Currency) => {
   return `${currencySymbols[currency]}${convertedPrice}`;
 };
 
-  const influencerPlans = [
-    {
-      name: "Starter",
-      price: "Free",
-      description: "Perfect for beginners",
-      features: [
-        "Basic media kit template",
-        "Social media integration",
-        "Basic analytics",
-        "Share with 3 brands",
-        "Limited messaging (5/month)"
-      ]
-    },
-    {
-      name: "Pro",
-      price: "$19",
-      description: "Most popular choice",
-      features: [
-        "Premium media kit templates",
-        "Advanced analytics",
-        "Unlimited sharing",
-        "Custom branding",
-        "Priority support",
-        "Real-time updates",
-        "Unlimited messaging"
-      ]
-    },
-    {
-      name: "Enterprise",
-      price: "$49",
-      description: "For professional creators",
-      features: [
-        "All Pro features",
-        "API access",
-        "Multiple media kits",
-        "Team collaboration",
-        "Custom domain",
-        "Dedicated support",
-        "Analytics API",
-        "Priority messaging"
-      ]
-    }
-  ];
+const influencerPlans = [
+  {
+    name: "Starter",
+    price: "Free",
+    description: "Perfect for beginners",
+    features: [
+      "Basic media kit template",
+      "Social media integration",
+      "Limited content per platform (3 items)",
+      "Share with 3 brands",
+      "Limited messaging (5/month)",
+      "Basic analytics"
+    ]
+  },
+  {
+    name: "Pro",
+    price: "$19",
+    description: "Most popular choice",
+    features: [
+      "Premium media kit templates",
+      "Advanced analytics",
+      "Unlimited content showcase",
+      "Unlimited sharing",
+      "Custom branding",
+      "Priority support",
+      "Real-time updates",
+      "Unlimited messaging",
+      "API access",
+      "Multiple media kits"
+    ]
+  }
+];
 
-  const brandPlans = [
-    {
-      name: "Basic",
-      price: "$99",
-      description: "For small brands",
-      features: [
-        "Access to influencer directory",
-        "Basic filtering options",
-        "Contact up to 10 influencers/month",
-        "View basic analytics",
-        "Basic messaging"
-      ]
-    },
-    {
-      name: "Business",
-      price: "$199",
-      description: "For growing brands",
-      features: [
-        "Advanced search filters",
-        "Unlimited influencer contacts",
-        "Detailed analytics",
-        "Campaign tracking",
-        "Priority support",
-        "Team collaboration",
-        "Unlimited messaging"
-      ]
-    },
-    {
-      name: "Enterprise",
-      price: "$499",
-      description: "For large brands",
-      features: [
-        "All Business features",
-        "API access",
-        "Custom reporting",
-        "Dedicated account manager",
-        "White-label solution",
-        "Advanced campaign analytics",
-        "Multi-team access",
-        "Priority messaging"
-      ]
-    }
-  ];
+const brandPlans = [
+  {
+    name: "Basic",
+    price: "$99",
+    description: "For small brands",
+    features: [
+      "Access to influencer directory",
+      "Basic filtering options",
+      "Contact up to 10 influencers/month",
+      "View basic analytics",
+      "Basic messaging"
+    ]
+  },
+  {
+    name: "Business",
+    price: "$199",
+    description: "For growing brands",
+    features: [
+      "Advanced search filters",
+      "Unlimited influencer contacts",
+      "Detailed analytics",
+      "Campaign tracking",
+      "Priority support",
+      "Team collaboration",
+      "Unlimited messaging"
+    ]
+  },
+  {
+    name: "Enterprise",
+    price: "$499",
+    description: "For large brands",
+    features: [
+      "All Business features",
+      "API access",
+      "Custom reporting",
+      "Dedicated account manager",
+      "White-label solution",
+      "Advanced campaign analytics",
+      "Multi-team access",
+      "Priority messaging"
+    ]
+  }
+];
 
 const faqItems = {
   influencer: [
