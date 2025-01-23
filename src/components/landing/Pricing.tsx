@@ -5,11 +5,11 @@ import { PricingFAQ } from "./pricing/PricingFAQ";
 import { CurrencySelector } from "./pricing/CurrencySelector";
 
 const CONVERSION_RATES = {
-  USD: 1,
-  EUR: 0.91,
-  GBP: 0.79,
-  AUD: 1.52,
-  ZAR: 18.95,
+  USD: { rate: 1, symbol: "$" },
+  EUR: { rate: 0.91, symbol: "€" },
+  GBP: { rate: 0.79, symbol: "£" },
+  AUD: { rate: 1.52, symbol: "A$" },
+  ZAR: { rate: 18.95, symbol: "R" },
 } as const;
 
 type Currency = keyof typeof CONVERSION_RATES;
@@ -111,6 +111,14 @@ export const Pricing = () => {
 
   const plans = userType === "influencer" ? influencerPlans : brandPlans;
 
+  const formatPrice = (price: string | number, selectedCurrency: Currency) => {
+    if (typeof price === "string" && price === "Free") return "Free";
+    
+    const numericPrice = Number(price);
+    const convertedPrice = (numericPrice * CONVERSION_RATES[selectedCurrency].rate).toFixed(2);
+    return `${CONVERSION_RATES[selectedCurrency].symbol}${convertedPrice}`;
+  };
+
   return (
     <section id="pricing" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -155,7 +163,7 @@ export const Pricing = () => {
                 (userType === "influencer" && plan.name === "Pro") ||
                 (userType === "brand" && plan.name === "Professional")
               }
-              currency={currency === "USD" ? "$" : CONVERSION_RATES[currency].toString()}
+              formattedPrice={formatPrice(plan.price, currency)}
             />
           ))}
         </div>

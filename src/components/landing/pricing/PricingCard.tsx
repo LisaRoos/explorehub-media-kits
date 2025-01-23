@@ -9,7 +9,7 @@ interface PricingCardProps {
   description: string;
   features: string[];
   isPopular?: boolean;
-  currency: string;
+  formattedPrice: string;
 }
 
 export const PricingCard = ({
@@ -18,13 +18,9 @@ export const PricingCard = ({
   description,
   features,
   isPopular,
-  currency
+  formattedPrice
 }: PricingCardProps) => {
   const navigate = useNavigate();
-  
-  const formattedPrice = typeof price === "string" && price === "Free" 
-    ? "Free" 
-    : `${currency}${price}`;
 
   return (
     <Card className="glass-card relative overflow-hidden">
