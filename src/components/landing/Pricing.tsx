@@ -50,10 +50,8 @@ const influencerPlans = [
     features: [
       "Basic media kit template",
       "Social media integration",
-      "Limited content per platform (3 items)",
-      "Share with 3 brands",
-      "Limited messaging (5/month)",
-      "Basic analytics"
+      "Limited content per platform",
+      "Basic customization options"
     ]
   },
   {
@@ -62,14 +60,10 @@ const influencerPlans = [
     description: "Most popular choice",
     features: [
       "Premium media kit templates",
-      "Advanced analytics",
       "Unlimited content showcase",
-      "Unlimited sharing",
+      "Advanced customization options",
       "Custom branding",
       "Priority support",
-      "Real-time updates",
-      "Unlimited messaging",
-      "API access",
       "Multiple media kits"
     ]
   }
@@ -213,7 +207,7 @@ export const Pricing = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8">
           {plans.map((plan, index) => (
             <Card key={index} className="glass-card relative overflow-hidden">
               {((userType === "influencer" && plan.name === "Pro") ||
