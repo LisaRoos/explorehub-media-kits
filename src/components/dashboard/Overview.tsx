@@ -11,8 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Package } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const Overview = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [view, setView] = useState<"analytics" | "public">(
     searchParams.get("view") as "analytics" | "public" || "analytics"
@@ -46,6 +49,14 @@ export const Overview = () => {
       {view === "analytics" && (
         <>
           <ChatButton />
+          <Button
+            onClick={() => navigate("/dashboard/packages")}
+            variant="outline"
+            className="w-full glass-card group hover:scale-105 transition-transform"
+          >
+            <Package className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            My Packages
+          </Button>
           <div className={`px-4 relative ${isAnalyticsBlurred ? "select-none" : ""}`}>
             {isAnalyticsBlurred && (
               <div className="absolute inset-0 backdrop-blur-md z-10 flex items-center justify-center">

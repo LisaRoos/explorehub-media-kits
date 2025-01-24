@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PackageCard } from "./PackageCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -23,8 +22,11 @@ export const PackagesList = () => {
         // Safely transform features
         const features = Array.isArray(pkg.features) 
           ? pkg.features.map(feature => {
-              if (typeof feature === 'object' && feature !== null && 'title' in feature) {
-                return feature as PackageFeature;
+              if (typeof feature === 'object' && feature !== null) {
+                return {
+                  title: String(feature.title || ''),
+                  description: feature.description ? String(feature.description) : undefined
+                } as PackageFeature;
               }
               return null;
             }).filter((f): f is PackageFeature => f !== null)

@@ -17,6 +17,7 @@ const SocialMedia = lazy(() => import("./components/dashboard/SocialMedia"));
 const Analytics = lazy(() => import("./components/dashboard/Analytics"));
 const Appearance = lazy(() => import("./components/dashboard/Appearance"));
 const Settings = lazy(() => import("./components/dashboard/Settings"));
+const PackagesList = lazy(() => import("./components/dashboard/packages/PackagesList"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 
@@ -78,6 +79,7 @@ function App() {
               <Route path="/dashboard/analytics" element={<Analytics />} />
               <Route path="/dashboard/appearance" element={<Appearance />} />
               <Route path="/dashboard/settings" element={<Settings />} />
+              <Route path="/dashboard/packages" element={<PackagesList />} />
               <Route path="/brand-dashboard/*" element={<BrandDashboard />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
