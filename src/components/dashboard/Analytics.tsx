@@ -8,7 +8,7 @@ import {
 import { Menu } from "lucide-react";
 import { DashboardLayout } from "./layout/DashboardLayout";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
-import { AnalyticsCharts } from "./analytics/AnalyticsCharts";
+import { AnalyticsChart } from "./analytics/AnalyticsCharts";
 import { useNavigate } from "react-router-dom";
 
 const Analytics = () => {
@@ -25,33 +25,46 @@ const Analytics = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Analytics</h1>
-        <div className="md:hidden">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-background">
-              {menuItems.map((item) => (
-                <DropdownMenuItem
-                  key={item.path}
-                  className="cursor-pointer"
-                  onClick={() => navigate(item.path)}
-                >
-                  {item.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+      <div className="flex flex-col space-y-6 px-4 md:px-8">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl md:text-2xl font-bold">Analytics</h1>
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 bg-background">
+                {menuItems.map((item) => (
+                  <DropdownMenuItem
+                    key={item.path}
+                    className="cursor-pointer"
+                    onClick={() => navigate(item.path)}
+                  >
+                    {item.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-      </div>
-      <div className="space-y-8">
-        <AnalyticsCards />
-        <AnalyticsCharts />
+        <div className="grid gap-6">
+          <AnalyticsCards />
+          <div className="grid gap-6 md:grid-cols-2">
+            <AnalyticsChart 
+              title="Account Growth"
+              isPaidUser={true}
+              onUpgradeClick={() => navigate("/pricing")}
+            />
+            <AnalyticsChart 
+              title="Engagement Metrics"
+              isPaidUser={true}
+              onUpgradeClick={() => navigate("/pricing")}
+            />
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );
