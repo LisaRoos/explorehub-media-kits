@@ -1,17 +1,63 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const MediaKit = () => {
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { label: "My Media Kit", path: "/dashboard" },
+    { label: "Messages", path: "/dashboard/messages" },
+    { label: "Analytics", path: "/dashboard/analytics" },
+    { label: "My Packages", path: "/dashboard/packages" },
+    { label: "Templates", path: "/dashboard/appearance" },
+    { label: "Settings", path: "/dashboard/settings" },
+  ];
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <h1 className="text-2xl font-bold mb-4">Media Kit</h1>
+        <main className="flex-1 p-4 md:p-8">
+          {/* Header Section */}
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-xl md:text-2xl font-bold">Media Kit</h1>
+            <div className="md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Toggle menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-background">
+                  {menuItems.map((item) => (
+                    <DropdownMenuItem
+                      key={item.path}
+                      className="cursor-pointer"
+                      onClick={() => navigate(item.path)}
+                    >
+                      {item.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Content Grid */}
           <div className="grid gap-6">
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold">Brand Assets</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-lg md:text-xl font-semibold">Brand Assets</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="p-4 border rounded-lg">
                   <h3 className="font-medium mb-2">Logo Package</h3>
                   <p className="text-sm text-muted-foreground mb-4">
@@ -43,7 +89,7 @@ const MediaKit = () => {
             </section>
             
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold">Brand Information</h2>
+              <h2 className="text-lg md:text-xl font-semibold">Brand Information</h2>
               <div className="grid gap-4">
                 <div className="p-4 border rounded-lg">
                   <h3 className="font-medium mb-2">Company Overview</h3>
@@ -67,7 +113,7 @@ const MediaKit = () => {
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-xl font-semibold">Press Contact</h2>
+              <h2 className="text-lg md:text-xl font-semibold">Press Contact</h2>
               <div className="p-4 border rounded-lg">
                 <p className="text-sm text-muted-foreground">
                   For press inquiries, please contact:<br />
