@@ -5,6 +5,8 @@ import { ContactList } from "./messages/ContactList";
 import { ChatWindow } from "./messages/ChatWindow";
 import { useState } from "react";
 import { Contact, Message } from "./messages/types";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 const mockContacts: Contact[] = [
   {
@@ -58,11 +60,16 @@ const Messages = () => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [newMessage, setNewMessage] = useState("");
+  const [showChat, setShowChat] = useState(false);
 
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
-    // Logic to send the message
     setNewMessage("");
+  };
+
+  const handleContactClick = (contact: Contact) => {
+    setSelectedContact(contact);
+    setShowChat(true);
   };
 
   return (
@@ -75,20 +82,39 @@ const Messages = () => {
             description="Chat with your contacts"
           />
           <div className="flex-1 flex">
-            <ContactList
-              contacts={mockContacts}
-              selectedContact={selectedContact}
-              setSelectedContact={setSelectedContact}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
-            <ChatWindow
-              selectedContact={selectedContact}
-              messages={mockMessages}
-              newMessage={newMessage}
-              setNewMessage={setNewMessage}
-              handleSendMessage={handleSendMessage}
-            />
+            <div className={`flex-1 transition-all ${showChat ? 'hidden md:block md:w-1/3' : 'w-full'}`}>
+              <ContactList
+                contacts={mockContacts}
+                selectedContact={selectedContact}
+                setSelectedContact={handleContactClick}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+              />
+            </div>
+            <div className={`flex-1 ${!showChat ? 'hidden' : 'block'}`}>
+              {showChat && (
+                <div className="h-full flex flex-col">
+                  <div className="p-4 border-b flex items-center gap-4">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="md:hidden"
+                      onClick={() => setShowChat(false)}
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                    {selectedContact?.name}
+                  </div>
+                  <ChatWindow
+                    selectedContact={selectedContact}
+                    messages={mockMessages}
+                    newMessage={newMessage}
+                    setNewMessage={setNewMessage}
+                    handleSendMessage={handleSendMessage}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </main>
       </div>

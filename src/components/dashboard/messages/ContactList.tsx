@@ -24,46 +24,44 @@ export const ContactList = ({
   );
 
   return (
-    <div className="w-80 p-4 flex flex-col">
-      <div className="mb-4 relative">
-        <Input
-          placeholder="Search contacts..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-8"
-        />
-        <Search className="h-4 w-4 absolute left-2 top-3 text-muted-foreground" />
+    <div className="h-full border-r flex flex-col">
+      <div className="p-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search contacts..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
       </div>
       <ScrollArea className="flex-1">
-        <div className="space-y-2">
+        <div className="space-y-1">
           {filteredContacts.map((contact) => (
-            <div
+            <button
               key={contact.id}
-              className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                selectedContact?.id === contact.id
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-muted"
+              className={`w-full p-3 flex items-center gap-3 hover:bg-muted/50 transition-colors ${
+                selectedContact?.id === contact.id ? "bg-muted" : ""
               }`}
               onClick={() => setSelectedContact(contact)}
             >
-              <div className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarImage src={contact.avatar} alt={contact.name} />
-                  <AvatarFallback>{contact.name[0]}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="font-medium">{contact.name}</p>
-                    {contact.unread && (
-                      <span className="w-2 h-2 bg-primary rounded-full" />
-                    )}
-                  </div>
-                  <p className="text-sm truncate text-muted-foreground">
-                    {contact.lastMessage}
-                  </p>
+              <Avatar className="h-10 w-10">
+                <AvatarImage src={contact.avatar} alt={contact.name} />
+                <AvatarFallback>{contact.name[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0 text-left">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium truncate">{contact.name}</p>
+                  {contact.unread && (
+                    <span className="w-2 h-2 bg-primary rounded-full" />
+                  )}
                 </div>
+                <p className="text-sm truncate text-muted-foreground">
+                  {contact.lastMessage}
+                </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </ScrollArea>

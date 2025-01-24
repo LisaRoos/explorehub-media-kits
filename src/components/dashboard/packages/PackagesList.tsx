@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PackageHeader } from "./PackageHeader";
 import { PackageGrid } from "./PackageGrid";
 import { CreatePackageForm } from "./CreatePackageForm";
+import { DashboardHeader } from "../layout/DashboardHeader";
 
 const PackagesList = () => {
   const navigate = useNavigate();
@@ -27,8 +28,12 @@ const PackagesList = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-5xl mx-auto space-y-8">
+        <main className="flex-1">
+          <DashboardHeader 
+            title="Packages" 
+            description="Manage your service packages"
+          />
+          <div className="p-8 max-w-5xl mx-auto space-y-8">
             <Routes>
               <Route 
                 path="/" 
