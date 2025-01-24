@@ -42,30 +42,29 @@ interface PackageCardProps {
 const PackageCard = ({ package: pkg, isPaidUser, onUpgrade }: PackageCardProps) => {
   return (
     <Card className="overflow-hidden">
+      <img 
+        src={pkg.media?.[0] || "/placeholder.svg"}
+        alt={pkg.title}
+        className="w-full h-48 object-cover"
+      />
       <div className="p-6">
         <h3 className="text-lg font-semibold mb-2">
           {pkg.title}
-          {!isPaidUser && (
-            <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-              PRO
-            </span>
-          )}
+          <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+            ${pkg.price}
+          </span>
         </h3>
         <p className="text-muted-foreground mb-4">
           {pkg.description}
         </p>
         <Button
           className="w-full"
-          variant={!isPaidUser ? "outline" : "default"}
+          variant="default"
           onClick={() => {
-            if (!isPaidUser) {
-              onUpgrade();
-            } else {
-              // Handle package selection
-            }
+            // Handle package selection
           }}
         >
-          {!isPaidUser ? "Upgrade to Use" : "Use Package"}
+          Edit Package
         </Button>
       </div>
     </Card>

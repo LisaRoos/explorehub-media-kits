@@ -28,8 +28,8 @@ const PackagesList = () => {
         <DashboardSidebar />
         <main className="flex-1 p-8">
           <div className="max-w-5xl mx-auto space-y-8">
-            <PackageHeader isPaidUser={isPaidUser} onUpgrade={() => navigate("/pricing")} />
-            <PackageGrid isPaidUser={isPaidUser} onUpgrade={() => navigate("/pricing")} />
+            <PackageHeader isPaidUser={isPaidUser} onUpgrade={() => navigate("/dashboard/packages/create")} />
+            <PackageGrid isPaidUser={isPaidUser} onUpgrade={() => navigate("/dashboard/packages/create")} />
           </div>
         </main>
       </div>
