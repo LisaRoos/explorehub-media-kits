@@ -2,25 +2,19 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Json } from "@/integrations/supabase/types";
+import { Package } from "./types";
+import { PackageFeatures } from "./PackageFeatures";
 
-interface PackageCardProps {
-  id: string;
-  title: string;
-  description: string | null;
-  price: number | null;
-  media: {
-    images?: string[];
-    videos?: string[];
-  } | null;
-  features: Json | null;
-}
+type PackageCardProps = Package;
 
-export const PackageCard = ({ title, description, price, media, features }: PackageCardProps) => {
+export const PackageCard = ({ 
+  title, 
+  description, 
+  price, 
+  media, 
+  features 
+}: PackageCardProps) => {
   const navigate = useNavigate();
-
-  // Safely cast features to string array or use empty array as fallback
-  const featuresList = Array.isArray(features) ? features : [];
 
   return (
     <Card className="overflow-hidden">
@@ -45,16 +39,7 @@ export const PackageCard = ({ title, description, price, media, features }: Pack
           </div>
         )}
 
-        {featuresList.length > 0 && (
-          <div className="space-y-2">
-            <h4 className="font-medium">Features:</h4>
-            <ul className="list-disc list-inside space-y-1">
-              {featuresList.map((feature, index) => (
-                <li key={index} className="text-muted-foreground">{feature}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <PackageFeatures features={features} />
 
         <div className="flex justify-between items-center">
           <span className="text-2xl font-bold">${price}</span>
