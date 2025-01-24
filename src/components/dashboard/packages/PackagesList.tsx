@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Package, PackageFeature, PackageMedia } from "./types";
+import { PackageCard } from "./PackageCard";
 
-export const PackagesList = () => {
+const PackagesList = () => {
   const navigate = useNavigate();
   
   const { data: packages, isLoading } = useQuery({
@@ -23,9 +24,10 @@ export const PackagesList = () => {
         const features = Array.isArray(pkg.features) 
           ? pkg.features.map(feature => {
               if (typeof feature === 'object' && feature !== null) {
+                const featureObj = feature as { [key: string]: Json };
                 return {
-                  title: String(feature.title || ''),
-                  description: feature.description ? String(feature.description) : undefined
+                  title: String(featureObj.title || ''),
+                  description: featureObj.description ? String(featureObj.description) : undefined
                 } as PackageFeature;
               }
               return null;
@@ -36,9 +38,15 @@ export const PackagesList = () => {
         const media = pkg.media as PackageMedia | null;
 
         return {
-          ...pkg,
+          id: pkg.id,
+          profile_id: pkg.profile_id,
+          title: pkg.title,
+          description: pkg.description,
+          price: pkg.price,
           media,
           features,
+          created_at: pkg.created_at,
+          updated_at: pkg.updated_at
         } as Package;
       });
     },
@@ -66,3 +74,5 @@ export const PackagesList = () => {
     </div>
   );
 };
+
+export default PackagesList;
