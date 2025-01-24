@@ -47,8 +47,10 @@ export const Overview = () => {
       }
     },
     retry: 1,
-    onError: () => {
-      toast.error('Failed to load subscription data');
+    meta: {
+      onError: () => {
+        toast.error('Failed to load subscription data');
+      }
     }
   });
 
