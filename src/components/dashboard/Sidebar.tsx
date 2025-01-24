@@ -5,6 +5,7 @@ import {
   Menu,
   Palette,
   MessageSquare,
+  Package,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,6 +60,12 @@ export const DashboardSidebar = () => {
       icon: BarChart3, 
       label: "Analytics", 
       path: "/dashboard/analytics",
+      isPremium: false 
+    },
+    { 
+      icon: Package, 
+      label: "My Packages", 
+      path: "/dashboard/packages",
       isPremium: false 
     },
     { 
