@@ -14,6 +14,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { MessageSquare, Package } from "lucide-react";
 
 const mockData = [
   { name: "Jan", followers: 4000, engagement: 2400 },
@@ -112,6 +113,23 @@ const Analytics = () => {
                   </div>
                 )}
               </Card>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+              <Button
+                onClick={() => navigate("/dashboard/messages")}
+                className="gap-2"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Chat Now
+              </Button>
+              <Button
+                onClick={() => navigate("/dashboard/packages")}
+                className="gap-2"
+              >
+                <Package className="w-4 h-4" />
+                View My Packages
+              </Button>
             </div>
 
             <Card className="p-6">

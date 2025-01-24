@@ -93,7 +93,9 @@ export const DashboardSidebar = () => {
             <Button
               key={item.label}
               variant="ghost"
-              className="w-full justify-start gap-2"
+              className={`w-full justify-start gap-2 ${
+                item.isPremium && !isPaidUser ? "opacity-50" : ""
+              }`}
               onClick={() => {
                 if (item.isPremium && !isPaidUser) {
                   toast.info(item.upgradeMessage || "Upgrade to access this feature");
