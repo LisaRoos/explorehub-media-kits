@@ -1,14 +1,19 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardHeader } from "./layout/DashboardHeader";
+import { SocialLinks } from "./social/SocialLinks";
 
 const SocialMedia = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <h1 className="text-2xl font-bold mb-4">Social Media</h1>
-          <div className="grid gap-6">
+        <main className="flex-1">
+          <DashboardHeader 
+            title="Social Media" 
+            description="Manage your social media accounts"
+          />
+          <div className="p-8">
             <section className="space-y-4">
               <h2 className="text-xl font-semibold">Connected Accounts</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,7 +52,7 @@ const SocialMedia = () => {
                 </div>
               </div>
             </section>
-            <section className="space-y-4">
+            <section className="mt-8 space-y-4">
               <h2 className="text-xl font-semibold">Recent Posts</h2>
               <div className="grid gap-4">
                 <div className="rounded-lg border p-4">

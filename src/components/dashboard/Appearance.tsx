@@ -1,5 +1,6 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardHeader } from "./layout/DashboardHeader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
@@ -50,10 +51,14 @@ const Appearance = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-5xl mx-auto space-y-8">
+        <main className="flex-1">
+          <DashboardHeader 
+            title="Templates" 
+            description="Customize your profile appearance"
+          />
+          <div className="p-8 max-w-5xl mx-auto space-y-8">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold">Templates</h1>
+              <h2 className="text-xl font-semibold">Available Templates</h2>
               {!isPaidUser && (
                 <Button 
                   onClick={() => navigate("/pricing")}

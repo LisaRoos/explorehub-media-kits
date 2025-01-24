@@ -8,13 +8,13 @@ const Analytics = () => {
   const navigate = useNavigate();
 
   return (
-    <DashboardLayout>
-      <div className="flex flex-col">
+    <div className="min-h-screen flex w-full">
+      <DashboardSidebar />
+      <main className="flex-1">
         <DashboardHeader 
           title="Analytics" 
           description="Track your performance metrics"
         />
-        
         <div className="p-3 md:p-6 space-y-4 md:space-y-6">
           <AnalyticsCards />
           <div className="grid gap-4 md:grid-cols-2">
@@ -30,8 +30,8 @@ const Analytics = () => {
             />
           </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </main>
+    </div>
   );
 };
 

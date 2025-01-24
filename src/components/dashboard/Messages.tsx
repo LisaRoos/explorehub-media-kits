@@ -1,5 +1,6 @@
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardHeader } from "./layout/DashboardHeader";
 import { ContactList } from "./messages/ContactList";
 import { ChatWindow } from "./messages/ChatWindow";
 import { useState } from "react";
@@ -68,22 +69,28 @@ const Messages = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <div className="flex-1 flex">
-          <ContactList
-            contacts={mockContacts}
-            selectedContact={selectedContact}
-            setSelectedContact={setSelectedContact}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+        <main className="flex-1 flex flex-col">
+          <DashboardHeader 
+            title="Messages" 
+            description="Chat with your contacts"
           />
-          <ChatWindow
-            selectedContact={selectedContact}
-            messages={mockMessages}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            handleSendMessage={handleSendMessage}
-          />
-        </div>
+          <div className="flex-1 flex">
+            <ContactList
+              contacts={mockContacts}
+              selectedContact={selectedContact}
+              setSelectedContact={setSelectedContact}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+            <ChatWindow
+              selectedContact={selectedContact}
+              messages={mockMessages}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+              handleSendMessage={handleSendMessage}
+            />
+          </div>
+        </main>
       </div>
     </SidebarProvider>
   );
