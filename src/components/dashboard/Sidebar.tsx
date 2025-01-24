@@ -45,8 +45,14 @@ export const DashboardSidebar = () => {
   const menuItems = [
     { 
       icon: LayoutDashboard, 
-      label: "My Media Kit", 
+      label: "Media Kit", 
       path: "/dashboard",
+      isPremium: false 
+    },
+    { 
+      icon: BarChart3, 
+      label: "Analytics", 
+      path: "/dashboard/analytics",
       isPremium: false 
     },
     { 
@@ -55,12 +61,6 @@ export const DashboardSidebar = () => {
       path: "/dashboard/messages",
       isPremium: true,
       upgradeMessage: "Upgrade to access messaging features"
-    },
-    { 
-      icon: BarChart3, 
-      label: "Analytics", 
-      path: "/dashboard/analytics",
-      isPremium: false 
     },
     { 
       icon: Package, 
