@@ -36,8 +36,7 @@ export const Overview = () => {
     setView(newView);
   };
 
-  const isAnalyticsBlurred = view === "analytics" && 
-    (!subscription || subscription.status !== "brand");
+  const isAnalyticsBlurred = false; // Remove blur effect
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
@@ -58,10 +57,10 @@ export const Overview = () => {
             My Packages
           </Button>
           <div className={`px-4 relative ${isAnalyticsBlurred ? "select-none" : ""}`}>
-            {isAnalyticsBlurred && (
-              <div className="absolute inset-0 backdrop-blur-md z-10 flex items-center justify-center">
+            {!subscription || subscription.status !== "brand" ? (
+              <div className="absolute inset-0 z-10 flex items-center justify-center">
                 <div className="bg-background/80 p-6 rounded-lg text-center">
-                  <h3 className="text-lg font-semibold mb-2">Subscribe to View Analytics</h3>
+                  <h3 className="text-lg font-semibold mb-2">Subscribe to Use Analytics</h3>
                   <p className="text-muted-foreground mb-4">
                     Get access to detailed analytics by upgrading to a brand subscription
                   </p>
@@ -73,7 +72,7 @@ export const Overview = () => {
                   </Button>
                 </div>
               </div>
-            )}
+            ) : null}
             <h2 className="text-xl font-semibold mb-4">Analytics Overview</h2>
             <AnalyticsCards />
           </div>
