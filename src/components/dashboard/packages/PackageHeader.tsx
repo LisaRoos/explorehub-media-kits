@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface PackageHeaderProps {
   isPaidUser: boolean;
@@ -18,6 +19,7 @@ export const PackageHeader = ({ isPaidUser, onUpgrade }: PackageHeaderProps) => 
         onClick={onUpgrade}
         className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
       >
+        <Plus className="w-4 h-4 mr-2" />
         Create Package
       </Button>
     </div>
