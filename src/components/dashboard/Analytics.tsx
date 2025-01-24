@@ -1,75 +1,59 @@
-import { DashboardSidebar } from "@/components/dashboard/Sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
+import { DashboardLayout } from "./layout/DashboardLayout";
+import { AnalyticsCards } from "./analytics/AnalyticsCards";
+import { AnalyticsCharts } from "./analytics/AnalyticsCharts";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { MessageSquare } from "lucide-react";
-import { StatsGrid } from "./analytics/StatsGrid";
-import { AnalyticsChart } from "./analytics/AnalyticsCharts";
 
 const Analytics = () => {
   const navigate = useNavigate();
-  
-  const { data: subscription } = useQuery({
-    queryKey: ['subscription'],
-    queryFn: async () => {
-      const { data: subscription } = await supabase
-        .from('subscriptions')
-        .select('status')
-        .maybeSingle();
-      return subscription;
-    },
-  });
 
-  const isPaidUser = subscription?.status === 'pro';
+  const menuItems = [
+    { label: "My Media Kit", path: "/dashboard" },
+    { label: "Messages", path: "/dashboard/messages" },
+    { label: "Analytics", path: "/dashboard/analytics" },
+    { label: "My Packages", path: "/dashboard/packages" },
+    { label: "Templates", path: "/dashboard/appearance" },
+    { label: "Settings", path: "/dashboard/settings" },
+  ];
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-5xl mx-auto space-y-8">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold">Analytics Overview</h1>
-              {!isPaidUser && (
-                <Button 
-                  onClick={() => navigate("/pricing")}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-                >
-                  Upgrade to Pro
-                </Button>
-              )}
-            </div>
-
-            <StatsGrid />
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <AnalyticsChart 
-                title="Account Growth"
-                isPaidUser={isPaidUser}
-                onUpgradeClick={() => navigate("/pricing")}
-              />
-              <AnalyticsChart 
-                title="Engagement Metrics"
-                isPaidUser={isPaidUser}
-                onUpgradeClick={() => navigate("/pricing")}
-              />
-            </div>
-
-            <div className="flex gap-4 justify-center">
-              <Button
-                onClick={() => navigate("/dashboard/messages")}
-                className="gap-2"
-              >
-                <MessageSquare className="w-4 h-4" />
-                Chat Now
+    <DashboardLayout>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Analytics</h1>
+        <div className="md:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
               </Button>
-            </div>
-          </div>
-        </main>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 bg-background">
+              {menuItems.map((item) => (
+                <DropdownMenuItem
+                  key={item.path}
+                  className="cursor-pointer"
+                  onClick={() => navigate(item.path)}
+                >
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
-    </SidebarProvider>
+      <div className="space-y-8">
+        <AnalyticsCards />
+        <AnalyticsCharts />
+      </div>
+    </DashboardLayout>
   );
 };
 
