@@ -1,5 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PackageBasicInfoProps {
   title: string;
@@ -19,38 +21,43 @@ export const PackageBasicInfo = ({
   setDescription,
 }: PackageBasicInfoProps) => {
   return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium mb-1">Package Title</label>
-        <Input
-          required
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter package title"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">Price</label>
-        <Input
-          required
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Enter price"
-          min="0"
-          step="0.01"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">Description</label>
-        <Textarea
-          required
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter package description"
-          rows={4}
-        />
-      </div>
-    </div>
+    <Card>
+      <CardContent className="space-y-4 pt-6">
+        <div className="space-y-2">
+          <Label htmlFor="title">Package Title</Label>
+          <Input
+            id="title"
+            required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter package title"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="price">Price</Label>
+          <Input
+            id="price"
+            required
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Enter price"
+            min="0"
+            step="0.01"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            required
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter package description"
+            rows={4}
+          />
+        </div>
+      </CardContent>
+    </Card>
   );
 };

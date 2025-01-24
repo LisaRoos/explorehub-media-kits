@@ -10,6 +10,7 @@ export const usePackageForm = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [media, setMedia] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
@@ -36,7 +37,7 @@ export const usePackageForm = () => {
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError, data } = await supabase.storage
         .from('packages')
         .upload(filePath, file);
 
@@ -56,6 +57,11 @@ export const usePackageForm = () => {
     }
   };
 
+  const handleImageRemove = (index: number) => {
+    setMedia(media.filter((_, i) => i !== index));
+    toast.success('Image removed');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -63,6 +69,8 @@ export const usePackageForm = () => {
       toast.error('No profile found');
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       const { error } = await supabase
@@ -82,6 +90,9 @@ export const usePackageForm = () => {
     } catch (error) {
       console.error('Error creating package:', error);
       toast.error('Error creating package');
+      throw error;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -108,7 +119,9 @@ export const usePackageForm = () => {
     setPrice,
     media,
     profile,
+    isSubmitting,
     handleImageUpload,
+    handleImageRemove,
     handleSubmit,
     handleShare,
   };

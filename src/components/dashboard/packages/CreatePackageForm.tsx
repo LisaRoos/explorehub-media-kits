@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
 import { PackageBasicInfo } from "./form/PackageBasicInfo";
 import { PackageMediaUpload } from "./form/PackageMediaUpload";
 import { PackageFormActions } from "./form/PackageFormActions";
 import { usePackageForm } from "@/hooks/usePackageForm";
+import { toast } from "sonner";
 
 export const CreatePackageForm = () => {
   const {
@@ -14,35 +14,44 @@ export const CreatePackageForm = () => {
     setPrice,
     media,
     handleImageUpload,
+    handleImageRemove,
     handleSubmit,
     handleShare,
+    isSubmitting,
   } = usePackageForm();
 
-  return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6">
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="p-6 col-span-2 md:col-span-1">
-          <PackageBasicInfo
-            title={title}
-            setTitle={setTitle}
-            price={price}
-            setPrice={setPrice}
-            description={description}
-            setDescription={setDescription}
-          />
-        </Card>
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await handleSubmit(e);
+    } catch (error) {
+      toast.error("Failed to create package");
+      console.error("Error creating package:", error);
+    }
+  };
 
-        <Card className="p-6 col-span-2 md:col-span-1">
-          <PackageMediaUpload
-            media={media}
-            onImageUpload={handleImageUpload}
-          />
-        </Card>
+  return (
+    <form onSubmit={onSubmit} className="max-w-4xl mx-auto space-y-6">
+      <div className="grid gap-6 md:grid-cols-2">
+        <PackageBasicInfo
+          title={title}
+          setTitle={setTitle}
+          price={price}
+          setPrice={setPrice}
+          description={description}
+          setDescription={setDescription}
+        />
+        <PackageMediaUpload
+          media={media}
+          onImageUpload={handleImageUpload}
+          onImageRemove={handleImageRemove}
+        />
       </div>
 
       <PackageFormActions
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         onShare={handleShare}
+        isSubmitting={isSubmitting}
       />
     </form>
   );
