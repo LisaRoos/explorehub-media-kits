@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Share } from "lucide-react";
 import { ProfileHeader, SocialStats } from "./ProfileHeader";
 import { EngagementMetrics } from "./EngagementMetrics";
+import { ActionButtons } from "./ActionButtons";
 import { ContentCarousel } from "@/components/dashboard/content/ContentCarousel";
 import { SampleContent } from "./types";
 
@@ -27,8 +28,9 @@ export const PhoneMockup = ({ content }: PhoneMockupProps) => {
           </div>
           <SocialStats />
           <EngagementMetrics />
+          <ActionButtons />
           
-          <div className="space-y-6 mt-6">
+          <div className="space-y-4">
             <ContentCarousel 
               platform="Instagram" 
               content={content.instagram}
