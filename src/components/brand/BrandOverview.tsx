@@ -1,35 +1,9 @@
-/**
- * @component BrandOverview
- * @description Main dashboard component for brands to discover and filter influencers.
- * Provides filtering capabilities by type, location, and follower count.
- */
-
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { InfluencerCard } from "./InfluencerCard";
 
-/**
- * @typedef {Object} Influencer
- * @property {number} id - Unique identifier for the influencer
- * @property {string} name - Influencer's full name
- * @property {string} type - Category or niche of the influencer
- * @property {string} location - Geographic location
- * @property {string} followers - Number of followers (formatted)
- * @property {string} engagement - Engagement rate percentage
- * @property {string} demographics - Primary audience demographics
- * @property {string} profileImage - URL to profile image
- */
-
-/**
- * @typedef {Object} Filters
- * @property {string} type - Selected influencer type filter
- * @property {string} location - Selected location filter
- * @property {string} minFollowers - Minimum followers filter
- */
-
-// Mock data for demonstration
 const mockInfluencers = [
   {
     id: 1,
@@ -54,7 +28,6 @@ const mockInfluencers = [
 ];
 
 const BrandOverview = () => {
-  // Initialize filters state with TypeScript interface
   const [filters, setFilters] = useState<{
     type: string;
     location: string;
@@ -66,14 +39,14 @@ const BrandOverview = () => {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <div>
-        <h2 className="text-2xl font-bold mb-4">Find Influencers</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <h2 className="text-lg md:text-2xl font-bold mb-4">Find Influencers</h2>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4 mb-6 md:mb-8">
           <Select
             onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))}
           >
-            <SelectTrigger>
+            <SelectTrigger className="text-sm md:text-base">
               <SelectValue placeholder="Influencer Type" />
             </SelectTrigger>
             <SelectContent>
@@ -87,7 +60,7 @@ const BrandOverview = () => {
           <Select
             onValueChange={(value) => setFilters((prev) => ({ ...prev, location: value }))}
           >
-            <SelectTrigger>
+            <SelectTrigger className="text-sm md:text-base">
               <SelectValue placeholder="Location" />
             </SelectTrigger>
             <SelectContent>
@@ -100,12 +73,13 @@ const BrandOverview = () => {
           <Input
             type="number"
             placeholder="Minimum Followers"
+            className="text-sm md:text-base"
             onChange={(e) => setFilters((prev) => ({ ...prev, minFollowers: e.target.value }))}
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {mockInfluencers.map((influencer) => (
           <InfluencerCard key={influencer.id} influencer={influencer} />
         ))}

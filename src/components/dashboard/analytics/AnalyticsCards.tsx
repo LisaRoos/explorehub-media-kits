@@ -9,7 +9,7 @@ interface StatCardProps {
 }
 
 const StatCard = ({ title, value, change, icon }: StatCardProps) => (
-  <Card className="p-2 md:p-4 glass-card hover:scale-105 transition-transform">
+  <Card className="p-3 md:p-4 glass-card hover:scale-105 transition-transform">
     <div className="flex justify-between items-start">
       <div>
         <p className="text-xs md:text-sm font-medium text-muted-foreground">{title}</p>
@@ -31,7 +31,7 @@ const StatCard = ({ title, value, change, icon }: StatCardProps) => (
 
 export const AnalyticsCards = () => {
   return (
-    <div className="grid gap-2 md:gap-4 grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
       <StatCard
         title="Total Followers"
         value="24.5K"
