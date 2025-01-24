@@ -23,13 +23,13 @@ const HeroContent = memo(() => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-background/50">
-      <div className="text-center space-y-8 max-w-4xl animate-fade-in">
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-primary text-transparent bg-clip-text animate-gradient">
+    <div className="min-h-[100vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background to-background/50">
+      <div className="text-center space-y-6 sm:space-y-8 max-w-4xl animate-fade-in pt-16 sm:pt-0">
+        <h1 className="text-4xl sm:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-primary text-transparent bg-clip-text animate-gradient">
           Where Brands & Creators
           <br /> Connect & Thrive
         </h1>
-        <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg sm:text-2xl text-muted-foreground max-w-2xl mx-auto">
           A powerful platform connecting brands with influencers. Create stunning media kits, 
           showcase analytics, and build meaningful partnerships.
         </p>
