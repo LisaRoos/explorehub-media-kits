@@ -17,7 +17,7 @@ export const DashboardHeader = ({ title, description }: DashboardHeaderProps) =>
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: "Overview", path: "/dashboard" },
+    { label: "Media Kit", path: "/dashboard" },
     { label: "Messages", path: "/dashboard/messages" },
     { label: "Analytics", path: "/dashboard/analytics" },
     { label: "Packages", path: "/dashboard/packages" },
