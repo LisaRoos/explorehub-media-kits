@@ -11,7 +11,6 @@ export const useAuthForm = (mode: AuthMode) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"influencer" | "brand">("influencer");
   const [loading, setLoading] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
 
   const handleError = (error: Error) => {
@@ -62,7 +61,6 @@ export const useAuthForm = (mode: AuthMode) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted. Mode:", mode);
-    console.log("Form state:", { email, password, role, isVerified });
     
     if (loading) {
       console.log("Already processing, skipping submission");
@@ -73,14 +71,6 @@ export const useAuthForm = (mode: AuthMode) => {
       console.log("Missing email or password");
       toast.error("Please fill in all fields");
       return;
-    }
-
-    if (mode === "signup") {
-      if (!isVerified) {
-        console.log("Verification required");
-        toast.error("Please complete the verification");
-        return;
-      }
     }
 
     if (password.length < 6) {
@@ -142,8 +132,6 @@ export const useAuthForm = (mode: AuthMode) => {
     role,
     setRole,
     loading,
-    isVerified,
-    setIsVerified,
     handleSubmit,
   };
 };
