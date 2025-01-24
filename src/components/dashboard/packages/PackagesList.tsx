@@ -5,6 +5,7 @@ import { Package } from "./types";
 import { PackageCard } from "./PackageCard";
 import { PackageHeader } from "./PackageHeader";
 import { PackageLoading } from "./PackageLoading";
+import { toast } from "sonner";
 
 const PackagesList = () => {
   const navigate = useNavigate();
@@ -16,9 +17,31 @@ const PackagesList = () => {
         .from('influencer_packages')
         .select('*');
       
-      if (error) throw error;
+      if (error) {
+        toast.error("Failed to load packages");
+        throw error;
+      }
       
-      return data as Package[];
+      // Transform the raw data to match the Package type
+      return (data || []).map((item): Package => ({
+        id: item.id,
+        profile_id: item.profile_id,
+        title: item.title,
+        description: item.description || null,
+        price: item.price || null,
+        features: Array.isArray(item.features) 
+          ? item.features.map(feature => ({
+              title: String(feature.title || ''),
+              description: feature.description || undefined
+            }))
+          : null,
+        media: item.media ? {
+          images: Array.isArray(item.media.images) ? item.media.images : undefined,
+          videos: Array.isArray(item.media.videos) ? item.media.videos : undefined
+        } : null,
+        created_at: item.created_at || null,
+        updated_at: item.updated_at || null
+      }));
     },
   });
 
