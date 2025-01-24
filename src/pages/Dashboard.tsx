@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { DashboardHeader } from "@/components/dashboard/layout/DashboardHeader";
 
 const Dashboard = () => {
   const [background, setBackground] = useState("linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)");
@@ -64,14 +65,20 @@ const Dashboard = () => {
   return (
     <SidebarProvider>
       <div 
-        className="min-h-screen flex w-full transition-all duration-300"
+        className="min-h-screen flex flex-col w-full transition-all duration-300"
         style={{ background }}
       >
-        <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <Overview />
-        </main>
-        <BackgroundCustomizer onBackgroundChange={setBackground} />
+        <DashboardHeader 
+          title="Dashboard" 
+          description="Welcome to your dashboard"
+        />
+        <div className="flex flex-1">
+          <DashboardSidebar />
+          <main className="flex-1 p-4 md:p-8 overflow-auto">
+            <Overview />
+          </main>
+          <BackgroundCustomizer onBackgroundChange={setBackground} />
+        </div>
       </div>
     </SidebarProvider>
   );

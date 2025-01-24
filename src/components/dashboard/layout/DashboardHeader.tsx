@@ -26,11 +26,11 @@ export const DashboardHeader = ({ title, description }: DashboardHeaderProps) =>
   ];
 
   return (
-    <div className="flex items-center justify-between mb-4 p-2 md:p-4 border-b">
+    <div className="flex items-center justify-between p-3 md:p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div>
-        <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
+        <h1 className="text-base md:text-xl font-semibold">{title}</h1>
         {description && (
-          <p className="text-xs md:text-sm text-muted-foreground mt-1">
+          <p className="text-xs md:text-sm text-muted-foreground">
             {description}
           </p>
         )}

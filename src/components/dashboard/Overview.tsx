@@ -36,10 +36,8 @@ export const Overview = () => {
     setView(newView);
   };
 
-  const isAnalyticsBlurred = false; // Remove blur effect
-
   return (
-    <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
+    <div className="max-w-2xl mx-auto space-y-4 md:space-y-8 px-3 md:px-4 animate-fade-in">
       <ProfileToggle view={view} onViewChange={handleViewChange} />
       <ShareableLink view={view} />
       <ProfileHeader />
@@ -51,29 +49,13 @@ export const Overview = () => {
           <Button
             onClick={() => navigate("/dashboard/packages")}
             variant="outline"
-            className="w-full glass-card group hover:scale-105 transition-transform"
+            className="w-full text-sm md:text-base glass-card group hover:scale-105 transition-transform"
           >
-            <Package className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            <Package className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
             My Packages
           </Button>
-          <div className={`px-4 relative ${isAnalyticsBlurred ? "select-none" : ""}`}>
-            {!subscription || subscription.status !== "brand" ? (
-              <div className="absolute inset-0 z-10 flex items-center justify-center">
-                <div className="bg-background/80 p-6 rounded-lg text-center">
-                  <h3 className="text-lg font-semibold mb-2">Subscribe to Use Analytics</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Get access to detailed analytics by upgrading to a brand subscription
-                  </p>
-                  <Button
-                    onClick={() => window.location.href = "/pricing"}
-                    variant="default"
-                  >
-                    Upgrade Now
-                  </Button>
-                </div>
-              </div>
-            ) : null}
-            <h2 className="text-xl font-semibold mb-4">Analytics Overview</h2>
+          <div className="relative">
+            <h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Analytics Overview</h2>
             <AnalyticsCards />
           </div>
         </>

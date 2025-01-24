@@ -9,17 +9,17 @@ interface StatCardProps {
 }
 
 const StatCard = ({ title, value, change, icon }: StatCardProps) => (
-  <Card className="p-3 md:p-4 glass-card hover:scale-105 transition-transform">
+  <Card className="p-2 md:p-4 glass-card hover:scale-105 transition-transform">
     <div className="flex justify-between items-start">
       <div>
         <p className="text-xs md:text-sm font-medium text-muted-foreground">{title}</p>
-        <h3 className="text-base md:text-lg font-bold mt-1.5">{value}</h3>
+        <h3 className="text-sm md:text-base font-bold mt-1">{value}</h3>
       </div>
       <div className={`p-1.5 rounded-full ${change >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
         {icon}
       </div>
     </div>
-    <div className="mt-3 flex items-center">
+    <div className="mt-2 md:mt-3 flex items-center">
       <span className={`text-xs ${change >= 0 ? 'text-green-600' : 'text-red-600'} flex items-center`}>
         {change >= 0 ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />}
         {Math.abs(change)}%
@@ -31,7 +31,7 @@ const StatCard = ({ title, value, change, icon }: StatCardProps) => (
 
 export const AnalyticsCards = () => {
   return (
-    <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-2 md:gap-4 grid-cols-2 lg:grid-cols-4">
       <StatCard
         title="Total Followers"
         value="24.5K"
