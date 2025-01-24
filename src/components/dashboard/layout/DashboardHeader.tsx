@@ -9,7 +9,7 @@ import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface DashboardHeaderProps {
-  title: string;
+  title?: string;
   description?: string;
 }
 
@@ -26,35 +26,37 @@ export const DashboardHeader = ({ title, description }: DashboardHeaderProps) =>
   ];
 
   return (
-    <div className="flex items-center justify-between p-3 md:p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div>
-        <h1 className="text-base md:text-xl font-semibold">{title}</h1>
-        {description && (
-          <p className="text-xs md:text-sm text-muted-foreground">
-            {description}
-          </p>
-        )}
-      </div>
-      <div className="md:hidden">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-              <Menu className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-40">
-            {menuItems.map((item) => (
-              <DropdownMenuItem
-                key={item.path}
-                className="text-xs py-1.5"
-                onClick={() => navigate(item.path)}
-              >
-                {item.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-14 items-center justify-between px-4">
+        <div>
+          <h1 className="text-sm md:text-base font-semibold">{title}</h1>
+          {description && (
+            <p className="text-xs md:text-sm text-muted-foreground">
+              {description}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Menu className="h-4 w-4" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40 bg-background">
+              {menuItems.map((item) => (
+                <DropdownMenuItem
+                  key={item.path}
+                  className="text-xs py-1.5"
+                  onClick={() => navigate(item.path)}
+                >
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   );

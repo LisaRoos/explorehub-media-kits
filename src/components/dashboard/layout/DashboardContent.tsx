@@ -4,7 +4,7 @@ interface DashboardContentProps {
 
 export const DashboardContent = ({ children }: DashboardContentProps) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-6">
       {children}
     </div>
   );
