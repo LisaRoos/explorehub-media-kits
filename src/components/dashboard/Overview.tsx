@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const Overview = () => {
   const navigate = useNavigate();
@@ -21,15 +22,34 @@ export const Overview = () => {
     searchParams.get("view") as "analytics" | "public" || "analytics"
   );
 
-  const { data: subscription } = useQuery({
+  const { data: subscription, isError } = useQuery({
     queryKey: ['subscription'],
     queryFn: async () => {
-      const { data: subscription } = await supabase
-        .from('subscriptions')
-        .select('status')
-        .maybeSingle();
-      return subscription;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not authenticated');
+
+        const { data: subscription, error } = await supabase
+          .from('subscriptions')
+          .select('status')
+          .eq('profile_id', user.id)
+          .maybeSingle();
+
+        if (error) {
+          console.error('Subscription fetch error:', error);
+          throw error;
+        }
+
+        return subscription;
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+        throw error;
+      }
     },
+    retry: 1,
+    onError: () => {
+      toast.error('Failed to load subscription data');
+    }
   });
 
   const handleViewChange = (newView: "analytics" | "public") => {
