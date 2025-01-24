@@ -1,6 +1,24 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, TikTok, Youtube, TrendingUp, Users, BarChart2 } from "lucide-react";
+import { Instagram, Youtube, TrendingUp, Users, BarChart2 } from "lucide-react";
+
+// Custom TikTok icon component
+const TikTokIcon = ({ className, size = 24 }: { className?: string; size?: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 export const MediaKitMockup = () => {
   return (
@@ -36,7 +54,7 @@ export const MediaKitMockup = () => {
                   156K
                 </Badge>
                 <Badge className="bg-black">
-                  <TikTok className="w-4 h-4 mr-1" />
+                  <TikTokIcon className="w-4 h-4 mr-1" />
                   892K
                 </Badge>
                 <Badge className="bg-red-500">
