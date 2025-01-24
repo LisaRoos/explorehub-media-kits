@@ -2,7 +2,7 @@ import { DashboardSidebar } from "./Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardHeader } from "./layout/DashboardHeader";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
-import { AnalyticsCharts } from "./analytics/AnalyticsCharts";
+import { AnalyticsChart } from "./analytics/AnalyticsCharts";
 
 const Analytics = () => {
   return (
@@ -16,7 +16,11 @@ const Analytics = () => {
           />
           <div className="p-8 space-y-8">
             <AnalyticsCards />
-            <AnalyticsCharts />
+            <AnalyticsChart 
+              title="Engagement Over Time"
+              isPaidUser={true}
+              onUpgradeClick={() => {}}
+            />
           </div>
         </main>
       </div>
