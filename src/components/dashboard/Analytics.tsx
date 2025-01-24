@@ -14,15 +14,15 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { MessageSquare, Package } from "lucide-react";
+import { MessageSquare, Users, Activity, Share2 } from "lucide-react";
 
 const mockData = [
-  { name: "Jan", followers: 4000, engagement: 2400 },
-  { name: "Feb", followers: 3000, engagement: 1398 },
-  { name: "Mar", followers: 2000, engagement: 9800 },
-  { name: "Apr", followers: 2780, engagement: 3908 },
-  { name: "May", followers: 1890, engagement: 4800 },
-  { name: "Jun", followers: 2390, engagement: 3800 },
+  { name: "Jan", followers: 4000, engagement: 2400, reached: 8000, profileViews: 1200 },
+  { name: "Feb", followers: 3000, engagement: 1398, reached: 7500, profileViews: 1100 },
+  { name: "Mar", followers: 2000, engagement: 9800, reached: 9000, profileViews: 1500 },
+  { name: "Apr", followers: 2780, engagement: 3908, reached: 8200, profileViews: 1300 },
+  { name: "May", followers: 1890, engagement: 4800, reached: 7800, profileViews: 1250 },
+  { name: "Jun", followers: 2390, engagement: 3800, reached: 8500, profileViews: 1400 },
 ];
 
 const Analytics = () => {
@@ -59,9 +59,47 @@ const Analytics = () => {
               )}
             </div>
 
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="p-6">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-sm font-medium">Accounts Reached</h3>
+                </div>
+                <p className="text-2xl font-bold mt-2">8.5K</p>
+                <p className="text-xs text-muted-foreground mt-1">+12.3% from last month</p>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-sm font-medium">Accounts Engaged</h3>
+                </div>
+                <p className="text-2xl font-bold mt-2">4.2K</p>
+                <p className="text-xs text-muted-foreground mt-1">+8.1% from last month</p>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-center gap-2">
+                  <Share2 className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-sm font-medium">Profile Activity</h3>
+                </div>
+                <p className="text-2xl font-bold mt-2">1.8K</p>
+                <p className="text-xs text-muted-foreground mt-1">+15.4% from last month</p>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-muted-foreground" />
+                  <h3 className="text-sm font-medium">Engagement Rate</h3>
+                </div>
+                <p className="text-2xl font-bold mt-2">4.8%</p>
+                <p className="text-xs text-muted-foreground mt-1">+2.1% from last month</p>
+              </Card>
+            </div>
+
             <div className="grid gap-6 md:grid-cols-2">
               <Card className="p-6">
-                <h3 className="text-lg font-semibold mb-4">Follower Growth</h3>
+                <h3 className="text-lg font-semibold mb-4">Account Growth</h3>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={mockData}>
@@ -71,9 +109,17 @@ const Analytics = () => {
                       <Tooltip />
                       <Line 
                         type="monotone" 
-                        dataKey="followers" 
+                        dataKey="reached" 
                         stroke="#8884d8" 
                         strokeWidth={2}
+                        name="Accounts Reached"
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="profileViews" 
+                        stroke="#82ca9d" 
+                        strokeWidth={2}
+                        name="Profile Views"
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -88,7 +134,7 @@ const Analytics = () => {
               </Card>
 
               <Card className="p-6">
-                <h3 className="text-lg font-semibold mb-4">Engagement Rate</h3>
+                <h3 className="text-lg font-semibold mb-4">Engagement Metrics</h3>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={mockData}>
@@ -123,17 +169,10 @@ const Analytics = () => {
                 <MessageSquare className="w-4 h-4" />
                 Chat Now
               </Button>
-              <Button
-                onClick={() => navigate("/dashboard/packages")}
-                className="gap-2"
-              >
-                <Package className="w-4 h-4" />
-                View My Packages
-              </Button>
             </div>
 
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Audience Demographics</h3>
+              <h3 className="text-lg font-semibold mb-4">Profile Activity Overview</h3>
               <div className="h-[400px] flex items-center justify-center bg-muted/10 rounded-lg">
                 {!isPaidUser ? (
                   <div className="text-center p-8">
@@ -152,7 +191,7 @@ const Analytics = () => {
                     </Button>
                   </div>
                 ) : (
-                  <div>Audience Demographics Content</div>
+                  <div>Profile Activity Content</div>
                 )}
               </div>
             </Card>
