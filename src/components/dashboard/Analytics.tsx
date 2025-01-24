@@ -1,5 +1,6 @@
 import { DashboardLayout } from "./layout/DashboardLayout";
 import { DashboardHeader } from "./layout/DashboardHeader";
+import { DashboardSidebar } from "./Sidebar";
 import { AnalyticsCards } from "./analytics/AnalyticsCards";
 import { AnalyticsChart } from "./analytics/AnalyticsCharts";
 import { useNavigate } from "react-router-dom";
