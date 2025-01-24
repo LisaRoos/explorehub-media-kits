@@ -4,8 +4,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
-import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
+import AutoPlay from "embla-carousel-autoplay";
+import { useEffect } from "react";
 
 interface ContentItem {
   thumbnail: string;
@@ -19,36 +20,30 @@ interface ContentCarouselProps {
 }
 
 export const ContentCarousel = ({ platform, content }: ContentCarouselProps) => {
-  const [api, setApi] = useState<any>(null);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      align: "start",
+    },
+    [AutoPlay({ delay: 3000, stopOnInteraction: true })]
+  );
 
   useEffect(() => {
-    if (!api) return;
-
-    // Start autoplay when component mounts
-    const autoplayPlugin = Autoplay({ delay: 3000, stopOnInteraction: true });
-    api.plugins.add(autoplayPlugin);
-
-    return () => {
-      if (api) {
-        api.plugins.remove(autoplayPlugin);
-      }
-    };
-  }, [api]);
+    if (emblaApi) {
+      console.log("Carousel initialized");
+    }
+  }, [emblaApi]);
 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">{platform}</h3>
-      <Carousel
-        setApi={setApi}
-        className="w-full"
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-      >
-        <CarouselContent>
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
           {content.map((item, index) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+            <div 
+              key={index} 
+              className="flex-[0_0_100%] min-w-0 pl-4 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+            >
               <a
                 href={item.url}
                 target="_blank"
@@ -66,10 +61,10 @@ export const ContentCarousel = ({ platform, content }: ContentCarouselProps) => 
                   </div>
                 </Card>
               </a>
-            </CarouselItem>
+            </div>
           ))}
-        </CarouselContent>
-      </Carousel>
+        </div>
+      </div>
     </div>
   );
 };
