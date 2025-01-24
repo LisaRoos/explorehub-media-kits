@@ -99,7 +99,7 @@ export const DashboardSidebar = () => {
           {menuItems.map((item) => (
             <Button
               key={item.label}
-              variant="ghost"
+              variant={location.pathname === item.path ? "secondary" : "ghost"}
               className={`w-full justify-start gap-2 ${
                 item.isPremium && !isPaidUser ? "opacity-50" : ""
               }`}
