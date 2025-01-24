@@ -9,6 +9,7 @@ import { BrandFeatures } from "@/components/landing/BrandFeatures";
 import { InfluencerShowcase } from "@/components/landing/InfluencerShowcase";
 import { Navigation } from "@/components/landing/Navigation";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { MediaKitMockup } from "@/components/landing/MediaKitMockup";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -50,6 +51,9 @@ const Index = () => {
         <div className="space-y-20">
           <div className="animate-fade-in">
             <Hero />
+          </div>
+          <div className="animate-on-scroll opacity-0">
+            <MediaKitMockup />
           </div>
           <div className="animate-on-scroll opacity-0">
             <Services />
