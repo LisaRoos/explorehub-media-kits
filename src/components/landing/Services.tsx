@@ -1,84 +1,50 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Globe, Users, Code, Server, Smartphone, Network, Star, Megaphone, Camera } from "lucide-react";
+import { Users, Code, Star } from "lucide-react";
 
 export const Services = () => {
   const services = [
     {
       category: "Social Media Management",
+      icon: <Users className="h-6 w-6 text-primary" />,
       description: "Comprehensive social media solutions to grow your brand",
       features: [
-        {
-          icon: <Users className="h-6 w-6 text-primary" />,
-          title: "Community Management",
-          description: "Engage with your audience and build meaningful relationships"
-        },
-        {
-          icon: <Network className="h-6 w-6 text-primary" />,
-          title: "Content Strategy",
-          description: "Develop compelling content that resonates with your target audience"
-        },
-        {
-          icon: <Smartphone className="h-6 w-6 text-primary" />,
-          title: "Social Analytics",
-          description: "Track performance and optimize your social media presence"
-        }
+        "Community Management",
+        "Content Strategy",
+        "Social Analytics"
       ]
     },
     {
       category: "Web Development",
+      icon: <Code className="h-6 w-6 text-secondary" />,
       description: "Custom web solutions tailored to your needs",
       features: [
-        {
-          icon: <Globe className="h-6 w-6 text-secondary" />,
-          title: "Responsive Design",
-          description: "Beautiful websites that work perfectly on all devices"
-        },
-        {
-          icon: <Code className="h-6 w-6 text-secondary" />,
-          title: "Custom Development",
-          description: "Tailored solutions built with modern technologies"
-        },
-        {
-          icon: <Server className="h-6 w-6 text-secondary" />,
-          title: "Maintenance & Support",
-          description: "Ongoing support to keep your website running smoothly"
-        }
+        "Responsive Design",
+        "Custom Development",
+        "Maintenance & Support"
       ]
     },
     {
       category: "Influencer Services",
+      icon: <Star className="h-6 w-6 text-accent" />,
       description: "Connect with top influencers to amplify your brand",
       features: [
-        {
-          icon: <Star className="h-6 w-6 text-accent" />,
-          title: "Influencer Matching",
-          description: "Find the perfect influencers that align with your brand values"
-        },
-        {
-          icon: <Megaphone className="h-6 w-6 text-accent" />,
-          title: "Campaign Management",
-          description: "End-to-end management of influencer marketing campaigns"
-        },
-        {
-          icon: <Camera className="h-6 w-6 text-accent" />,
-          title: "Content Creation",
-          description: "Professional content creation and storytelling strategies"
-        }
+        "Influencer Matching",
+        "Campaign Management",
+        "Content Creation"
       ]
     }
   ];
 
   const handleContactClick = () => {
-    // WhatsApp URL with your phone number
     const whatsappUrl = "https://wa.me/27792160601";
     window.open(whatsappUrl, '_blank');
   };
 
   return (
-    <section id="services" className="py-20 px-4">
+    <section id="services" className="py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
             Our <span className="gradient-text">Services</span>
           </h2>
@@ -87,34 +53,29 @@ export const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <div key={index} className="space-y-6">
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2">{service.category}</h3>
-                <p className="text-gray-400">{service.description}</p>
-              </div>
-              
-              <div className="grid gap-4">
-                {service.features.map((feature, featureIndex) => (
-                  <Card key={featureIndex} className="glass-card hover:scale-105 transition-transform duration-300">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="mt-1">{feature.icon}</div>
-                        <div>
-                          <h4 className="text-lg font-semibold mb-1">{feature.title}</h4>
-                          <p className="text-gray-400">{feature.description}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
+            <Card key={index} className="glass-card hover:scale-105 transition-transform duration-300">
+              <CardContent className="p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-4">{service.icon}</div>
+                  <h3 className="text-xl font-bold mb-2">{service.category}</h3>
+                  <p className="text-gray-400 text-sm mb-4">{service.description}</p>
+                  <ul className="space-y-2 text-sm">
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center justify-center">
+                        <span className="text-primary mr-2">•</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
+        <div className="mt-12 text-center">
           <Button 
             size="lg" 
             className="bg-primary hover:bg-primary/90"
