@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface PackageHeaderProps {
   isPaidUser: boolean;
   onUpgrade: () => void;
 }
 
-export const PackageHeader = ({ isPaidUser, onUpgrade }: PackageHeaderProps) => {
+export const PackageHeader = ({ isPaidUser }: PackageHeaderProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between items-center">
       <div>
@@ -16,7 +19,7 @@ export const PackageHeader = ({ isPaidUser, onUpgrade }: PackageHeaderProps) => 
         </p>
       </div>
       <Button 
-        onClick={onUpgrade}
+        onClick={() => navigate("/dashboard/packages/create")}
         className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
       >
         <Plus className="w-4 h-4 mr-2" />
