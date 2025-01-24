@@ -4,7 +4,7 @@ import { PackageCard } from "./PackageCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Package } from "./types";
+import { Package, PackageFeature, PackageMedia } from "./types";
 
 export const PackagesList = () => {
   const navigate = useNavigate();
@@ -18,12 +18,27 @@ export const PackagesList = () => {
       
       if (error) throw error;
 
-      // Transform the data to match our Package type
-      return (data || []).map(pkg => ({
-        ...pkg,
-        media: pkg.media as Package['media'],
-        features: pkg.features as Package['features']
-      }));
+      // Transform the data to match our Package type with proper type checking
+      return (data || []).map(pkg => {
+        // Safely transform features
+        const features = Array.isArray(pkg.features) 
+          ? pkg.features.map(feature => {
+              if (typeof feature === 'object' && feature !== null && 'title' in feature) {
+                return feature as PackageFeature;
+              }
+              return null;
+            }).filter((f): f is PackageFeature => f !== null)
+          : null;
+
+        // Safely transform media
+        const media = pkg.media as PackageMedia | null;
+
+        return {
+          ...pkg,
+          media,
+          features,
+        } as Package;
+      });
     },
   });
 
