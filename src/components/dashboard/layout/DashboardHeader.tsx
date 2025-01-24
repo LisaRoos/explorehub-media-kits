@@ -20,7 +20,6 @@ export const DashboardHeader = ({ title, description }: DashboardHeaderProps) =>
     { label: "Overview", path: "/dashboard" },
     { label: "Messages", path: "/dashboard/messages" },
     { label: "Analytics", path: "/dashboard/analytics" },
-    { label: "Media Kit", path: "/dashboard/media-kit" },
     { label: "Packages", path: "/dashboard/packages" },
     { label: "Settings", path: "/dashboard/settings" },
   ];
