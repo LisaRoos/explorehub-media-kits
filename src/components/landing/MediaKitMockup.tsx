@@ -9,52 +9,52 @@ import { Share } from "lucide-react";
 const sampleContent = {
   instagram: [
     {
-      thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-      title: "Creating the perfect workspace setup",
+      thumbnail: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+      title: "Exploring Hidden Mountain Trails 🏔️",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      title: "Behind the scenes of content creation",
+      thumbnail: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
+      title: "Serenity in the Swiss Alps ✨",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-      title: "Evening inspiration and motivation",
+      thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+      title: "Aerial Views of New Zealand 🌿",
       url: "#"
     }
   ],
   tiktok: [
     {
-      thumbnail: "https://images.unsplash.com/photo-1527576539890-dfa815648363",
-      title: "Quick tech tips that went viral",
+      thumbnail: "https://images.unsplash.com/photo-1469041797191-50ace28483c3",
+      title: "Desert Safari Adventure Guide 🐪",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-      title: "Day in the life of a creator",
+      thumbnail: "https://images.unsplash.com/photo-1466721591366-2d5fba72006d",
+      title: "Wildlife Spotting in Kenya 🦁",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      title: "Top 5 productivity hacks",
+      thumbnail: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+      title: "Hidden Gems in the Rockies 🏔️",
       url: "#"
     }
   ],
   youtube: [
     {
-      thumbnail: "https://images.unsplash.com/photo-1500673922987-e212871fec22",
-      title: "Complete Guide to Content Creation",
+      thumbnail: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+      title: "Complete Guide to Backpacking Asia",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1527576539890-dfa815648363",
-      title: "Tech Review: Latest Gadgets",
+      thumbnail: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
+      title: "Top 10 Mountain Photography Tips",
       url: "#"
     },
     {
-      thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-      title: "How I Edit My Videos",
+      thumbnail: "https://images.unsplash.com/photo-1469041797191-50ace28483c3",
+      title: "Ultimate Desert Camping Guide",
       url: "#"
     }
   ]

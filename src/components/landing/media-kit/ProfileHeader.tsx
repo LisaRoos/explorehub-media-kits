@@ -6,13 +6,13 @@ export const ProfileHeader = () => {
   return (
     <div className="flex items-center gap-4 mb-6">
       <img
-        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
         alt="Creator Profile"
         className="w-16 h-16 rounded-full object-cover"
       />
       <div>
         <h3 className="text-lg font-semibold">Sarah Johnson</h3>
-        <p className="text-sm text-gray-400">Lifestyle & Tech Creator</p>
+        <p className="text-sm text-gray-400">Travel & Adventure Creator</p>
       </div>
     </div>
   );
