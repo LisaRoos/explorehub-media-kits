@@ -17,20 +17,31 @@ export const PackageCard = ({
   const navigate = useNavigate();
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
       {media?.images?.[0] && (
-        <img 
-          src={media.images[0]} 
-          alt={title} 
-          className="w-full h-48 object-cover"
-        />
+        <div className="relative h-48">
+          <img 
+            src={media.images[0]} 
+            alt={title} 
+            className="w-full h-full object-cover"
+          />
+          {media.images[1] && (
+            <div className="absolute top-2 right-2">
+              <img 
+                src={media.images[1]} 
+                alt={`${title} secondary`} 
+                className="w-16 h-16 object-cover rounded-md border-2 border-white shadow-md"
+              />
+            </div>
+          )}
+        </div>
       )}
       <div className="p-6 space-y-4">
         <h3 className="text-xl font-semibold">{title}</h3>
         <p className="text-muted-foreground">{description}</p>
         
         {media?.videos?.[0] && (
-          <div className="aspect-video">
+          <div className="aspect-video rounded-lg overflow-hidden">
             <iframe
               src={media.videos[0]}
               className="w-full h-full"
@@ -41,8 +52,11 @@ export const PackageCard = ({
 
         <PackageFeatures features={features} />
 
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold">${price}</span>
+        <div className="flex justify-between items-center pt-4 border-t">
+          <div className="space-y-1">
+            <span className="text-sm text-muted-foreground">Starting from</span>
+            <p className="text-2xl font-bold">${price}</p>
+          </div>
           <Button 
             onClick={() => navigate("/dashboard/messages")}
             className="gap-2"

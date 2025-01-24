@@ -18,37 +18,22 @@ const PackagesList = () => {
       
       if (error) throw error;
 
-      // Transform the data to match our Package type with proper type checking
-      return (data || []).map(pkg => {
-        // Safely transform features
-        const features = Array.isArray(pkg.features) 
-          ? pkg.features.map(feature => {
-              if (typeof feature === 'object' && feature !== null) {
-                const featureObj = feature as { [key: string]: Json };
-                return {
-                  title: String(featureObj.title || ''),
-                  description: featureObj.description ? String(featureObj.description) : undefined
-                } as PackageFeature;
-              }
-              return null;
-            }).filter((f): f is PackageFeature => f !== null)
-          : null;
-
-        // Safely transform media
-        const media = pkg.media as PackageMedia | null;
-
-        return {
-          id: pkg.id,
-          profile_id: pkg.profile_id,
-          title: pkg.title,
-          description: pkg.description,
-          price: pkg.price,
-          media,
-          features,
-          created_at: pkg.created_at,
-          updated_at: pkg.updated_at
-        } as Package;
-      });
+      return (data || []).map(pkg => ({
+        id: pkg.id,
+        profile_id: pkg.profile_id,
+        title: pkg.title,
+        description: pkg.description,
+        price: pkg.price,
+        media: pkg.media as PackageMedia,
+        features: Array.isArray(pkg.features) 
+          ? pkg.features.map(feature => ({
+              title: String(feature.title || ''),
+              description: feature.description ? String(feature.description) : undefined
+            }))
+          : [],
+        created_at: pkg.created_at,
+        updated_at: pkg.updated_at
+      }));
     },
   });
 
