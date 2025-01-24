@@ -1,12 +1,12 @@
-import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { DashboardSidebar } from "@/components/dashboard/Sidebar";
+import { DashboardHeader } from "../layout/DashboardHeader";
 import { PackageHeader } from "./PackageHeader";
 import { PackageGrid } from "./PackageGrid";
 import { CreatePackageForm } from "./CreatePackageForm";
-import { DashboardHeader } from "../layout/DashboardHeader";
 
 const PackagesList = () => {
   const navigate = useNavigate();
