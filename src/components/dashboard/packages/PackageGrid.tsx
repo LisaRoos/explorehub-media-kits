@@ -22,35 +22,52 @@ export const PackageGrid = ({ isPaidUser, onUpgrade }: PackageGridProps) => {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {packages?.map((pkg) => (
-        <Card key={pkg.id} className="overflow-hidden">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold mb-2">
-              {pkg.title}
-              {!isPaidUser && (
-                <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                  PRO
-                </span>
-              )}
-            </h3>
-            <p className="text-muted-foreground mb-4">
-              {pkg.description}
-            </p>
-            <Button
-              className="w-full"
-              variant={!isPaidUser ? "outline" : "default"}
-              onClick={() => {
-                if (!isPaidUser) {
-                  onUpgrade();
-                } else {
-                  // Handle package selection
-                }
-              }}
-            >
-              {!isPaidUser ? "Upgrade to Use" : "Use Package"}
-            </Button>
-          </div>
-        </Card>
+        <PackageCard 
+          key={pkg.id} 
+          package={pkg} 
+          isPaidUser={isPaidUser} 
+          onUpgrade={onUpgrade} 
+        />
       ))}
     </div>
+  );
+};
+
+interface PackageCardProps {
+  package: any;
+  isPaidUser: boolean;
+  onUpgrade: () => void;
+}
+
+const PackageCard = ({ package: pkg, isPaidUser, onUpgrade }: PackageCardProps) => {
+  return (
+    <Card className="overflow-hidden">
+      <div className="p-6">
+        <h3 className="text-lg font-semibold mb-2">
+          {pkg.title}
+          {!isPaidUser && (
+            <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+              PRO
+            </span>
+          )}
+        </h3>
+        <p className="text-muted-foreground mb-4">
+          {pkg.description}
+        </p>
+        <Button
+          className="w-full"
+          variant={!isPaidUser ? "outline" : "default"}
+          onClick={() => {
+            if (!isPaidUser) {
+              onUpgrade();
+            } else {
+              // Handle package selection
+            }
+          }}
+        >
+          {!isPaidUser ? "Upgrade to Use" : "Use Package"}
+        </Button>
+      </div>
+    </Card>
   );
 };
