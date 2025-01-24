@@ -35,7 +35,6 @@ export const useAuthForm = (mode: AuthMode) => {
   };
 
   const createProfile = async (userId: string) => {
-    console.log("Creating profile for user:", userId, "with role:", role);
     try {
       const { error } = await supabase
         .from('profiles')
@@ -47,10 +46,7 @@ export const useAuthForm = (mode: AuthMode) => {
           }
         ]);
 
-      if (error) {
-        console.error("Error creating profile:", error);
-        throw error;
-      }
+      if (error) throw error;
       console.log("Profile created successfully");
     } catch (error) {
       console.error("Error creating profile:", error);
@@ -60,31 +56,23 @@ export const useAuthForm = (mode: AuthMode) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted. Mode:", mode);
     
-    if (loading) {
-      console.log("Already processing, skipping submission");
-      return;
-    }
+    if (loading) return;
 
     if (!email || !password) {
-      console.log("Missing email or password");
       toast.error("Please fill in all fields");
       return;
     }
 
     if (password.length < 6) {
-      console.log("Password too short");
       toast.error("Password must be at least 6 characters long");
       return;
     }
 
     setLoading(true);
-    console.log("Starting authentication process...");
 
     try {
       if (mode === "login") {
-        console.log("Attempting login...");
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -93,31 +81,22 @@ export const useAuthForm = (mode: AuthMode) => {
         toast.success("Successfully logged in!");
         navigate("/dashboard");
       } else {
-        console.log("Attempting signup...");
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            data: {
-              role,
-            },
-          },
         });
         
         if (error) throw error;
         
         if (data.user) {
-          console.log("User created successfully:", data.user.id);
           await createProfile(data.user.id);
           toast.success("Account created! Please check your email to confirm your account.");
           navigate("/signup-success");
         } else {
-          console.log("No user data returned from signup");
           toast.error("Something went wrong during signup");
         }
       }
     } catch (error) {
-      console.error("Authentication error occurred:", error);
       handleError(error as Error);
     } finally {
       setLoading(false);
