@@ -5,7 +5,6 @@ import {
   Menu,
   Palette,
   MessageSquare,
-  Package,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,12 +54,6 @@ export const DashboardSidebar = () => {
       path: "/dashboard/messages",
       isPremium: true,
       upgradeMessage: "Upgrade to access messaging features"
-    },
-    {
-      icon: Package,
-      label: "My Packages",
-      path: "/dashboard/packages",
-      isPremium: false
     },
     { 
       icon: BarChart3, 
