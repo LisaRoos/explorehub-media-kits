@@ -19,11 +19,11 @@ interface ContentCarouselProps {
 const getPlatformIcon = (platform: string) => {
   switch (platform.toLowerCase()) {
     case 'instagram':
-      return <Instagram className="w-5 h-5 text-pink-500" />;
+      return <Instagram className="w-4 h-4 text-pink-500" />;
     case 'tiktok':
-      return <TikTokIcon className="w-5 h-5" />;
+      return <TikTokIcon className="w-4 h-4" />;
     case 'youtube':
-      return <Youtube className="w-5 h-5 text-red-500" />;
+      return <Youtube className="w-4 h-4 text-red-500" />;
     default:
       return null;
   }
@@ -47,17 +47,17 @@ export const ContentCarousel = ({ platform, content }: ContentCarouselProps) => 
   }, [emblaApi, platform]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <div className="flex items-center gap-2">
         {getPlatformIcon(platform)}
-        <h3 className="text-lg font-medium">{platform}</h3>
+        <h3 className="text-sm font-medium">{platform}</h3>
       </div>
       <div className="overflow-hidden rounded-lg" ref={emblaRef}>
         <div className="flex touch-pan-y">
           {content.map((item, index) => (
             <div 
               key={index} 
-              className="flex-[0_0_100%] min-w-0 pl-4 md:flex-[0_0_50%] lg:flex-[0_0_33.333%] transition-transform duration-300"
+              className="flex-[0_0_100%] min-w-0 pl-2 md:flex-[0_0_50%] lg:flex-[0_0_33.333%] transition-transform duration-300"
             >
               <a
                 href={item.url}
@@ -69,10 +69,10 @@ export const ContentCarousel = ({ platform, content }: ContentCarouselProps) => 
                   <img 
                     src={item.thumbnail} 
                     alt={item.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-24 object-cover"
                   />
-                  <div className="p-4">
-                    <h3 className="font-medium line-clamp-2">{item.title}</h3>
+                  <div className="p-2">
+                    <h3 className="text-xs font-medium line-clamp-1">{item.title}</h3>
                   </div>
                 </Card>
               </a>
