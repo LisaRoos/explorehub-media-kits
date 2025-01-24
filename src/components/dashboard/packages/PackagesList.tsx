@@ -4,6 +4,7 @@ import { PackageCard } from "./PackageCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Tables } from "@/integrations/supabase/types";
 
 export const PackagesList = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const PackagesList = () => {
         .select('*');
       
       if (error) throw error;
-      return data;
+      return data as Tables<'influencer_packages'>[];
     },
   });
 
