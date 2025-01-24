@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import { PackageBasicInfo } from "./form/PackageBasicInfo";
+import { PackageMediaUpload } from "./form/PackageMediaUpload";
+import { PackageFormActions } from "./form/PackageFormActions";
 
 export const CreatePackageForm = () => {
   const navigate = useNavigate();
@@ -99,7 +98,6 @@ export const CreatePackageForm = () => {
       });
     } catch (error) {
       console.error('Error sharing:', error);
-      // Fallback to copying to clipboard
       navigator.clipboard.writeText(window.location.href);
       toast.success('Link copied to clipboard!');
     }
@@ -109,75 +107,28 @@ export const CreatePackageForm = () => {
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6">
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="p-6 col-span-2 md:col-span-1">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Package Title</label>
-              <Input
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter package title"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Price</label>
-              <Input
-                required
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Enter price"
-                min="0"
-                step="0.01"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Description</label>
-              <Textarea
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter package description"
-                rows={4}
-              />
-            </div>
-          </div>
+          <PackageBasicInfo
+            title={title}
+            setTitle={setTitle}
+            price={price}
+            setPrice={setPrice}
+            description={description}
+            setDescription={setDescription}
+          />
         </Card>
 
         <Card className="p-6 col-span-2 md:col-span-1">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Package Images</label>
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="mb-4"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                {media.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={`Package image ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          <PackageMediaUpload
+            media={media}
+            onImageUpload={handleImageUpload}
+          />
         </Card>
       </div>
 
-      <div className="mt-6 flex gap-4">
-        <Button type="submit" className="flex-1">
-          Create Package
-        </Button>
-        <Button type="button" variant="outline" onClick={handleShare}>
-          <Share2 className="w-4 h-4 mr-2" />
-          Share
-        </Button>
-      </div>
+      <PackageFormActions
+        onSubmit={handleSubmit}
+        onShare={handleShare}
+      />
     </form>
   );
 };
