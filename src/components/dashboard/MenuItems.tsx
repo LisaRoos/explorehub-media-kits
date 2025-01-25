@@ -6,35 +6,48 @@ import {
   Package 
 } from "lucide-react";
 
-export const menuItems = [
+interface MenuItem {
+  icon: typeof LayoutDashboard;
+  label: string;
+  path: string;
+  isPremium: boolean;
+  upgradeMessage: string;
+}
+
+export const menuItems: MenuItem[] = [
   { 
     icon: LayoutDashboard, 
     label: "Media Kit", 
     path: "/dashboard",
-    isPremium: false 
+    isPremium: false,
+    upgradeMessage: "" 
   },
   { 
     icon: BarChart3, 
     label: "Analytics", 
     path: "/dashboard/analytics",
-    isPremium: false 
+    isPremium: false,
+    upgradeMessage: "" 
   },
   { 
     icon: Package, 
     label: "My Packages", 
     path: "/dashboard/packages",
-    isPremium: false 
+    isPremium: false,
+    upgradeMessage: "" 
   },
   { 
     icon: Palette, 
     label: "Templates", 
     path: "/dashboard/appearance",
-    isPremium: false 
+    isPremium: false,
+    upgradeMessage: "" 
   },
   { 
     icon: Settings, 
     label: "Settings", 
     path: "/dashboard/settings",
-    isPremium: false 
+    isPremium: false,
+    upgradeMessage: "" 
   },
 ];
