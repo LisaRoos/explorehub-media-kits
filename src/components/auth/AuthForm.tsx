@@ -3,13 +3,18 @@ import { AuthInputs } from "./AuthInputs";
 import { AuthSubmitButton } from "./AuthSubmitButton";
 import { AuthFormContainer } from "./AuthFormContainer";
 import { AuthToggleLink } from "./AuthToggleLink";
+import { RoleSelector } from "./RoleSelector";
 import { useAuthForm } from "@/hooks/useAuthForm";
+import { useSignupForm } from "@/hooks/useSignupForm";
 
 interface AuthFormProps {
   mode: "login" | "signup";
 }
 
 export const AuthForm = ({ mode }: AuthFormProps) => {
+  const loginForm = useAuthForm(mode);
+  const signupForm = useSignupForm();
+  
   const {
     email,
     setEmail,
@@ -17,7 +22,7 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
     setPassword,
     loading,
     handleSubmit,
-  } = useAuthForm(mode);
+  } = mode === "login" ? loginForm : signupForm;
 
   return (
     <AuthFormContainer>
@@ -30,6 +35,13 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
           password={password}
           setPassword={setPassword}
         />
+
+        {mode === "signup" && (
+          <RoleSelector
+            role={signupForm.role}
+            setRole={signupForm.setRole}
+          />
+        )}
 
         <AuthSubmitButton mode={mode} loading={loading} />
         <AuthToggleLink mode={mode} />
