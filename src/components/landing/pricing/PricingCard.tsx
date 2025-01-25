@@ -10,6 +10,7 @@ interface PricingCardProps {
   features: string[];
   isPopular?: boolean;
   formattedPrice: string;
+  isComingSoon?: boolean;
 }
 
 export const PricingCard = ({
@@ -18,15 +19,23 @@ export const PricingCard = ({
   description,
   features,
   isPopular,
-  formattedPrice
+  formattedPrice,
+  isComingSoon
 }: PricingCardProps) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="glass-card relative overflow-hidden">
+    <Card className={`glass-card relative overflow-hidden ${isComingSoon ? 'blur-sm' : ''}`}>
       {isPopular && (
         <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 rounded-bl-lg text-sm">
           Popular
+        </div>
+      )}
+      {isComingSoon && (
+        <div className="absolute inset-0 flex items-center justify-center z-10 backdrop-blur-none pointer-events-none">
+          <span className="text-2xl font-bold text-primary bg-background/80 px-6 py-3 rounded-lg">
+            Coming Soon
+          </span>
         </div>
       )}
       <CardHeader className="text-center p-6">
@@ -50,8 +59,9 @@ export const PricingCard = ({
           className="w-full mt-6"
           variant={isPopular ? "default" : "outline"}
           onClick={() => navigate("/signup")}
+          disabled={isComingSoon}
         >
-          Get Started
+          {isComingSoon ? "Coming Soon" : "Get Started"}
         </Button>
       </CardContent>
     </Card>

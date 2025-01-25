@@ -164,6 +164,7 @@ export const Pricing = () => {
                 (userType === "brand" && plan.name === "Professional")
               }
               formattedPrice={formatPrice(plan.price, currency)}
+              isComingSoon={userType === "brand"}
             />
           ))}
         </div>
