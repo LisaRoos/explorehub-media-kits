@@ -5,7 +5,7 @@ import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SocialMediaButton } from "./SocialMediaButton";
-import { ProfileData } from "@/types/profile";
+import { ProfileData, SocialLinks } from "@/types/profile";
 import { ProfileSection } from "./ProfileSection";
 import { ContentBlock } from "./ContentBlock";
 
@@ -16,13 +16,21 @@ export const MediaKitContent = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
       
-      const { data: profile } = await supabase
+      const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
       
-      return profile as ProfileData;
+      if (!profileData) return null;
+
+      // Convert the social_links to the correct type
+      const typedProfile: ProfileData = {
+        ...profileData,
+        social_links: profileData.social_links as SocialLinks | null
+      };
+      
+      return typedProfile;
     },
   });
 
@@ -36,7 +44,7 @@ export const MediaKitContent = () => {
     },
     {
       platform: "TikTok",
-      icon: TikTokIcon,
+      icon: TikTokIcon as typeof Instagram,  // Type assertion to match LucideIcon
       color: "bg-black",
       followers: "892K",
       url: profile?.social_links?.tiktok || "#",
@@ -51,7 +59,8 @@ export const MediaKitContent = () => {
   ];
 
   const handleEmailClick = () => {
-    window.location.href = `mailto:${profile?.email || 'contact@example.com'}`;
+    const emailAddress = profile?.email || 'contact@example.com';
+    window.location.href = `mailto:${emailAddress}`;
   };
 
   return (
