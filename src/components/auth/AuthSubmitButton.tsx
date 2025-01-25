@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 
 interface AuthSubmitButtonProps {
-  mode: "login";
   loading: boolean;
 }
 

@@ -16,7 +16,7 @@ export const AuthForm = () => {
 
   return (
     <AuthFormContainer>
-      <AuthHeader mode="login" />
+      <AuthHeader />
       
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <AuthInputs
@@ -26,7 +26,7 @@ export const AuthForm = () => {
           setPassword={setPassword}
         />
 
-        <AuthSubmitButton mode="login" loading={loading} />
+        <AuthSubmitButton loading={loading} />
       </form>
     </AuthFormContainer>
   );

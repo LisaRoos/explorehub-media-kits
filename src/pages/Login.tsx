@@ -22,7 +22,7 @@ const Login = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  return <AuthForm mode="login" />;
+  return <AuthForm />;
 };
 
 export default Login;

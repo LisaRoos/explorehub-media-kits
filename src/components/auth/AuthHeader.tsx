@@ -1,8 +1,4 @@
-interface AuthHeaderProps {
-  mode: "login";
-}
-
-export const AuthHeader = ({ mode }: AuthHeaderProps) => (
+export const AuthHeader = () => (
   <div className="text-center space-y-2">
     <h2 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent sm:text-3xl">
       Welcome Back
