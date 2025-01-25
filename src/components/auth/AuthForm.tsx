@@ -2,9 +2,14 @@ import { AuthHeader } from "./AuthHeader";
 import { AuthInputs } from "./AuthInputs";
 import { AuthSubmitButton } from "./AuthSubmitButton";
 import { AuthFormContainer } from "./AuthFormContainer";
+import { AuthToggleLink } from "./AuthToggleLink";
 import { useAuthForm } from "@/hooks/useAuthForm";
 
-export const AuthForm = () => {
+interface AuthFormProps {
+  mode: "login" | "signup";
+}
+
+export const AuthForm = ({ mode }: AuthFormProps) => {
   const {
     email,
     setEmail,
@@ -12,11 +17,11 @@ export const AuthForm = () => {
     setPassword,
     loading,
     handleSubmit,
-  } = useAuthForm("login");
+  } = useAuthForm(mode);
 
   return (
     <AuthFormContainer>
-      <AuthHeader />
+      <AuthHeader mode={mode} />
       
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <AuthInputs
@@ -26,7 +31,8 @@ export const AuthForm = () => {
           setPassword={setPassword}
         />
 
-        <AuthSubmitButton loading={loading} />
+        <AuthSubmitButton mode={mode} loading={loading} />
+        <AuthToggleLink mode={mode} />
       </form>
     </AuthFormContainer>
   );

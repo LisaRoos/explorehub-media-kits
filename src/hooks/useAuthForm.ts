@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useAuthError } from "./useAuthError";
 
-export const useAuthForm = (mode: "login") => {
+export const useAuthForm = (mode: "login" | "signup") => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,13 +29,23 @@ export const useAuthForm = (mode: "login") => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-      toast.success("Successfully logged in!");
-      navigate("/dashboard");
+      if (mode === "login") {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
+        toast.success("Successfully logged in!");
+        navigate("/dashboard");
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (error) throw error;
+        toast.success("Successfully signed up! Please check your email to verify your account.");
+        navigate("/login");
+      }
     } catch (error) {
       handleError(error as Error);
     } finally {

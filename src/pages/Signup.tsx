@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthForm } from "@/components/auth/AuthForm";
 
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const Login = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  return <AuthForm mode="login" />;
+  return <AuthForm mode="signup" />;
 };
 
-export default Login;
+export default Signup;
