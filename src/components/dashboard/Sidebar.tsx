@@ -58,3 +58,7 @@ export const DashboardSidebarContent = () => {
     </SidebarContent>
   );
 };
+
+export const DashboardSidebar = () => {
+  return <DashboardSidebarContent />;
+};
