@@ -1,103 +1,181 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share, MessageCircle, Package, Instagram } from "lucide-react";
+import { Share, MessageCircle, Package, Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export const MediaKitContent = () => {
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      return profile;
+    },
+  });
+
+  const socialLinks = [
+    {
+      platform: "Instagram",
+      icon: Instagram,
+      color: "bg-pink-500",
+      followers: "156K",
+      url: "#",
+    },
+    {
+      platform: "TikTok",
+      icon: TikTokIcon,
+      color: "bg-black",
+      followers: "892K",
+      url: "#",
+    },
+    {
+      platform: "YouTube",
+      icon: Youtube,
+      color: "bg-red-500",
+      followers: "245K",
+      url: "#",
+    },
+  ];
+
+  const handleEmailClick = () => {
+    window.location.href = `mailto:${profile?.email || 'contact@example.com'}`;
+  };
+
   return (
     <div className="space-y-6">
-      {/* Profile Section */}
       <Card className="p-6 bg-white dark:bg-gray-900 shadow-lg rounded-3xl">
         <div className="space-y-6">
-          {/* Header with Share button */}
-          <div className="flex justify-between items-start">
-            <div className="flex items-center gap-4">
+          {/* Header with Profile Info */}
+          <div className="flex items-start gap-4">
+            <div className="relative group">
               <img
-                src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
+                src={profile?.avatar_url || "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"}
                 alt="Profile"
-                className="w-16 h-16 rounded-full object-cover"
+                className="w-24 h-24 rounded-full object-cover"
               />
-              <div>
-                <h2 className="text-2xl font-bold">Sarah Johnson</h2>
-                <p className="text-gray-500">Travel & Adventure Creator</p>
+              <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <label htmlFor="avatar-upload" className="cursor-pointer text-white">
+                  <Share className="w-6 h-6" />
+                </label>
+                <input 
+                  type="file" 
+                  id="avatar-upload" 
+                  className="hidden" 
+                  accept="image/*"
+                  onChange={async (e) => {
+                    if (!e.target.files || !e.target.files[0]) return;
+                    // Handle file upload logic here
+                  }}
+                />
               </div>
             </div>
-            <Badge variant="secondary" className="flex items-center gap-2">
-              <Share className="w-4 h-4" />
-              Shareable
-            </Badge>
+            <div>
+              <h2 className="text-2xl font-bold">{profile?.full_name || "Sarah Johnson"}</h2>
+              <p className="text-gray-500">{profile?.bio || "Travel & Adventure Creator"}</p>
+            </div>
           </div>
 
-          {/* Social Media Stats */}
-          <div className="flex gap-2">
-            <Badge className="bg-pink-500 text-white">
-              <Instagram className="w-4 h-4 mr-1" />
-              156K
-            </Badge>
-            <Badge className="bg-black text-white">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-              </svg>
-              892K
-            </Badge>
-            <Badge className="bg-red-500 text-white">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
-              </svg>
-              245K
-            </Badge>
-          </div>
-
-          {/* Engagement Metrics */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-primary/5 rounded-2xl p-4 text-center">
-              <p className="text-xl font-bold">85K</p>
-              <p className="text-sm text-gray-500">Total Followers</p>
-            </div>
-            <div className="bg-primary/5 rounded-2xl p-4 text-center">
-              <p className="text-xl font-bold">12.5K</p>
-              <p className="text-sm text-gray-500">Profile Views</p>
-            </div>
-            <div className="bg-primary/5 rounded-2xl p-4 text-center">
-              <p className="text-xl font-bold">4.8%</p>
-              <p className="text-sm text-gray-500">Eng. Rate</p>
-            </div>
+          {/* Social Media Links */}
+          <div className="grid gap-3">
+            {socialLinks.map((link) => (
+              <a
+                key={link.platform}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Button
+                  variant="outline"
+                  className={`w-full justify-between hover:scale-105 transition-transform ${link.color} text-white`}
+                >
+                  <div className="flex items-center gap-2">
+                    <link.icon className="w-5 h-5" />
+                    <span>{link.platform}</span>
+                  </div>
+                  <span className="font-semibold">{link.followers}</span>
+                </Button>
+              </a>
+            ))}
           </div>
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={handleEmailClick}
+            >
               <MessageCircle className="w-4 h-4" />
               Chat Now
             </Button>
-            <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-center gap-2"
+              onClick={() => window.location.href = '/dashboard/packages'}
+            >
               <Package className="w-4 h-4" />
-              My Packages
+              View Packages
             </Button>
           </div>
 
-          {/* Instagram Section */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Instagram className="w-5 h-5" />
-              <h3 className="font-semibold">Instagram</h3>
+          {/* Content Carousels */}
+          <div className="space-y-6">
+            {/* Instagram Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Instagram className="w-5 h-5" />
+                <h3 className="font-semibold">Instagram</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <img
+                  src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
+                  alt="Gallery 1"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
+                  alt="Gallery 2"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1518495973542-4542c06a5843"
+                  alt="Gallery 3"
+                  className="w-full h-24 object-cover rounded-lg"
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              <img
-                src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
-                alt="Gallery 1"
-                className="w-full h-24 object-cover rounded-lg"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
-                alt="Gallery 2"
-                className="w-full h-24 object-cover rounded-lg"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1518495973542-4542c06a5843"
-                alt="Gallery 3"
-                className="w-full h-24 object-cover rounded-lg"
-              />
+
+            {/* TikTok Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <TikTokIcon className="w-5 h-5" />
+                <h3 className="font-semibold">TikTok</h3>
+              </div>
+              <div className="aspect-video rounded-lg bg-gray-100 dark:bg-gray-800">
+                {/* TikTok embed will go here */}
+              </div>
+            </div>
+
+            {/* YouTube Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Youtube className="w-5 h-5 text-red-500" />
+                <h3 className="font-semibold">YouTube</h3>
+              </div>
+              <div className="aspect-video rounded-lg bg-gray-100 dark:bg-gray-800">
+                {/* YouTube embed will go here */}
+              </div>
             </div>
           </div>
         </div>
