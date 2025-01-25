@@ -25,17 +25,19 @@ export const PricingCard = ({
   const navigate = useNavigate();
 
   return (
-    <Card className={`glass-card relative overflow-hidden ${isComingSoon ? 'blur-sm' : ''}`}>
+    <Card className={`glass-card relative overflow-hidden ${isComingSoon ? 'opacity-75' : ''}`}>
       {isPopular && (
         <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 rounded-bl-lg text-sm">
           Popular
         </div>
       )}
       {isComingSoon && (
-        <div className="absolute inset-0 flex items-center justify-center z-10 backdrop-blur-none pointer-events-none">
-          <span className="text-2xl font-bold text-primary bg-background/80 px-6 py-3 rounded-lg">
-            Coming Soon
-          </span>
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="absolute -rotate-12 bg-secondary/90 text-white px-8 py-2 shadow-lg rounded-lg transform scale-125 animate-pulse">
+            <span className="text-2xl font-bold">
+              Coming Soon
+            </span>
+          </div>
         </div>
       )}
       <CardHeader className="text-center p-6">
