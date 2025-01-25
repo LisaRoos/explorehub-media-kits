@@ -6,9 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SocialLinks } from "@/types/profile";
 
 export const BrandAssets = () => {
-  const [socialUrls, setSocialUrls] = useState({
+  const [socialUrls, setSocialUrls] = useState<SocialLinks>({
     instagram: "",
     tiktok: "",
     youtube: "",
@@ -27,7 +28,7 @@ export const BrandAssets = () => {
         .single();
       
       if (profile?.social_links) {
-        setSocialUrls(profile.social_links);
+        setSocialUrls(profile.social_links as SocialLinks);
       }
       
       return profile;

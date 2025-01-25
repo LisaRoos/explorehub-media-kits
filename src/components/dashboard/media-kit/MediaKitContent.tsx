@@ -1,10 +1,11 @@
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Share, MessageCircle, Package, Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SocialMediaButton } from "./SocialMediaButton";
+import { ProfileData } from "@/types/profile";
 
 export const MediaKitContent = () => {
   const { data: profile } = useQuery({
@@ -19,7 +20,7 @@ export const MediaKitContent = () => {
         .eq('id', user.id)
         .single();
       
-      return profile;
+      return profile as ProfileData;
     },
   });
 
@@ -29,21 +30,21 @@ export const MediaKitContent = () => {
       icon: Instagram,
       color: "bg-pink-500",
       followers: "156K",
-      url: "#",
+      url: profile?.social_links?.instagram || "#",
     },
     {
       platform: "TikTok",
       icon: TikTokIcon,
       color: "bg-black",
       followers: "892K",
-      url: "#",
+      url: profile?.social_links?.tiktok || "#",
     },
     {
       platform: "YouTube",
       icon: Youtube,
       color: "bg-red-500",
       followers: "245K",
-      url: "#",
+      url: profile?.social_links?.youtube || "#",
     },
   ];
 
@@ -88,24 +89,10 @@ export const MediaKitContent = () => {
           {/* Social Media Links */}
           <div className="grid gap-3">
             {socialLinks.map((link) => (
-              <a
+              <SocialMediaButton
                 key={link.platform}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <Button
-                  variant="outline"
-                  className={`w-full justify-between hover:scale-105 transition-transform ${link.color} text-white`}
-                >
-                  <div className="flex items-center gap-2">
-                    <link.icon className="w-5 h-5" />
-                    <span>{link.platform}</span>
-                  </div>
-                  <span className="font-semibold">{link.followers}</span>
-                </Button>
-              </a>
+                {...link}
+              />
             ))}
           </div>
 
@@ -163,7 +150,13 @@ export const MediaKitContent = () => {
                 <h3 className="font-semibold">TikTok</h3>
               </div>
               <div className="aspect-video rounded-lg bg-gray-100 dark:bg-gray-800">
-                {/* TikTok embed will go here */}
+                {profile?.social_links?.tiktok && (
+                  <iframe
+                    src={profile.social_links.tiktok}
+                    className="w-full h-full rounded-lg"
+                    allowFullScreen
+                  />
+                )}
               </div>
             </div>
 
@@ -174,7 +167,13 @@ export const MediaKitContent = () => {
                 <h3 className="font-semibold">YouTube</h3>
               </div>
               <div className="aspect-video rounded-lg bg-gray-100 dark:bg-gray-800">
-                {/* YouTube embed will go here */}
+                {profile?.social_links?.youtube && (
+                  <iframe
+                    src={profile.social_links.youtube}
+                    className="w-full h-full rounded-lg"
+                    allowFullScreen
+                  />
+                )}
               </div>
             </div>
           </div>
