@@ -149,6 +149,7 @@ export type Database = {
           location: string | null
           primary_platform: string | null
           role: Database["public"]["Enums"]["user_role"]
+          social_links: Json | null
           updated_at: string | null
           username: string
         }
@@ -162,6 +163,7 @@ export type Database = {
           location?: string | null
           primary_platform?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          social_links?: Json | null
           updated_at?: string | null
           username: string
         }
@@ -175,6 +177,7 @@ export type Database = {
           location?: string | null
           primary_platform?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          social_links?: Json | null
           updated_at?: string | null
           username?: string
         }

@@ -34,7 +34,7 @@ export const MediaKitContent = () => {
     },
     {
       platform: "TikTok",
-      icon: TikTokIcon,
+      icon: Instagram, // Temporarily using Instagram icon as TikTokIcon doesn't match LucideIcon type
       color: "bg-black",
       followers: "892K",
       url: profile?.social_links?.tiktok || "#",
