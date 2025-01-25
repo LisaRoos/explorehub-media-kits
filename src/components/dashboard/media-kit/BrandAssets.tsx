@@ -28,7 +28,8 @@ export const BrandAssets = () => {
         .single();
       
       if (profile?.social_links) {
-        setSocialUrls(profile.social_links as SocialLinks);
+        const typedSocialLinks = profile.social_links as SocialLinks;
+        setSocialUrls(typedSocialLinks);
       }
       
       return profile;
@@ -46,7 +47,7 @@ export const BrandAssets = () => {
       const { error } = await supabase
         .from('profiles')
         .update({
-          social_links: socialUrls,
+          social_links: socialUrls as unknown as Json,
         })
         .eq('id', user.id);
 

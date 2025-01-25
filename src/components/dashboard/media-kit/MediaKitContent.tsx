@@ -20,7 +20,7 @@ export const MediaKitContent = () => {
         .eq('id', user.id)
         .single();
       
-      return profile as ProfileData;
+      return profile as unknown as ProfileData;
     },
   });
 
