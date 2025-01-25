@@ -14,7 +14,7 @@ interface ContentBlockProps {
 
 export const ContentBlock = ({ platform, icon, profile, refetchProfile }: ContentBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [url, setUrl] = useState(profile?.social_links?.[platform.toLowerCase()] || "");
+  const [url, setUrl] = useState(profile?.social_links?.[platform.toLowerCase() as keyof typeof profile.social_links] || "");
 
   const handleSave = async () => {
     try {
@@ -47,7 +47,7 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         {icon}
-        <h3 className="font-semibold">{platform}</h3>
+        <h3 className="font-semibold text-gray-900">{platform}</h3>
       </div>
       {isEditing ? (
         <div className="space-y-2">
@@ -55,17 +55,25 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder={`Enter ${platform} URL`}
+            className="bg-white border-gray-200 focus:border-primary"
           />
           <div className="flex gap-2">
-            <Button size="sm" onClick={handleSave}>Save</Button>
-            <Button size="sm" variant="outline" onClick={() => setIsEditing(false)}>
+            <Button size="sm" onClick={handleSave} className="bg-primary hover:bg-primary/90">
+              Save
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              onClick={() => setIsEditing(false)}
+              className="bg-white hover:bg-gray-50"
+            >
               Cancel
             </Button>
           </div>
         </div>
       ) : (
         <div 
-          className="aspect-video rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          className="aspect-video rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
           onClick={() => setIsEditing(true)}
         >
           {url ? (

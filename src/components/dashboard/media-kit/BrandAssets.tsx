@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SocialLinks } from "@/types/profile";
+import { Json } from "@/integrations/supabase/types";
 
 export const BrandAssets = () => {
   const [socialUrls, setSocialUrls] = useState<SocialLinks>({
@@ -28,7 +29,7 @@ export const BrandAssets = () => {
         .single();
       
       if (profile?.social_links) {
-        const typedSocialLinks = profile.social_links as SocialLinks;
+        const typedSocialLinks = profile.social_links as unknown as SocialLinks;
         setSocialUrls(typedSocialLinks);
       }
       
@@ -62,41 +63,44 @@ export const BrandAssets = () => {
   };
 
   return (
-    <Card className="p-6 space-y-6">
-      <h2 className="text-xl font-semibold">Social Media Links</h2>
+    <Card className="p-6 space-y-6 bg-white shadow-lg border border-gray-100">
+      <h2 className="text-xl font-semibold text-gray-900">Social Media Links</h2>
       
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="instagram">Instagram Profile URL</Label>
+          <Label htmlFor="instagram" className="text-gray-700">Instagram Profile URL</Label>
           <Input
             id="instagram"
             placeholder="https://instagram.com/yourusername"
             value={socialUrls.instagram}
             onChange={(e) => setSocialUrls(prev => ({ ...prev, instagram: e.target.value }))}
+            className="bg-white border-gray-200 focus:border-primary"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tiktok">TikTok Video URL</Label>
+          <Label htmlFor="tiktok" className="text-gray-700">TikTok Video URL</Label>
           <Input
             id="tiktok"
             placeholder="https://tiktok.com/@username/video/..."
             value={socialUrls.tiktok}
             onChange={(e) => setSocialUrls(prev => ({ ...prev, tiktok: e.target.value }))}
+            className="bg-white border-gray-200 focus:border-primary"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="youtube">YouTube Video URL</Label>
+          <Label htmlFor="youtube" className="text-gray-700">YouTube Video URL</Label>
           <Input
             id="youtube"
             placeholder="https://youtube.com/watch?v=..."
             value={socialUrls.youtube}
             onChange={(e) => setSocialUrls(prev => ({ ...prev, youtube: e.target.value }))}
+            className="bg-white border-gray-200 focus:border-primary"
           />
         </div>
 
-        <Button onClick={handleSave} className="w-full">
+        <Button onClick={handleSave} className="w-full bg-primary hover:bg-primary/90">
           Save Changes
         </Button>
       </div>

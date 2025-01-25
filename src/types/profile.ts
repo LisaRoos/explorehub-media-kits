@@ -8,14 +8,15 @@ export interface SocialLinks {
 
 export interface ProfileData {
   id: string;
-  username: string;
-  full_name: string | null;
-  avatar_url: string | null;
-  bio: string | null;
-  categories: string[] | null;
-  primary_platform: string | null;
-  location: string | null;
   role: 'influencer' | 'brand' | 'admin';
+  username: string;
+  full_name: string;
+  avatar_url: string;
+  bio: string;
+  created_at: string;
+  updated_at: string;
+  categories: string[];
+  primary_platform: string;
+  location: string;
   social_links: SocialLinks | null;
-  email?: string;
 }
