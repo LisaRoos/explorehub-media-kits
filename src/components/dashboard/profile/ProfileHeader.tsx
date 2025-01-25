@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Pen } from "lucide-react";
+import { Pen, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,9 +13,10 @@ export const ProfileHeader = () => {
   const [username, setUsername] = useState("@username");
   const [bio, setBio] = useState("Digital creator sharing daily inspiration and creative content");
   const [role, setRole] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   // Fetch profile data including role
-  const { data: profile } = useQuery({
+  const { data: profile, refetch: refetchProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -35,6 +36,47 @@ export const ProfileHeader = () => {
       return profile;
     },
   });
+
+  const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+      setUploading(true);
+
+      const file = event.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('profile_photos')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('profile_photos')
+        .getPublicUrl(filePath);
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', profile?.id);
+
+      if (updateError) throw updateError;
+
+      toast.success("Profile photo updated successfully");
+      refetchProfile();
+    } catch (error) {
+      toast.error("Error uploading photo");
+      console.error('Error:', error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSave = async () => {
     try {
@@ -68,18 +110,36 @@ export const ProfileHeader = () => {
     <div className="text-center space-y-6 relative">
       <div className="relative inline-block">
         <Avatar className="w-32 h-32 mx-auto hover:scale-105 transition-transform">
-          <AvatarImage src="/placeholder.svg" alt="Profile" className="object-cover" />
-          <AvatarFallback>IN</AvatarFallback>
+          <AvatarImage 
+            src={profile?.avatar_url || "/placeholder.svg"} 
+            alt="Profile" 
+            className="object-cover" 
+          />
+          <AvatarFallback>
+            {username?.charAt(0)?.toUpperCase() || 'U'}
+          </AvatarFallback>
         </Avatar>
         {isInfluencer && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute bottom-0 right-0 rounded-full bg-background shadow-md hover:bg-accent"
-            onClick={() => toast.info("Avatar upload coming soon!")}
-          >
-            <Pen className="h-4 w-4" />
-          </Button>
+          <div className="absolute bottom-0 right-0">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              className="hidden"
+              id="photo-upload"
+              disabled={uploading}
+            />
+            <label htmlFor="photo-upload">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full bg-background shadow-md hover:bg-accent cursor-pointer"
+                disabled={uploading}
+              >
+                <Upload className="h-4 w-4" />
+              </Button>
+            </label>
+          </div>
         )}
       </div>
       

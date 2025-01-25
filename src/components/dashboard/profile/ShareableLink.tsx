@@ -32,7 +32,7 @@ export const ShareableLink = ({ view }: ShareableLinkProps) => {
       setCopying(true);
       const shareableLink = `${window.location.origin}/dashboard?view=${view}`;
       await navigator.clipboard.writeText(shareableLink);
-      toast.success("Link copied to clipboard!");
+      toast.success(`${view === "analytics" ? "Analytics" : "Public"} link copied to clipboard!`);
     } catch (error) {
       toast.error("Failed to copy link");
     } finally {
@@ -48,7 +48,7 @@ export const ShareableLink = ({ view }: ShareableLinkProps) => {
         disabled={copying}
         className="w-40"
       >
-        Copy Link
+        Copy {view === "analytics" ? "Analytics" : "Public"} Link
       </Button>
     </div>
   );

@@ -1,12 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ChatButton = () => {
-  const navigate = useNavigate();
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      return profile;
+    },
+  });
 
   const handleChatClick = () => {
-    navigate("/dashboard/messages");
+    window.location.href = `mailto:lisaroos904@icloud.com`;
   };
 
   return (
@@ -17,7 +32,7 @@ export const ChatButton = () => {
         variant="outline"
       >
         <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-        Chat Now
+        Contact via Email
       </Button>
     </div>
   );
