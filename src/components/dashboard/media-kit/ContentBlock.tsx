@@ -74,7 +74,7 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
       ) : (
         <div 
           className="aspect-video rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-          onClick={() => setIsEditing(true)}
+          onClick={() => profile?.role === 'influencer' && setIsEditing(true)}
         >
           {url ? (
             <iframe
@@ -83,7 +83,9 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
               allowFullScreen
             />
           ) : (
-            <p className="text-gray-500">Click to add {platform} content</p>
+            <p className="text-gray-500">
+              {profile?.role === 'influencer' ? `Click to add ${platform} content` : 'No content available'}
+            </p>
           )}
         </div>
       )}

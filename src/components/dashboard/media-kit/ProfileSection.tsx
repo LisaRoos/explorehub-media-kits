@@ -57,19 +57,21 @@ export const ProfileSection = ({ profile, refetchProfile }: ProfileSectionProps)
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <label htmlFor="avatar-upload" className="cursor-pointer text-white">
-            <Share className="w-6 h-6" />
-          </label>
-          <input 
-            type="file" 
-            id="avatar-upload" 
-            className="hidden" 
-            accept="image/*"
-            onChange={handlePhotoUpload}
-            disabled={uploading}
-          />
-        </div>
+        {profile?.role === 'influencer' && (
+          <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <label htmlFor="avatar-upload" className="cursor-pointer text-white">
+              <Share className="w-6 h-6" />
+            </label>
+            <input 
+              type="file" 
+              id="avatar-upload" 
+              className="hidden" 
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              disabled={uploading}
+            />
+          </div>
+        )}
       </div>
       <div>
         <h2 className="text-2xl font-bold">{profile?.full_name || "Your Name"}</h2>

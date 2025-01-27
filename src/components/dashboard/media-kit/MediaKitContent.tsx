@@ -8,8 +8,14 @@ import { SocialMediaButton } from "./SocialMediaButton";
 import { ProfileData, SocialLinks } from "@/types/profile";
 import { ProfileSection } from "./ProfileSection";
 import { ContentBlock } from "./ContentBlock";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export const MediaKitContent = () => {
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [email, setEmail] = useState("");
+
   const { data: profile, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
@@ -24,11 +30,14 @@ export const MediaKitContent = () => {
       
       if (!profileData) return null;
 
-      // Convert the social_links to the correct type
       const typedProfile: ProfileData = {
         ...profileData,
         social_links: profileData.social_links as SocialLinks | null
       };
+      
+      if (typedProfile.email) {
+        setEmail(typedProfile.email);
+      }
       
       return typedProfile;
     },
@@ -44,7 +53,7 @@ export const MediaKitContent = () => {
     },
     {
       platform: "TikTok",
-      icon: TikTokIcon as typeof Instagram,  // Type assertion to match LucideIcon
+      icon: TikTokIcon as typeof Instagram,
       color: "bg-black",
       followers: "892K",
       url: profile?.social_links?.tiktok || "#",
@@ -58,9 +67,36 @@ export const MediaKitContent = () => {
     },
   ];
 
+  const handleEmailSave = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error("You must be logged in to update your profile");
+        return;
+      }
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({ email })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      toast.success("Email updated successfully");
+      setEditingEmail(false);
+      refetch();
+    } catch (error) {
+      console.error('Error updating email:', error);
+      toast.error("Failed to update email");
+    }
+  };
+
   const handleEmailClick = () => {
-    const emailAddress = profile?.email || 'contact@example.com';
-    window.location.href = `mailto:${emailAddress}`;
+    if (profile?.role === 'influencer') {
+      setEditingEmail(true);
+    } else {
+      window.location.href = `mailto:${email || 'contact@example.com'}`;
+    }
   };
 
   return (
@@ -85,14 +121,40 @@ export const MediaKitContent = () => {
 
           {/* Action Buttons */}
           <div className="space-y-3">
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50"
-              onClick={handleEmailClick}
-            >
-              <MessageCircle className="w-4 h-4" />
-              Chat Now
-            </Button>
+            {editingEmail ? (
+              <div className="space-y-2">
+                <Input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your contact email"
+                  className="w-full"
+                />
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={handleEmailSave}
+                    className="flex-1"
+                  >
+                    Save
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setEditingEmail(false)}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Button 
+                variant="outline" 
+                className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50"
+                onClick={handleEmailClick}
+              >
+                <MessageCircle className="w-4 h-4" />
+                {profile?.role === 'influencer' ? 'Edit Contact Email' : 'Chat Now'}
+              </Button>
+            )}
             <Button 
               variant="outline" 
               className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50"
