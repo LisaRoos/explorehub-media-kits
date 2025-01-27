@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileData } from "@/types/profile";
-import { Pencil } from "lucide-react";
+import { ContentHeader } from "./content/ContentHeader";
+import { ContentEditForm } from "./content/ContentEditForm";
+import { ContentPreview } from "./content/ContentPreview";
 
 interface ContentBlockProps {
   platform: string;
@@ -53,76 +53,29 @@ export const ContentBlock = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {icon}
-          <h3 className="font-semibold text-gray-900">{platform}</h3>
-        </div>
-        {isEditable && !isEditing && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsEditing(true)}
-            className="h-8 w-8"
-          >
-            <Pencil className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
+      <ContentHeader
+        platform={platform}
+        icon={icon}
+        isEditable={isEditable}
+        isEditing={isEditing}
+        onEdit={() => setIsEditing(true)}
+      />
+      
       {isEditing && isEditable ? (
-        <div className="space-y-2">
-          <Input
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder={`Enter your ${platform} content URL`}
-            className="bg-white border-gray-200 focus:border-primary"
-          />
-          <p className="text-sm text-gray-500">
-            Please enter the URL of the content you want to display (e.g., a post or video URL)
-          </p>
-          <div className="flex gap-2">
-            <Button size="sm" onClick={handleSave} className="bg-primary hover:bg-primary/90">
-              Save
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={() => setIsEditing(false)}
-              className="bg-white hover:bg-gray-50"
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+        <ContentEditForm
+          url={url}
+          platform={platform}
+          onUrlChange={setUrl}
+          onSave={handleSave}
+          onCancel={() => setIsEditing(false)}
+        />
       ) : (
-        <div 
-          className={`aspect-video rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center transition-colors ${isEditable ? 'cursor-pointer' : ''}`}
-          onClick={() => isEditable && setIsEditing(true)}
-        >
-          {url ? (
-            <iframe
-              src={url}
-              className="w-full h-full rounded-lg"
-              allowFullScreen
-            />
-          ) : (
-            <div className="text-center p-4">
-              <p className="text-gray-500">
-                {isEditable ? (
-                  <>
-                    Click to add {platform} content
-                    <br />
-                    <span className="text-sm">
-                      (You'll need to provide a content URL)
-                    </span>
-                  </>
-                ) : (
-                  'No content available'
-                )}
-              </p>
-            </div>
-          )}
-        </div>
+        <ContentPreview
+          url={url}
+          platform={platform}
+          isEditable={isEditable}
+          onEdit={() => setIsEditing(true)}
+        />
       )}
     </div>
   );
