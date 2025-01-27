@@ -10,9 +10,16 @@ interface ContentBlockProps {
   icon: React.ReactNode;
   profile: ProfileData | null;
   refetchProfile: () => void;
+  isEditable: boolean;
 }
 
-export const ContentBlock = ({ platform, icon, profile, refetchProfile }: ContentBlockProps) => {
+export const ContentBlock = ({ 
+  platform, 
+  icon, 
+  profile, 
+  refetchProfile,
+  isEditable 
+}: ContentBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [url, setUrl] = useState(profile?.social_links?.[platform.toLowerCase() as keyof typeof profile.social_links] || "");
 
@@ -49,7 +56,7 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
         {icon}
         <h3 className="font-semibold text-gray-900">{platform}</h3>
       </div>
-      {isEditing ? (
+      {isEditing && isEditable ? (
         <div className="space-y-2">
           <Input
             value={url}
@@ -73,8 +80,8 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
         </div>
       ) : (
         <div 
-          className="aspect-video rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-          onClick={() => profile?.role === 'influencer' && setIsEditing(true)}
+          className={`aspect-video rounded-lg bg-gray-50 hover:bg-gray-100 flex items-center justify-center transition-colors ${isEditable ? 'cursor-pointer' : ''}`}
+          onClick={() => isEditable && setIsEditing(true)}
         >
           {url ? (
             <iframe
@@ -84,7 +91,7 @@ export const ContentBlock = ({ platform, icon, profile, refetchProfile }: Conten
             />
           ) : (
             <p className="text-gray-500">
-              {profile?.role === 'influencer' ? `Click to add ${platform} content` : 'No content available'}
+              {isEditable ? `Click to add ${platform} content` : 'No content available'}
             </p>
           )}
         </div>

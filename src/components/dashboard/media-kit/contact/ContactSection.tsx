@@ -9,9 +9,10 @@ import { ProfileData } from "@/types/profile";
 interface ContactSectionProps {
   profile: ProfileData | null;
   refetchProfile: () => void;
+  isEditable: boolean;
 }
 
-export const ContactSection = ({ profile, refetchProfile }: ContactSectionProps) => {
+export const ContactSection = ({ profile, refetchProfile, isEditable }: ContactSectionProps) => {
   const [editingEmail, setEditingEmail] = useState(false);
   const [email, setEmail] = useState(profile?.email || "");
 
@@ -36,7 +37,7 @@ export const ContactSection = ({ profile, refetchProfile }: ContactSectionProps)
   };
 
   const handleEmailClick = () => {
-    if (profile?.role === 'influencer') {
+    if (isEditable) {
       setEditingEmail(true);
     } else {
       window.location.href = `mailto:${email || 'contact@example.com'}`;
@@ -45,7 +46,7 @@ export const ContactSection = ({ profile, refetchProfile }: ContactSectionProps)
 
   return (
     <div className="space-y-3">
-      {editingEmail ? (
+      {editingEmail && isEditable ? (
         <div className="space-y-2">
           <Input
             value={email}
@@ -76,7 +77,7 @@ export const ContactSection = ({ profile, refetchProfile }: ContactSectionProps)
           onClick={handleEmailClick}
         >
           <MessageCircle className="w-4 h-4" />
-          {profile?.role === 'influencer' ? 'Edit Contact Email' : 'Chat Now'}
+          {isEditable ? 'Edit Contact Email' : 'Chat Now'}
         </Button>
       )}
       <Button 

@@ -7,9 +7,10 @@ import { ProfileData } from "@/types/profile";
 interface ProfileSectionProps {
   profile: ProfileData | null;
   refetchProfile: () => void;
+  isEditable: boolean;
 }
 
-export const ProfileSection = ({ profile, refetchProfile }: ProfileSectionProps) => {
+export const ProfileSection = ({ profile, refetchProfile, isEditable }: ProfileSectionProps) => {
   const [uploading, setUploading] = useState(false);
 
   const handlePhotoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +58,7 @@ export const ProfileSection = ({ profile, refetchProfile }: ProfileSectionProps)
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover"
         />
-        {profile?.role === 'influencer' && (
+        {isEditable && (
           <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <label htmlFor="avatar-upload" className="cursor-pointer text-white">
               <Share className="w-6 h-6" />

@@ -8,8 +8,12 @@ import { ContactSection } from "./contact/ContactSection";
 import { ContentBlock } from "./ContentBlock";
 import { Instagram, Youtube } from "lucide-react";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
+import { useLocation } from "react-router-dom";
 
 export const MediaKitContent = () => {
+  const location = useLocation();
+  const isSharedView = !location.pathname.includes('/dashboard');
+
   const { data: profile, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
@@ -37,29 +41,39 @@ export const MediaKitContent = () => {
     <div className="space-y-6">
       <Card className="p-6 bg-white shadow-lg rounded-3xl border border-gray-100">
         <div className="space-y-6">
-          <ProfileSection profile={profile} refetchProfile={refetch} />
+          <ProfileSection 
+            profile={profile} 
+            refetchProfile={refetch} 
+            isEditable={!isSharedView && profile?.role === 'influencer'} 
+          />
           <SocialMediaButtons profile={profile} />
-          <ContactSection profile={profile} refetchProfile={refetch} />
+          <ContactSection 
+            profile={profile} 
+            refetchProfile={refetch} 
+            isEditable={!isSharedView && profile?.role === 'influencer'} 
+          />
 
-          {/* Content Blocks */}
           <div className="space-y-6">
             <ContentBlock
               platform="Instagram"
               icon={<Instagram className="w-5 h-5" />}
               profile={profile}
               refetchProfile={refetch}
+              isEditable={!isSharedView && profile?.role === 'influencer'}
             />
             <ContentBlock
               platform="TikTok"
               icon={<TikTokIcon className="w-5 h-5" />}
               profile={profile}
               refetchProfile={refetch}
+              isEditable={!isSharedView && profile?.role === 'influencer'}
             />
             <ContentBlock
               platform="YouTube"
               icon={<Youtube className="w-5 h-5 text-red-500" />}
               profile={profile}
               refetchProfile={refetch}
+              isEditable={!isSharedView && profile?.role === 'influencer'}
             />
           </div>
         </div>
