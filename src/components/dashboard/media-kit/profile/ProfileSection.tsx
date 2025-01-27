@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Share } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProfileData } from "@/types/profile";
+import { Button } from "@/components/ui/button";
 
 interface ProfileSectionProps {
   profile: ProfileData | null;
@@ -61,7 +62,7 @@ export const ProfileSection = ({ profile, refetchProfile, isEditable }: ProfileS
         {isEditable && (
           <div className="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <label htmlFor="avatar-upload" className="cursor-pointer text-white">
-              <Share className="w-6 h-6" />
+              <Pencil className="w-6 h-6" />
             </label>
             <input 
               type="file" 

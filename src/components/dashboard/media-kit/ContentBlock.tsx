@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileData } from "@/types/profile";
+import { Pencil } from "lucide-react";
 
 interface ContentBlockProps {
   platform: string;
@@ -52,18 +53,33 @@ export const ContentBlock = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        {icon}
-        <h3 className="font-semibold text-gray-900">{platform}</h3>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {icon}
+          <h3 className="font-semibold text-gray-900">{platform}</h3>
+        </div>
+        {isEditable && !isEditing && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsEditing(true)}
+            className="h-8 w-8"
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       {isEditing && isEditable ? (
         <div className="space-y-2">
           <Input
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder={`Enter ${platform} URL`}
+            placeholder={`Enter your ${platform} content URL`}
             className="bg-white border-gray-200 focus:border-primary"
           />
+          <p className="text-sm text-gray-500">
+            Please enter the URL of the content you want to display (e.g., a post or video URL)
+          </p>
           <div className="flex gap-2">
             <Button size="sm" onClick={handleSave} className="bg-primary hover:bg-primary/90">
               Save
@@ -90,9 +106,21 @@ export const ContentBlock = ({
               allowFullScreen
             />
           ) : (
-            <p className="text-gray-500">
-              {isEditable ? `Click to add ${platform} content` : 'No content available'}
-            </p>
+            <div className="text-center p-4">
+              <p className="text-gray-500">
+                {isEditable ? (
+                  <>
+                    Click to add {platform} content
+                    <br />
+                    <span className="text-sm">
+                      (You'll need to provide a content URL)
+                    </span>
+                  </>
+                ) : (
+                  'No content available'
+                )}
+              </p>
+            </div>
           )}
         </div>
       )}
