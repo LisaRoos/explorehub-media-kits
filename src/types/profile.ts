@@ -1,5 +1,3 @@
-import { Json } from "@/integrations/supabase/types";
-
 export interface SocialLinks {
   instagram?: string;
   tiktok?: string;
@@ -13,7 +11,7 @@ export interface ProfileData {
   full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
-  email?: string;
+  email: string | null;
   created_at: string;
   updated_at: string;
   categories: string[] | null;

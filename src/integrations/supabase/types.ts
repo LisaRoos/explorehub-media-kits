@@ -144,6 +144,7 @@ export type Database = {
           bio: string | null
           categories: string[] | null
           created_at: string | null
+          email: string | null
           full_name: string | null
           id: string
           location: string | null
@@ -158,6 +159,7 @@ export type Database = {
           bio?: string | null
           categories?: string[] | null
           created_at?: string | null
+          email?: string | null
           full_name?: string | null
           id: string
           location?: string | null
@@ -172,6 +174,7 @@ export type Database = {
           bio?: string | null
           categories?: string[] | null
           created_at?: string | null
+          email?: string | null
           full_name?: string | null
           id?: string
           location?: string | null
