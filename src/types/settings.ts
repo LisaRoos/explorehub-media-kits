@@ -5,6 +5,11 @@ export interface SocialLinks {
   instagram: string[];
   tiktok: string[];
   youtube: string[];
+  content_urls?: {
+    instagram: string[];
+    tiktok: string[];
+    youtube: string[];
+  };
 }
 
 export interface ContentUrls {
