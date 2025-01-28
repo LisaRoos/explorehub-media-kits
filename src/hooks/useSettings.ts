@@ -7,6 +7,7 @@ import {
   updateProfileInDatabase, 
   generateThumbnailUrl 
 } from "@/utils/settingsUtils";
+import { ProfileData } from "@/types/profile";
 
 export const useSettings = (): SettingsState & SettingsActions => {
   const [name, setName] = useState("");
@@ -32,12 +33,12 @@ export const useSettings = (): SettingsState & SettingsActions => {
         setBio(profile.bio || "");
         setEmail(profile.email || "");
         if (profile.social_links) {
-          const socialLinks = profile.social_links as unknown as SocialLinks;
-          setPlatformUrls(prev => ({
-            instagram: socialLinks.instagram || Array(5).fill(""),
-            tiktok: socialLinks.tiktok || Array(5).fill(""),
-            youtube: socialLinks.youtube || Array(5).fill("")
-          }));
+          const socialLinks = profile.social_links as ProfileData['social_links'];
+          setPlatformUrls({
+            instagram: [socialLinks?.instagram || ""],
+            tiktok: [socialLinks?.tiktok || ""],
+            youtube: [socialLinks?.youtube || ""]
+          });
         }
       }
       return profile;
@@ -64,11 +65,11 @@ export const useSettings = (): SettingsState & SettingsActions => {
       setBio(profile.bio || "");
       setEmail(profile.email || "");
       if (profile.social_links) {
-        const socialLinks = profile.social_links as unknown as SocialLinks;
+        const socialLinks = profile.social_links as ProfileData['social_links'];
         setPlatformUrls({
-          instagram: socialLinks.instagram || Array(5).fill(""),
-          tiktok: socialLinks.tiktok || Array(5).fill(""),
-          youtube: socialLinks.youtube || Array(5).fill("")
+          instagram: [socialLinks?.instagram || ""],
+          tiktok: [socialLinks?.tiktok || ""],
+          youtube: [socialLinks?.youtube || ""]
         });
       }
     }
@@ -77,11 +78,17 @@ export const useSettings = (): SettingsState & SettingsActions => {
   const handleSave = async () => {
     if (!profile?.id) return;
 
+    const socialLinks = {
+      instagram: platformUrls.instagram[0],
+      tiktok: platformUrls.tiktok[0],
+      youtube: platformUrls.youtube[0]
+    };
+
     await updateProfileInDatabase(profile.id, {
       full_name: name,
       bio,
       email,
-      social_links: platformUrls
+      social_links: socialLinks
     });
 
     await refetch();

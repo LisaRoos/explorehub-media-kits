@@ -38,7 +38,6 @@ const Settings = () => {
   const handleSaveChanges = async () => {
     try {
       await handleSave();
-      // Invalidate and refetch profile data to update all components
       await queryClient.invalidateQueries({ queryKey: ['profile'] });
       toast.success("Profile updated successfully");
       navigate('/dashboard/media-kit');
@@ -72,7 +71,7 @@ const Settings = () => {
       </Card>
 
       <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Social Media Content</h2>
+        <h2 className="text-xl font-semibold mb-4">Social Media Handles</h2>
         <SocialMediaUrls
           platformUrls={platformUrls}
           thumbnails={thumbnails}

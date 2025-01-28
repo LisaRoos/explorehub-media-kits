@@ -1,13 +1,7 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Instagram, Youtube } from "lucide-react";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
-
-export interface SocialLinks {
-  instagram: string[];
-  tiktok: string[];
-  youtube: string[];
-}
+import { SocialLinks } from "@/types/settings";
 
 interface SocialMediaUrlsProps {
   platformUrls: SocialLinks;
@@ -15,45 +9,53 @@ interface SocialMediaUrlsProps {
   onUrlChange: (platform: keyof SocialLinks, index: number, value: string) => void;
 }
 
-export const SocialMediaUrls = ({ platformUrls, thumbnails, onUrlChange }: SocialMediaUrlsProps) => {
+export const SocialMediaUrls = ({
+  platformUrls,
+  thumbnails,
+  onUrlChange,
+}: SocialMediaUrlsProps) => {
+  const socialPlatforms = [
+    {
+      name: "instagram",
+      icon: Instagram,
+      label: "Instagram Handle",
+      placeholder: "@username",
+    },
+    {
+      name: "tiktok",
+      icon: TikTokIcon,
+      label: "TikTok Handle",
+      placeholder: "@username",
+    },
+    {
+      name: "youtube",
+      icon: Youtube,
+      label: "YouTube Channel",
+      placeholder: "@channel",
+    },
+  ];
+
   return (
-    <Tabs defaultValue="instagram" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="instagram" className="flex items-center gap-2">
-          <Instagram className="w-4 h-4" />
-          Instagram
-        </TabsTrigger>
-        <TabsTrigger value="tiktok" className="flex items-center gap-2">
-          <TikTokIcon className="w-4 h-4" />
-          TikTok
-        </TabsTrigger>
-        <TabsTrigger value="youtube" className="flex items-center gap-2">
-          <Youtube className="w-4 h-4" />
-          YouTube
-        </TabsTrigger>
-      </TabsList>
-      {Object.entries(platformUrls).map(([platform, urls]) => (
-        <TabsContent key={platform} value={platform}>
-          <div className="space-y-4">
-            {urls.map((url, index) => (
-              <div key={index} className="flex gap-4">
-                <Input
-                  value={url}
-                  onChange={(e) => onUrlChange(platform as keyof SocialLinks, index, e.target.value)}
-                  placeholder={`Enter ${platform} content URL`}
-                />
-                {thumbnails[platform as keyof SocialLinks][index] && (
-                  <img
-                    src={thumbnails[platform as keyof SocialLinks][index]}
-                    alt={`${platform} thumbnail ${index + 1}`}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                )}
-              </div>
-            ))}
+    <div className="space-y-4">
+      {socialPlatforms.map((platform) => (
+        <div key={platform.name} className="space-y-2">
+          <div className="flex items-center gap-2">
+            <platform.icon className="w-5 h-5" />
+            <label htmlFor={platform.name} className="text-sm font-medium">
+              {platform.label}
+            </label>
           </div>
-        </TabsContent>
+          <Input
+            id={platform.name}
+            value={platformUrls[platform.name as keyof SocialLinks][0] || ""}
+            onChange={(e) =>
+              onUrlChange(platform.name as keyof SocialLinks, 0, e.target.value)
+            }
+            placeholder={platform.placeholder}
+            className="max-w-md"
+          />
+        </div>
       ))}
-    </Tabs>
+    </div>
   );
 };
