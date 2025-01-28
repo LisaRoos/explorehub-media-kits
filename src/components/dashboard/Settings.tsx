@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ProfilePhotoUpload } from "./settings/ProfilePhotoUpload";
 import { ProfileForm } from "./settings/ProfileForm";
 import { SocialMediaUrls, type SocialLinks } from "./settings/SocialMediaUrls";
+import { type Json } from "@/integrations/supabase/types";
 
 const Settings = () => {
   const [name, setName] = useState("");
