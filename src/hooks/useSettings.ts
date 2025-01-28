@@ -8,12 +8,7 @@ import { ProfileData } from "@/types/profile";
 export const initializeSocialLinks = (): SocialLinks => ({
   instagram: [""],
   tiktok: [""],
-  youtube: [""],
-  content_urls: {
-    instagram: [""],
-    tiktok: [""],
-    youtube: [""]
-  }
+  youtube: [""]
 });
 
 export const useSettings = (): SettingsState & SettingsActions => {
@@ -49,17 +44,13 @@ export const useSettings = (): SettingsState & SettingsActions => {
           setPlatformUrls({
             instagram: [socialLinks?.instagram || ""],
             tiktok: [socialLinks?.tiktok || ""],
-            youtube: [socialLinks?.youtube || ""],
-            content_urls: socialLinks?.content_urls || {
-              instagram: [""],
-              tiktok: [""],
-              youtube: [""]
-            }
+            youtube: [socialLinks?.youtube || ""]
           });
           if (socialLinks?.content_urls) {
-            setContentUrls(socialLinks.content_urls as ContentUrls);
+            const contentUrlsData = socialLinks.content_urls as ContentUrls;
+            setContentUrls(contentUrlsData);
             // Generate thumbnails for existing content URLs
-            Object.entries(socialLinks.content_urls).forEach(([platform, urls]) => {
+            Object.entries(contentUrlsData).forEach(([platform, urls]) => {
               const platformKey = platform as keyof ContentUrls;
               const newThumbnails = urls.map(url => generateThumbnailUrl(platform, url));
               setThumbnails(prev => ({
@@ -77,7 +68,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
   const handleUrlChange = (platform: keyof SocialLinks, index: number, value: string) => {
     setPlatformUrls(prev => ({
       ...prev,
-      [platform]: prev[platform].map((url, i) => i === index ? value : url)
+      [platform]: [value]
     }));
   };
 
@@ -134,12 +125,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
         setPlatformUrls({
           instagram: [socialLinks?.instagram || ""],
           tiktok: [socialLinks?.tiktok || ""],
-          youtube: [socialLinks?.youtube || ""],
-          content_urls: socialLinks?.content_urls || {
-            instagram: [""],
-            tiktok: [""],
-            youtube: [""]
-          }
+          youtube: [socialLinks?.youtube || ""]
         });
         if (socialLinks?.content_urls) {
           setContentUrls(socialLinks.content_urls as ContentUrls);

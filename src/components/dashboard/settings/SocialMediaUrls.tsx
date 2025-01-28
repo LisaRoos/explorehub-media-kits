@@ -5,6 +5,10 @@ import { Instagram, Youtube, Plus, Minus } from "lucide-react";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
 import { SocialLinks, ContentUrls } from "@/types/settings";
 import { Card } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface SocialMediaUrlsProps {
   platformUrls: SocialLinks;
@@ -21,6 +25,24 @@ export const SocialMediaUrls = ({
   onUrlChange,
   onContentUrlChange,
 }: SocialMediaUrlsProps) => {
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .eq('profile_id', user.id)
+        .single();
+      
+      return subscription;
+    },
+  });
+
+  const maxUrls = subscription?.status === 'pro' ? 10 : 3;
+
   const socialPlatforms = [
     {
       name: "instagram" as keyof SocialLinks,
@@ -46,7 +68,7 @@ export const SocialMediaUrls = ({
   ];
 
   const addContentUrl = (platform: keyof ContentUrls) => {
-    if (contentUrls[platform].length < 5) {
+    if (contentUrls[platform].length < maxUrls) {
       onContentUrlChange(platform, contentUrls[platform].length, "");
     }
   };
@@ -59,6 +81,15 @@ export const SocialMediaUrls = ({
 
   return (
     <div className="space-y-6">
+      {subscription?.status !== 'pro' && (
+        <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
+          <AlertCircle className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="text-yellow-800">
+            Free users can add up to 3 URLs per platform. Upgrade to Pro to add up to 10 URLs.
+          </AlertDescription>
+        </Alert>
+      )}
+      
       {socialPlatforms.map((platform) => (
         <Card key={platform.name} className="p-4">
           <div className="space-y-4">
@@ -84,7 +115,7 @@ export const SocialMediaUrls = ({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label>Featured Content URLs</Label>
-                  {contentUrls[platform.name].length < 5 && (
+                  {contentUrls[platform.name].length < maxUrls && (
                     <Button
                       type="button"
                       variant="outline"
