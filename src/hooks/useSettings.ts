@@ -15,7 +15,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
   const [platformUrls, setPlatformUrls] = useState<SocialLinks>(initializeSocialLinks());
   const [thumbnails, setThumbnails] = useState<SocialLinks>(initializeSocialLinks());
 
-  const { data: profile, refetch: refetchProfile } = useQuery({
+  const { data: profile, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -84,13 +84,18 @@ export const useSettings = (): SettingsState & SettingsActions => {
       social_links: platformUrls
     });
 
-    await refetchProfile();
+    await refetch();
+  };
+
+  const refetchProfile = async () => {
+    await refetch();
   };
 
   return {
     name,
     email,
     bio,
+    profile,
     platformUrls,
     thumbnails,
     setName,

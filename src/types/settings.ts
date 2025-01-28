@@ -1,4 +1,5 @@
 import { Json } from "@/integrations/supabase/types";
+import { ProfileData } from "@/types/profile";
 
 export interface SocialLinks {
   instagram: string[];
@@ -10,6 +11,7 @@ export interface SettingsState {
   name: string;
   email: string;
   bio: string;
+  profile: ProfileData | null;
   platformUrls: SocialLinks;
   thumbnails: SocialLinks;
 }
