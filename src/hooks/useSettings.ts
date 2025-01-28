@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { SocialLinks, SettingsState, SettingsActions } from "@/types/settings";
+import { SocialLinks, SettingsState, SettingsActions, ContentUrls } from "@/types/settings";
 import { 
   initializeSocialLinks, 
   updateProfileInDatabase, 
@@ -14,6 +14,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
   const [platformUrls, setPlatformUrls] = useState<SocialLinks>(initializeSocialLinks());
+  const [contentUrls, setContentUrls] = useState<ContentUrls>(initializeSocialLinks());
   const [thumbnails, setThumbnails] = useState<SocialLinks>(initializeSocialLinks());
 
   const { data: profile, refetch } = useQuery({
@@ -39,6 +40,10 @@ export const useSettings = (): SettingsState & SettingsActions => {
             tiktok: [socialLinks?.tiktok || ""],
             youtube: [socialLinks?.youtube || ""]
           });
+          // Initialize content URLs if they exist
+          if (socialLinks?.content_urls) {
+            setContentUrls(socialLinks.content_urls as ContentUrls);
+          }
         }
       }
       return profile;
@@ -50,11 +55,19 @@ export const useSettings = (): SettingsState & SettingsActions => {
       ...prev,
       [platform]: prev[platform].map((url, i) => i === index ? value : url)
     }));
+  };
 
+  const handleContentUrlChange = (platform: keyof ContentUrls, index: number, value: string) => {
+    setContentUrls(prev => ({
+      ...prev,
+      [platform]: prev[platform].map((url, i) => i === index ? value : url)
+    }));
+
+    // Update thumbnails when content URL changes
     setThumbnails(prev => ({
       ...prev,
       [platform]: prev[platform].map((thumb, i) => 
-        i === index ? generateThumbnailUrl(platform, index) : thumb
+        i === index ? generateThumbnailUrl(platform, value) : thumb
       )
     }));
   };
@@ -71,6 +84,9 @@ export const useSettings = (): SettingsState & SettingsActions => {
           tiktok: [socialLinks?.tiktok || ""],
           youtube: [socialLinks?.youtube || ""]
         });
+        if (socialLinks?.content_urls) {
+          setContentUrls(socialLinks.content_urls as ContentUrls);
+        }
       }
     }
   };
@@ -81,7 +97,8 @@ export const useSettings = (): SettingsState & SettingsActions => {
     const socialLinks = {
       instagram: platformUrls.instagram[0],
       tiktok: platformUrls.tiktok[0],
-      youtube: platformUrls.youtube[0]
+      youtube: platformUrls.youtube[0],
+      content_urls: contentUrls
     };
 
     await updateProfileInDatabase(profile.id, {
@@ -104,11 +121,13 @@ export const useSettings = (): SettingsState & SettingsActions => {
     bio,
     profile,
     platformUrls,
+    contentUrls,
     thumbnails,
     setName,
     setEmail,
     setBio,
     handleUrlChange,
+    handleContentUrlChange,
     handleSave,
     resetForm,
     refetchProfile

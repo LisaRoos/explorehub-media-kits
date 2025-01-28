@@ -19,11 +19,13 @@ const Settings = () => {
     bio,
     profile,
     platformUrls,
+    contentUrls,
     thumbnails,
     setName,
     setEmail,
     setBio,
     handleUrlChange,
+    handleContentUrlChange,
     handleSave,
     resetForm,
     refetchProfile
@@ -71,11 +73,13 @@ const Settings = () => {
       </Card>
 
       <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Social Media Handles</h2>
+        <h2 className="text-xl font-semibold mb-4">Social Media</h2>
         <SocialMediaUrls
           platformUrls={platformUrls}
+          contentUrls={contentUrls}
           thumbnails={thumbnails}
           onUrlChange={handleUrlChange}
+          onContentUrlChange={handleContentUrlChange}
         />
       </Card>
 

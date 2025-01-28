@@ -7,6 +7,12 @@ export interface SocialLinks {
   youtube: string[];
 }
 
+export interface ContentUrls {
+  instagram: string[];
+  tiktok: string[];
+  youtube: string[];
+}
+
 export interface SettingsState {
   name: string;
   email: string;
@@ -14,6 +20,7 @@ export interface SettingsState {
   profile: ProfileData | null;
   platformUrls: SocialLinks;
   thumbnails: SocialLinks;
+  contentUrls: ContentUrls;
 }
 
 export interface SettingsActions {
@@ -21,6 +28,7 @@ export interface SettingsActions {
   setEmail: (email: string) => void;
   setBio: (bio: string) => void;
   handleUrlChange: (platform: keyof SocialLinks, index: number, value: string) => void;
+  handleContentUrlChange: (platform: keyof ContentUrls, index: number, value: string) => void;
   handleSave: () => Promise<void>;
   resetForm: () => void;
   refetchProfile: () => Promise<void>;
