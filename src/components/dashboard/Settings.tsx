@@ -16,17 +16,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Instagram, Youtube } from "lucide-react";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
 
+interface SocialLinks {
+  instagram: string[];
+  tiktok: string[];
+  youtube: string[];
+}
+
 const Settings = () => {
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
-  const [platformUrls, setPlatformUrls] = useState({
+  const [platformUrls, setPlatformUrls] = useState<SocialLinks>({
     instagram: Array(5).fill(""),
     tiktok: Array(5).fill(""),
     youtube: Array(5).fill("")
   });
-  const [thumbnails, setThumbnails] = useState({
+  const [thumbnails, setThumbnails] = useState<SocialLinks>({
     instagram: Array(5).fill(""),
     tiktok: Array(5).fill(""),
     youtube: Array(5).fill("")
@@ -49,10 +55,11 @@ const Settings = () => {
         setBio(profile.bio || "");
         setEmail(profile.email || "");
         if (profile.social_links) {
+          const socialLinks = profile.social_links as SocialLinks;
           setPlatformUrls(prev => ({
-            instagram: profile.social_links.instagram || Array(5).fill(""),
-            tiktok: profile.social_links.tiktok || Array(5).fill(""),
-            youtube: profile.social_links.youtube || Array(5).fill("")
+            instagram: socialLinks.instagram || Array(5).fill(""),
+            tiktok: socialLinks.tiktok || Array(5).fill(""),
+            youtube: socialLinks.youtube || Array(5).fill("")
           }));
         }
       }
@@ -97,7 +104,7 @@ const Settings = () => {
     }
   };
 
-  const handleUrlChange = async (platform: string, index: number, value: string) => {
+  const handleUrlChange = async (platform: keyof SocialLinks, index: number, value: string) => {
     setPlatformUrls(prev => ({
       ...prev,
       [platform]: prev[platform].map((url, i) => i === index ? value : url)
