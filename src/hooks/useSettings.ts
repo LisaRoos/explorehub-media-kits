@@ -1,24 +1,19 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { type Json } from "@/integrations/supabase/types";
-import { type SocialLinks } from "@/components/dashboard/settings/SocialMediaUrls";
+import { supabase } from "@/integrations/supabase/client";
+import { SocialLinks, SettingsState, SettingsActions } from "@/types/settings";
+import { 
+  initializeSocialLinks, 
+  updateProfileInDatabase, 
+  generateThumbnailUrl 
+} from "@/utils/settingsUtils";
 
-export const useSettings = () => {
+export const useSettings = (): SettingsState & SettingsActions => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
-  const [platformUrls, setPlatformUrls] = useState<SocialLinks>({
-    instagram: Array(5).fill(""),
-    tiktok: Array(5).fill(""),
-    youtube: Array(5).fill("")
-  });
-  const [thumbnails, setThumbnails] = useState<SocialLinks>({
-    instagram: Array(5).fill(""),
-    tiktok: Array(5).fill(""),
-    youtube: Array(5).fill("")
-  });
+  const [platformUrls, setPlatformUrls] = useState<SocialLinks>(initializeSocialLinks());
+  const [thumbnails, setThumbnails] = useState<SocialLinks>(initializeSocialLinks());
 
   const { data: profile, refetch: refetchProfile } = useQuery({
     queryKey: ['profile'],
@@ -58,7 +53,7 @@ export const useSettings = () => {
     setThumbnails(prev => ({
       ...prev,
       [platform]: prev[platform].map((thumb, i) => 
-        i === index ? `https://placeholder.com/thumb_${platform}_${index}` : thumb
+        i === index ? generateThumbnailUrl(platform, index) : thumb
       )
     }));
   };
@@ -80,34 +75,22 @@ export const useSettings = () => {
   };
 
   const handleSave = async () => {
-    try {
-      if (!profile?.id) return;
+    if (!profile?.id) return;
 
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          full_name: name,
-          bio,
-          email,
-          social_links: platformUrls as unknown as Json
-        })
-        .eq('id', profile.id);
+    await updateProfileInDatabase(profile.id, {
+      full_name: name,
+      bio,
+      email,
+      social_links: platformUrls
+    });
 
-      if (error) throw error;
-
-      await refetchProfile();
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      toast.error("Failed to update profile");
-      throw error;
-    }
+    await refetchProfile();
   };
 
   return {
     name,
     email,
     bio,
-    profile,
     platformUrls,
     thumbnails,
     setName,
