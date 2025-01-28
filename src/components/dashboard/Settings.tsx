@@ -7,9 +7,12 @@ import { SettingsLayout } from "./settings/SettingsLayout";
 import { useSettings } from "@/hooks/useSettings";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Settings = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  
   const {
     name,
     email,
@@ -33,9 +36,16 @@ const Settings = () => {
   };
 
   const handleSaveChanges = async () => {
-    await handleSave();
-    toast.success("Profile updated successfully");
-    navigate('/dashboard/media-kit');
+    try {
+      await handleSave();
+      // Invalidate and refetch profile data to update all components
+      await queryClient.invalidateQueries({ queryKey: ['profile'] });
+      toast.success("Profile updated successfully");
+      navigate('/dashboard/media-kit');
+    } catch (error) {
+      console.error('Error saving changes:', error);
+      toast.error("Failed to save changes");
+    }
   };
 
   return (

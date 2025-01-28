@@ -30,7 +30,7 @@ export const useSettings = () => {
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
       
       if (profile) {
         setName(profile.full_name || "");
