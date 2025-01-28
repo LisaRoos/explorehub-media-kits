@@ -9,12 +9,14 @@ import { ContentBlock } from "./ContentBlock";
 import { Instagram, Youtube } from "lucide-react";
 import { TikTokIcon } from "@/components/landing/media-kit/TikTokIcon";
 import { useLocation } from "react-router-dom";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 export const MediaKitContent = () => {
   const location = useLocation();
   const isSharedView = !location.pathname.includes('/dashboard');
 
-  const { data: profile, refetch } = useQuery({
+  const { data: profile, refetch, isError } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -24,7 +26,7 @@ export const MediaKitContent = () => {
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
       
       if (!profileData) return null;
 
@@ -36,6 +38,17 @@ export const MediaKitContent = () => {
       return typedProfile;
     },
   });
+
+  if (isError) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          Failed to load profile. Please try again later.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <div className="space-y-6">

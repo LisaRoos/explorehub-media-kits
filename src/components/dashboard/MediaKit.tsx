@@ -14,7 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 const MediaKit = () => {
   const navigate = useNavigate();
 
-  const { data: profile } = useQuery({
+  const { data: profile, isError } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -24,7 +24,7 @@ const MediaKit = () => {
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
       
       return profile;
     },
@@ -32,6 +32,19 @@ const MediaKit = () => {
 
   const isInfluencer = profile?.role === 'influencer';
   const hasIncompleteProfile = isInfluencer && (!profile?.full_name || !profile?.bio || !profile?.avatar_url);
+
+  if (isError) {
+    return (
+      <div className="p-4">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Failed to load profile. Please try again later.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
