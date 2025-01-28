@@ -5,8 +5,11 @@ import { ProfileForm } from "./settings/ProfileForm";
 import { SocialMediaUrls } from "./settings/SocialMediaUrls";
 import { SettingsLayout } from "./settings/SettingsLayout";
 import { useSettings } from "@/hooks/useSettings";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Settings = () => {
+  const navigate = useNavigate();
   const {
     name,
     email,
@@ -19,8 +22,21 @@ const Settings = () => {
     setBio,
     handleUrlChange,
     handleSave,
+    resetForm,
     refetchProfile
   } = useSettings();
+
+  const handleCancel = () => {
+    resetForm();
+    toast.info("Changes discarded");
+    navigate('/dashboard/media-kit');
+  };
+
+  const handleSaveChanges = async () => {
+    await handleSave();
+    toast.success("Profile updated successfully");
+    navigate('/dashboard/media-kit');
+  };
 
   return (
     <SettingsLayout>
@@ -54,9 +70,14 @@ const Settings = () => {
         />
       </Card>
 
-      <Button onClick={handleSave} className="w-full">
-        Save Changes
-      </Button>
+      <div className="flex justify-end space-x-4 mt-4">
+        <Button variant="outline" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button onClick={handleSaveChanges}>
+          Save Changes
+        </Button>
+      </div>
     </SettingsLayout>
   );
 };

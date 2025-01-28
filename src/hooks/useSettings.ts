@@ -63,6 +63,22 @@ export const useSettings = () => {
     }));
   };
 
+  const resetForm = () => {
+    if (profile) {
+      setName(profile.full_name || "");
+      setBio(profile.bio || "");
+      setEmail(profile.email || "");
+      if (profile.social_links) {
+        const socialLinks = profile.social_links as unknown as SocialLinks;
+        setPlatformUrls({
+          instagram: socialLinks.instagram || Array(5).fill(""),
+          tiktok: socialLinks.tiktok || Array(5).fill(""),
+          youtube: socialLinks.youtube || Array(5).fill("")
+        });
+      }
+    }
+  };
+
   const handleSave = async () => {
     try {
       if (!profile?.id) return;
@@ -79,10 +95,11 @@ export const useSettings = () => {
 
       if (error) throw error;
 
-      toast.success("Profile updated successfully");
+      await refetchProfile();
     } catch (error) {
       console.error('Error updating profile:', error);
       toast.error("Failed to update profile");
+      throw error;
     }
   };
 
@@ -98,6 +115,7 @@ export const useSettings = () => {
     setBio,
     handleUrlChange,
     handleSave,
+    resetForm,
     refetchProfile
   };
 };

@@ -45,7 +45,7 @@ const MediaKit = () => {
           
           {hasIncompleteProfile && (
             <div className="p-4">
-              <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
+              <Alert variant="destructive" className="bg-yellow-50 border-yellow-200">
                 <AlertCircle className="h-4 w-4 text-yellow-600" />
                 <AlertDescription className="flex items-center justify-between">
                   <span className="text-yellow-800">
