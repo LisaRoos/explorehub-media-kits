@@ -7,6 +7,7 @@ export interface SocialLinks {
     tiktok: string[];
     youtube: string[];
   };
+  [key: string]: any; // Add index signature to make it compatible with Json type
 }
 
 export interface ProfileData {

@@ -98,7 +98,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
       tiktok: platformUrls.tiktok[0],
       youtube: platformUrls.youtube[0],
       content_urls: contentUrls
-    };
+    } as unknown as Json;
 
     const { error } = await supabase
       .from('profiles')

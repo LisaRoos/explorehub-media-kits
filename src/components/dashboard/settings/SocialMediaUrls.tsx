@@ -67,22 +67,10 @@ export const SocialMediaUrls = ({
     },
   ];
 
-  const addContentUrl = (platform: keyof ContentUrls) => {
-    if (contentUrls[platform].length < maxUrls) {
-      onContentUrlChange(platform, contentUrls[platform].length, "");
-    }
-  };
-
-  const removeContentUrl = (platform: keyof ContentUrls, index: number) => {
-    const newUrls = [...contentUrls[platform]];
-    newUrls.splice(index, 1);
-    onContentUrlChange(platform, index, "");
-  };
-
   return (
     <div className="space-y-6">
       {subscription?.status !== 'pro' && (
-        <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
+        <Alert variant="default" className="bg-yellow-50 border-yellow-200">
           <AlertCircle className="h-4 w-4 text-yellow-600" />
           <AlertDescription className="text-yellow-800">
             Free users can add up to 3 URLs per platform. Upgrade to Pro to add up to 10 URLs.

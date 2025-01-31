@@ -5,12 +5,14 @@ export interface SocialLinks {
   instagram: string[];
   tiktok: string[];
   youtube: string[];
+  [key: string]: any; // Add index signature to make it compatible with Json type
 }
 
 export interface ContentUrls {
   instagram: string[];
   tiktok: string[];
   youtube: string[];
+  [key: string]: any; // Add index signature to make it compatible with Json type
 }
 
 export interface SettingsState {
