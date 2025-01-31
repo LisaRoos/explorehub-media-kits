@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SocialLinks, ContentUrls, SettingsState, SettingsActions } from "@/types/settings";
 import { generateThumbnailUrl } from "@/utils/settingsUtils";
 import { ProfileData } from "@/types/profile";
+import { Json } from "@/integrations/supabase/types";
 
 export const initializeSocialLinks = (): SocialLinks => ({
   instagram: [""],
@@ -98,7 +99,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
       tiktok: platformUrls.tiktok[0],
       youtube: platformUrls.youtube[0],
       content_urls: contentUrls
-    } as unknown as Json;
+    } as Json;
 
     const { error } = await supabase
       .from('profiles')

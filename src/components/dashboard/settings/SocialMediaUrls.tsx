@@ -67,6 +67,18 @@ export const SocialMediaUrls = ({
     },
   ];
 
+  const addContentUrl = (platform: keyof ContentUrls) => {
+    if (contentUrls[platform].length < maxUrls) {
+      onContentUrlChange(platform, contentUrls[platform].length, "");
+    }
+  };
+
+  const removeContentUrl = (platform: keyof ContentUrls, index: number) => {
+    const newUrls = [...contentUrls[platform]];
+    newUrls.splice(index, 1);
+    onContentUrlChange(platform, index, "");
+  };
+
   return (
     <div className="space-y-6">
       {subscription?.status !== 'pro' && (
