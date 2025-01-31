@@ -46,17 +46,6 @@ const services = [
       "Engagement Growth",
       "Platform Optimization"
     ]
-  },
-  {
-    category: "Technical Solutions",
-    icon: Code,
-    description: "Advanced technical solutions for your digital needs",
-    features: [
-      "API Integration",
-      "Custom Development",
-      "Performance Optimization",
-      "Technical Support"
-    ]
   }
 ];
 
@@ -71,14 +60,14 @@ export const Services = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
-            Our <span className="gradient-text">Services</span>
+            Web Development & <span className="gradient-text">Influencer Marketing</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive digital solutions to help your business thrive in the modern world
+            Professional web solutions combined with powerful influencer marketing to help your business thrive
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {services.map((service, index) => (
             <ServiceCard key={index} {...service} />
           ))}
