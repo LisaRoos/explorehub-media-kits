@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { SocialLinks, SettingsState, SettingsActions, ContentUrls } from "@/types/settings";
+import { SocialLinks, ContentUrls, SettingsState, SettingsActions } from "@/types/settings";
 import { generateThumbnailUrl } from "@/utils/settingsUtils";
 import { ProfileData } from "@/types/profile";
 
@@ -47,10 +47,9 @@ export const useSettings = (): SettingsState & SettingsActions => {
             youtube: [socialLinks?.youtube || ""]
           });
           if (socialLinks?.content_urls) {
-            const contentUrlsData = socialLinks.content_urls as ContentUrls;
-            setContentUrls(contentUrlsData);
+            setContentUrls(socialLinks.content_urls as ContentUrls);
             // Generate thumbnails for existing content URLs
-            Object.entries(contentUrlsData).forEach(([platform, urls]) => {
+            Object.entries(socialLinks.content_urls).forEach(([platform, urls]) => {
               const platformKey = platform as keyof ContentUrls;
               const newThumbnails = urls.map(url => generateThumbnailUrl(platform, url));
               setThumbnails(prev => ({
@@ -61,7 +60,7 @@ export const useSettings = (): SettingsState & SettingsActions => {
           }
         }
       }
-      return profile;
+      return profile as ProfileData;
     },
   });
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { ProfileData } from "@/types/profile";
+import { ProfileData, SocialLinks } from "@/types/profile";
 import { ContentHeader } from "./content/ContentHeader";
 import { ContentEditForm } from "./content/ContentEditForm";
 import { ContentPreview } from "./content/ContentPreview";
@@ -22,13 +22,15 @@ export const ContentBlock = ({
   isEditable 
 }: ContentBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [url, setUrl] = useState(profile?.social_links?.[platform.toLowerCase() as keyof typeof profile.social_links] || "");
+  const [url, setUrl] = useState(
+    profile?.social_links?.[platform.toLowerCase() as keyof SocialLinks] || ""
+  );
 
   const handleSave = async () => {
     try {
       if (!profile?.id) return;
 
-      const updatedSocialLinks = {
+      const updatedSocialLinks: SocialLinks = {
         ...(profile.social_links || {}),
         [platform.toLowerCase()]: url,
       };
@@ -63,7 +65,7 @@ export const ContentBlock = ({
       
       {isEditing && isEditable ? (
         <ContentEditForm
-          url={url}
+          url={url as string}
           platform={platform}
           onUrlChange={setUrl}
           onSave={handleSave}
@@ -71,7 +73,7 @@ export const ContentBlock = ({
         />
       ) : (
         <ContentPreview
-          url={url}
+          url={url as string}
           platform={platform}
           isEditable={isEditable}
           onEdit={() => setIsEditing(true)}
