@@ -1,29 +1,11 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { SocialLinks, ContentUrls, SettingsState, SettingsActions } from "@/types/settings";
-import { generateThumbnailUrl } from "@/utils/settingsUtils";
-import { ProfileData } from "@/types/profile";
+import { SettingsState, SettingsActions } from "@/types/settings";
+import { useProfileForm } from "./settings/useProfileForm";
+import { useSocialLinks } from "./settings/useSocialLinks";
 import { Json } from "@/integrations/supabase/types";
 
-export const initializeSocialLinks = (): SocialLinks => ({
-  instagram: [""],
-  tiktok: [""],
-  youtube: [""]
-});
-
 export const useSettings = (): SettingsState & SettingsActions => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
-  const [platformUrls, setPlatformUrls] = useState<SocialLinks>(initializeSocialLinks());
-  const [contentUrls, setContentUrls] = useState<ContentUrls>({
-    instagram: [""],
-    tiktok: [""],
-    youtube: [""]
-  });
-  const [thumbnails, setThumbnails] = useState<SocialLinks>(initializeSocialLinks());
-
   const { data: profile, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
@@ -36,60 +18,28 @@ export const useSettings = (): SettingsState & SettingsActions => {
         .eq('id', user.id)
         .maybeSingle();
       
-      if (profile) {
-        setName(profile.full_name || "");
-        setBio(profile.bio || "");
-        setEmail(profile.email || "");
-        if (profile.social_links) {
-          const socialLinks = profile.social_links as ProfileData['social_links'];
-          setPlatformUrls({
-            instagram: [socialLinks?.instagram || ""],
-            tiktok: [socialLinks?.tiktok || ""],
-            youtube: [socialLinks?.youtube || ""]
-          });
-          if (socialLinks?.content_urls) {
-            setContentUrls(socialLinks.content_urls as ContentUrls);
-            // Generate thumbnails for existing content URLs
-            Object.entries(socialLinks.content_urls).forEach(([platform, urls]) => {
-              const platformKey = platform as keyof ContentUrls;
-              const newThumbnails = urls.map(url => generateThumbnailUrl(platform, url));
-              setThumbnails(prev => ({
-                ...prev,
-                [platformKey]: newThumbnails
-              }));
-            });
-          }
-        }
-      }
-      return profile as ProfileData;
+      return profile;
     },
   });
 
-  const handleUrlChange = (platform: keyof SocialLinks, index: number, value: string) => {
-    setPlatformUrls(prev => ({
-      ...prev,
-      [platform]: [value]
-    }));
-  };
+  const {
+    name,
+    email,
+    bio,
+    setName,
+    setEmail,
+    setBio,
+    resetProfileForm
+  } = useProfileForm(profile);
 
-  const handleContentUrlChange = (platform: keyof ContentUrls, index: number, value: string) => {
-    setContentUrls(prev => {
-      const newUrls = [...prev[platform]];
-      newUrls[index] = value;
-      return {
-        ...prev,
-        [platform]: newUrls
-      };
-    });
-
-    // Update thumbnails when content URL changes
-    setThumbnails(prev => ({
-      ...prev,
-      [platform]: prev[platform].map((thumb, i) => 
-        i === index ? generateThumbnailUrl(platform, value) : thumb
-      )
-    }));
-  };
+  const {
+    platformUrls,
+    contentUrls,
+    thumbnails,
+    handleUrlChange,
+    handleContentUrlChange,
+    resetSocialLinks
+  } = useSocialLinks(profile);
 
   const handleSave = async () => {
     if (!profile?.id) return;
@@ -116,22 +66,8 @@ export const useSettings = (): SettingsState & SettingsActions => {
   };
 
   const resetForm = () => {
-    if (profile) {
-      setName(profile.full_name || "");
-      setBio(profile.bio || "");
-      setEmail(profile.email || "");
-      if (profile.social_links) {
-        const socialLinks = profile.social_links as ProfileData['social_links'];
-        setPlatformUrls({
-          instagram: [socialLinks?.instagram || ""],
-          tiktok: [socialLinks?.tiktok || ""],
-          youtube: [socialLinks?.youtube || ""]
-        });
-        if (socialLinks?.content_urls) {
-          setContentUrls(socialLinks.content_urls as ContentUrls);
-        }
-      }
-    }
+    resetProfileForm();
+    resetSocialLinks();
   };
 
   const refetchProfile = async () => {
